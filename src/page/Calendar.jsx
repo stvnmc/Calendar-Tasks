@@ -1,5 +1,5 @@
 import React from "react";
-import { monthNames } from "../components/MonthsDays";
+import { monthNames } from "../components/infor/MonthsDays";
 
 const Calendar = () => {
   return (

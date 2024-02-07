@@ -1,88 +1,70 @@
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { dayNames, monthNames } from "../components/MonthsDays";
-import { SlArrowUp } from "react-icons/sl";
-import { SlArrowDown } from "react-icons/sl";
-import { useState } from "react";
+import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+import { dayNames, monthNames } from "../components/infor/MonthsDays";
+
+const DayContainer = ({ dayNumber, dayOfWeek }) => (
+  <div className="containers" style={{ gridColumn: `${dayOfWeek + 1}` }}>
+    {dayNumber}
+  </div>
+);
 
 const Month = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [year, setYear] = useState(2024);
+  const [time, setTime] = useState(new Date());
 
-  const daysInMonth = new Date(year, id, 0).getDate();
+  const getInfoMonth = (type) => {
+    const idAdjustment = (e) => {
+      if (e === "date") {
+        return type === "next"
+          ? parseInt(id) + 1
+          : type === "former"
+          ? id - 1
+          : id;
+      }
+      if (e === "day") {
+        return type === "next"
+          ? id
+          : type === "former"
+          ? parseInt(id) - 2
+          : id - 1;
+      }
+    };
 
-  const firstDayOfMonth = new Date(year, id - 1, 1).getDay();
+    const daysInMonth = new Date(year, idAdjustment("date"), 0).getDate();
+    const firstDayOfMonth = new Date(year, idAdjustment("day"), 1).getDay();
 
-  // current month
-  const daysArray = Array.from({ length: daysInMonth }, (_, i) => {
-    const dayNumber = i + 1;
-    const dayOfWeek = (firstDayOfMonth + i) % 7;
-    return { dayNumber, dayOfWeek };
-  });
+    const daysArray = Array.from({ length: daysInMonth }, (_, i) => ({
+      dayNumber: i + 1,
+      dayOfWeek: (firstDayOfMonth + i) % 7,
+    }));
 
-  // former month
-  const daysInMonthFormerMonth = new Date(year, id - 1, 0).getDate();
-  const firstDayOfMonthFormer = new Date(year, id - 2, 1).getDay();
-
-  const daysArrayFormerMonth = Array.from(
-    { length: daysInMonthFormerMonth },
-    (_, i) => {
-      const dayNumber = i + 1;
-      const dayOfWeek = (firstDayOfMonthFormer + i) % 7;
-      return { dayNumber, dayOfWeek };
+    if (type === "next") {
+      const reversedArrayNext = daysArray;
+      let extractedArrayNext = [];
+      let i = 0;
+      for (const day of reversedArrayNext) {
+        extractedArrayNext.push(day);
+        if (day.dayOfWeek === 6 && ++i === 2) break;
+      }
+      return extractedArrayNext;
     }
-  );
 
-  const reversedArray = daysArrayFormerMonth.slice().reverse(); // Copia y revierte el array original
-
-  let extractedArray = [];
-
-  for (const day of reversedArray) {
-    console.log(day);
-    if (day.dayOfWeek === 6) {
-      break;
+    if (type === "former") {
+      const reversedArray = daysArray.slice().reverse();
+      let extractedArray = [];
+      for (const day of reversedArray) {
+        if (day.dayOfWeek === 6) break;
+        extractedArray.unshift(day);
+        if (day.dayOfWeek === 0) break;
+      }
+      return extractedArray;
     }
-    extractedArray.unshift(day);
 
-    if (day.dayOfWeek === 0) {
-      break;
-    }
-  }
-
-  // next month
-  const daysInMonthNextMonth = new Date(year, id + 1, 0).getDate();
-  const firstDayOfMonthNext = new Date(year, id, 1).getDay();
-
-  const daysArrayFormerNext = Array.from(
-    { length: daysInMonthNextMonth },
-    (_, i) => {
-      const dayNumber = i + 1;
-      const dayOfWeek = (firstDayOfMonthNext + i) % 7;
-      return { dayNumber, dayOfWeek };
-    }
-  );
-
-  const reversedArrayNext = daysArrayFormerNext;
-
-  let extractedArrayNext = [];
-
-  let i = 0;
-  for (const day of reversedArrayNext) {
-    // if (day.dayOfWeek === 0) {
-    //   break;
-    // }
-    extractedArrayNext.push(day);
-
-    if (day.dayOfWeek === 6) {
-      i++;
-    }
-    if (i == 2) {
-      break;
-    }
-    console.log(i);
-  }
-
-  console.log("next", extractedArrayNext);
+    return daysArray;
+  };
 
   const handleMonthChange = (delta) => {
     let newId = parseInt(id) + delta;
@@ -103,6 +85,10 @@ const Month = () => {
 
   return (
     <div className="container">
+      <div>
+        {dayNames[time.getDay()]}, {time.getDate()} {" "}
+        {monthNames[time.getMonth()]} {time.getFullYear()}
+      </div>
       <div className="month-chanceMonth">
         <h2>
           {monthNames[id - 1]} {year}
@@ -117,38 +103,44 @@ const Month = () => {
         </div>
       </div>
       <div className="days-of-week">
-        {dayNames.map((dayName) => (
-          <div key={dayName}>{dayName}</div>
+        {dayNames.map((dayName, index) => (
+          <div key={index}>{dayName}</div>
         ))}
       </div>
       <div className="days">
-        {extractedArray.map(({ dayNumber, dayOfWeek }) => (
-          <div
-            key={dayNumber}
-            className="containers"
-            style={{ gridColumn: `${dayOfWeek + 1}` }}
-          >
-            {dayNumber}
-          </div>
+        {getInfoMonth("former").map(({ dayNumber, dayOfWeek }, index) => (
+          <DayContainer
+            key={index}
+            dayNumber={dayNumber}
+            dayOfWeek={dayOfWeek}
+          />
         ))}
-        {daysArray.map(({ dayNumber, dayOfWeek }) => (
-          <div
-            key={dayNumber}
-            className="containers"
-            style={{ gridColumn: `${dayOfWeek + 1}` }}
-          >
-            {dayNumber}
-          </div>
+        {getInfoMonth("current").map(({ dayNumber, dayOfWeek }, index) => (
+          <DayContainer
+            key={index}
+            dayNumber={dayNumber}
+            dayOfWeek={dayOfWeek}
+          />
         ))}
-        {extractedArrayNext.map(({ dayNumber, dayOfWeek }) => (
-          <div
-            key={dayNumber}
-            className="containers"
-            style={{ gridColumn: `${dayOfWeek + 1}` }}
-          >
-            {dayNumber}
-          </div>
-        ))}
+        {getInfoMonth("current").length + getInfoMonth("former").length > 34
+          ? getInfoMonth("next")
+              .reverse()
+              .slice(7)
+              .reverse()
+              .map(({ dayNumber, dayOfWeek }, index) => (
+                <DayContainer
+                  key={index}
+                  dayNumber={dayNumber}
+                  dayOfWeek={dayOfWeek}
+                />
+              ))
+          : getInfoMonth("next").map(({ dayNumber, dayOfWeek }, index) => (
+              <DayContainer
+                key={index}
+                dayNumber={dayNumber}
+                dayOfWeek={dayOfWeek}
+              />
+            ))}
       </div>
     </div>
   );
