@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { dayNames, monthNames } from "../components/infor/MonthsDays";
 
 const DayContainer = ({ dayNumber, dayOfWeek }) => (
-  <div className="containers" style={{ gridColumn: `${dayOfWeek + 1}` }}>
+  <div
+    id={dayNumber}
+    className={`containers num${dayNumber}`}
+    style={{ gridColumn: `${dayOfWeek + 1}` }}
+  >
     {dayNumber}
   </div>
 );
@@ -13,7 +17,6 @@ const Month = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [year, setYear] = useState(2024);
-  const [time, setTime] = useState(new Date());
 
   const getInfoMonth = (type) => {
     const idAdjustment = (e) => {
@@ -83,16 +86,26 @@ const Month = () => {
     navigate(nuevaFecha);
   };
 
+  const handleScroll = (event) => {
+    const deltaY = event.deltaY;
+
+    if (deltaY > 0) {
+      handleMonthChange(1);
+    } else {
+      handleMonthChange(-1);
+    }
+  };
+
   return (
     <div className="container">
       <div>
-        {dayNames[time.getDay()]}, {time.getDate()} {" "}
-        {monthNames[time.getMonth()]} {time.getFullYear()}
+        {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
+        {monthNames[new Date().getMonth()]} {new Date().getFullYear()}
       </div>
       <div className="month-chanceMonth">
-        <h2>
+        <a>
           {monthNames[id - 1]} {year}
-        </h2>
+        </a>
         <div>
           <a onClick={() => handleMonthChange(-1)}>
             <SlArrowUp />
@@ -107,7 +120,7 @@ const Month = () => {
           <div key={index}>{dayName}</div>
         ))}
       </div>
-      <div className="days">
+      <div className="days" id="scrollable" onWheel={handleScroll}>
         {getInfoMonth("former").map(({ dayNumber, dayOfWeek }, index) => (
           <DayContainer
             key={index}

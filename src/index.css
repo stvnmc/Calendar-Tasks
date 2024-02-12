@@ -11,6 +11,10 @@
   margin: 0;
 }
 
+body {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   font-size: inherit;
@@ -38,13 +42,16 @@ a {
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  height: 80vh;
-
+  overflow-y: auto;
+ 
 }
 
 .containers {
+  height: 108px;
   background: #ac5656;
   margin: 4px;
-  
+}
+
+.containers.num1{
+  background: #ccbfbf;
 }
