@@ -2,21 +2,41 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { dayNames, monthNames } from "../components/infor/MonthsDays";
-
-const DayContainer = ({ dayNumber, dayOfWeek }) => (
-  <div
-    id={dayNumber}
-    className={`containers num${dayNumber}`}
-    style={{ gridColumn: `${dayOfWeek + 1}` }}
-  >
-    {dayNumber}
-  </div>
-);
+import Loading from "../components/Loading";
+import DayContainer from "../components/DayContainer";
 
 const Month = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [loading, setLoading] = useState(false);
+  const [infoCalendar, setinfoCalendar] = useState(null);
+
+  useEffect(() => {
+    getInfoCalendar();
+  }, [id]);
+
+  const getInfoCalendar = () => {
+    setLoading(false);
+
+    try {
+      const former = getInfoMonth("former");
+      const current = getInfoMonth("current");
+      let next;
+
+      if (current.length + former.length > 34) {
+        next = getInfoMonth("next").reverse().slice(7).reverse();
+      } else {
+        next = getInfoMonth("next");
+      }
+
+      setinfoCalendar([...former, ...current, ...next]);
+      setLoading(true);
+    } catch (error) {
+      console.error("Error al obtener el calendario:", error);
+      setLoading(false);
+    }
+  };
 
   const getInfoMonth = (type) => {
     const idAdjustment = (e) => {
@@ -40,6 +60,9 @@ const Month = () => {
     const firstDayOfMonth = new Date(year, idAdjustment("day"), 1).getDay();
 
     const daysArray = Array.from({ length: daysInMonth }, (_, i) => ({
+      month: id,
+      year: year,
+      type: type,
       dayNumber: i + 1,
       dayOfWeek: (firstDayOfMonth + i) % 7,
     }));
@@ -98,63 +121,48 @@ const Month = () => {
 
   return (
     <div className="container">
-      <div>
-        {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
-        {monthNames[new Date().getMonth()]} {new Date().getFullYear()}
-      </div>
-      <div className="month-chanceMonth">
-        <a>
-          {monthNames[id - 1]} {year}
-        </a>
-        <div>
-          <a onClick={() => handleMonthChange(-1)}>
-            <SlArrowUp />
-          </a>
-          <a onClick={() => handleMonthChange(1)}>
-            <SlArrowDown />
-          </a>
-        </div>
-      </div>
-      <div className="days-of-week">
-        {dayNames.map((dayName, index) => (
-          <div key={index}>{dayName}</div>
-        ))}
-      </div>
-      <div className="days" id="scrollable" onWheel={handleScroll}>
-        {getInfoMonth("former").map(({ dayNumber, dayOfWeek }, index) => (
-          <DayContainer
-            key={index}
-            dayNumber={dayNumber}
-            dayOfWeek={dayOfWeek}
-          />
-        ))}
-        {getInfoMonth("current").map(({ dayNumber, dayOfWeek }, index) => (
-          <DayContainer
-            key={index}
-            dayNumber={dayNumber}
-            dayOfWeek={dayOfWeek}
-          />
-        ))}
-        {getInfoMonth("current").length + getInfoMonth("former").length > 34
-          ? getInfoMonth("next")
-              .reverse()
-              .slice(7)
-              .reverse()
-              .map(({ dayNumber, dayOfWeek }, index) => (
+      {loading ? (
+        <>
+          <div>
+            {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
+            {monthNames[new Date().getMonth()]} {new Date().getFullYear()}
+          </div>
+          <div className="month-chanceMonth">
+            <a>
+              {monthNames[id - 1]} {year}
+            </a>
+            <div>
+              <a onClick={() => handleMonthChange(-1)}>
+                <SlArrowUp />
+              </a>
+              <a onClick={() => handleMonthChange(1)}>
+                <SlArrowDown />
+              </a>
+            </div>
+          </div>
+          <div className="days-of-week">
+            {dayNames.map((dayName, index) => (
+              <div key={index}>{dayName}</div>
+            ))}
+          </div>
+          <div className="days" id="scrollable" onWheel={handleScroll}>
+            {infoCalendar?.map(
+              ({ dayNumber, dayOfWeek, month, type }, index) => (
                 <DayContainer
                   key={index}
                   dayNumber={dayNumber}
+                  month={month}
+                  type={type}
+                  year={year}
                   dayOfWeek={dayOfWeek}
                 />
-              ))
-          : getInfoMonth("next").map(({ dayNumber, dayOfWeek }, index) => (
-              <DayContainer
-                key={index}
-                dayNumber={dayNumber}
-                dayOfWeek={dayOfWeek}
-              />
-            ))}
-      </div>
+              )
+            )}
+          </div>
+        </>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

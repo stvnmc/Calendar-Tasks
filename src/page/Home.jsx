@@ -1,9 +1,9 @@
-import React from "react";
-
 const Home = () => {
+  const month = new Date().getMonth();
+
   return (
     <div>
-      <a href="/calendar">Calendar</a>
+      <a href={`/month/${month}`}>Calendar</a>
     </div>
   );
 };
