@@ -46,7 +46,7 @@ a {
 }
 
 .containers {
-  height: 108px;
+  height: 13vh;
   background: #ac5656;
   margin: 4px;
 }
@@ -54,4 +54,20 @@ a {
 .containers.next,
 .containers.former {
   background: #ccbfbf;
+}
+
+.linea {
+  background: #242424;
+  width: 80%;
+  height: 2px;
+  margin-top: 6px;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-task input {
+  width: 75%;
 }

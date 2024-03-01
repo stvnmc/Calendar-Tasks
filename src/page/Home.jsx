@@ -3,7 +3,7 @@ const Home = () => {
 
   return (
     <div>
-      <a href={`/month/${month}`}>Calendar</a>
+      <a href={`/month/${month + 1}`}>Calendar</a>
     </div>
   );
 };
