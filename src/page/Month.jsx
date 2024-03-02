@@ -4,6 +4,8 @@ import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { dayNames, monthNames } from "../components/infor/MonthsDays";
 import Loading from "../components/Loading";
 import DayContainer from "../components/DayContainer";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 const Month = () => {
   const { id } = useParams();
@@ -15,6 +17,57 @@ const Month = () => {
   useEffect(() => {
     getInfoCalendar();
   }, [id]);
+
+  useEffect(() => {
+    const calendarioTask = collection(db, "dia");
+    getDocs(calendarioTask).then((resp) => {
+      console.log(
+        resp.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+        })
+      );
+    });
+  }, []);
+
+  // const addmeseback = () => {
+  //   const year = 2024;
+
+  //   // Array para almacenar todos los meses del año
+  //   const monthsArray = [];
+
+  //   // Iterar sobre cada mes del año
+  //   for (let month = 0; month < 12; month++) {
+  //     // Obtener el número total de días en el mes actual
+  //     const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  //     // Array para almacenar los días del mes actual
+  //     const daysArray = [];
+
+  //     // Iterar sobre cada día del mes actual
+  //     for (let day = 1; day <= daysInMonth; day++) {
+  //       // Crear un objeto para representar el día y agregar los elementos task y rutina
+  //       const dayObject = {
+  //         tasks: [],
+  //         rutinas: [],
+  //       };
+  //       daysArray.push(dayObject);
+  //     }
+
+  //     // Añadir el mes al array de meses
+  //     monthsArray.push(daysArray);
+  //   }
+
+  //   console.log(monthsArray);
+
+  //   const monthsObject = {};
+  //   monthsArray.forEach((monthData, index) => {
+  //     monthsObject[index + 1] = monthData;
+  //   });
+
+  //   const addinfobac = collection(db, "2024");
+
+  //   addDoc(addinfobac, monthsObject);
+  // };
 
   const getInfoCalendar = () => {
     setLoading(false);
@@ -124,6 +177,7 @@ const Month = () => {
       {loading ? (
         <>
           <div>
+            {/* <button onClick={addmeseback}>add meses</button> */}
             {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
             {monthNames[new Date().getMonth()]} {new Date().getFullYear()}
           </div>
