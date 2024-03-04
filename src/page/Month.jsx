@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
-import { dayNames, monthNames } from "../components/infor/MonthsDays";
+import { dayNames, monthsNames } from "../components/infor/MonthsDays";
 import Loading from "../components/Loading";
 import DayContainer from "../components/DayContainer";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 const Month = () => {
@@ -19,42 +19,29 @@ const Month = () => {
   }, [id]);
 
   useEffect(() => {
-    const calendarioTask = collection(db, "dia");
-    getDocs(calendarioTask).then((resp) => {
-      console.log(
-        resp.docs.map((doc) => {
-          return { ...doc.data(), id: doc.id };
-        })
-      );
-    });
+    // const docRef = doc(db, "2024");
+
+    // getDoc(docRef)
+    //   .then((doc) => {
+    //     if (doc.exists()) {
+    //       console.log("Document data:", doc.data());
+    //     } else {
+    //       console.log("No such document!");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error getting document:", error);
+    //   });
+
+
+
   }, []);
 
   // const addmeseback = () => {
-  //   const year = 2024;
-
-  //   // Array para almacenar todos los meses del año
   //   const monthsArray = [];
 
-  //   // Iterar sobre cada mes del año
   //   for (let month = 0; month < 12; month++) {
-  //     // Obtener el número total de días en el mes actual
-  //     const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  //     // Array para almacenar los días del mes actual
-  //     const daysArray = [];
-
-  //     // Iterar sobre cada día del mes actual
-  //     for (let day = 1; day <= daysInMonth; day++) {
-  //       // Crear un objeto para representar el día y agregar los elementos task y rutina
-  //       const dayObject = {
-  //         tasks: [],
-  //         rutinas: [],
-  //       };
-  //       daysArray.push(dayObject);
-  //     }
-
-  //     // Añadir el mes al array de meses
-  //     monthsArray.push(daysArray);
+  //     monthsArray.push({});
   //   }
 
   //   console.log(monthsArray);
@@ -63,6 +50,7 @@ const Month = () => {
   //   monthsArray.forEach((monthData, index) => {
   //     monthsObject[index + 1] = monthData;
   //   });
+  //   console.log(monthsObject);
 
   //   const addinfobac = collection(db, "2024");
 
@@ -179,11 +167,11 @@ const Month = () => {
           <div>
             {/* <button onClick={addmeseback}>add meses</button> */}
             {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
-            {monthNames[new Date().getMonth()]} {new Date().getFullYear()}
+            {monthsNames[new Date().getMonth()]} {new Date().getFullYear()}
           </div>
           <div className="month-chanceMonth">
             <a>
-              {monthNames[id - 1]} {year}
+              {monthsNames[id - 1]} {year}
             </a>
             <div>
               <a onClick={() => handleMonthChange(-1)}>

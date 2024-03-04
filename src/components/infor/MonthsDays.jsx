@@ -1,5 +1,5 @@
-export const monthNames = [
-  "Enero",
+export const monthsNames = [
+  "enero",
   "Febrero",
   "Marzo",
   "Abril",
