@@ -4,8 +4,8 @@ import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { dayNames, monthsNames } from "../components/infor/MonthsDays";
 import Loading from "../components/Loading";
 import DayContainer from "../components/DayContainer";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from "../firebase/config";
+
+import { useInfoMonth } from "../context/InfoMonthContext";
 
 const Month = () => {
   const { id } = useParams();
@@ -14,48 +14,13 @@ const Month = () => {
   const [loading, setLoading] = useState(false);
   const [infoCalendar, setinfoCalendar] = useState(null);
 
+  const { getInfoMonthFirestore } = useInfoMonth();
+
   useEffect(() => {
     getInfoCalendar();
+    getInfoMonthFirestore(id);
+    console.log("new");
   }, [id]);
-
-  useEffect(() => {
-    // const docRef = doc(db, "2024");
-
-    // getDoc(docRef)
-    //   .then((doc) => {
-    //     if (doc.exists()) {
-    //       console.log("Document data:", doc.data());
-    //     } else {
-    //       console.log("No such document!");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error getting document:", error);
-    //   });
-
-
-
-  }, []);
-
-  // const addmeseback = () => {
-  //   const monthsArray = [];
-
-  //   for (let month = 0; month < 12; month++) {
-  //     monthsArray.push({});
-  //   }
-
-  //   console.log(monthsArray);
-
-  //   const monthsObject = {};
-  //   monthsArray.forEach((monthData, index) => {
-  //     monthsObject[index + 1] = monthData;
-  //   });
-  //   console.log(monthsObject);
-
-  //   const addinfobac = collection(db, "2024");
-
-  //   addDoc(addinfobac, monthsObject);
-  // };
 
   const getInfoCalendar = () => {
     setLoading(false);
