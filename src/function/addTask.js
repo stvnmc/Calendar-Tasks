@@ -94,3 +94,23 @@ export function getInfoTaskDay(monthNumber) {
       throw error; // Relanzar el error para que se maneje externamente
     });
 }
+
+export async function deleteTaskDay(monthNumber, day, index) {
+  const monthNames = monthsNames[monthNumber - 1];
+  const docRef = doc(db, "2024", monthNames);
+
+  try {
+    const docSnap = await getDoc(docRef);
+
+    const data = docSnap.data();
+
+    const updatedTasks = data[day].filter((_, i) => i !== index);
+    await updateDoc(docRef, {
+      [day]: updatedTasks,
+    });
+    console.log("Tarea eliminada del día", day, "en el mes", monthNames);
+    return true; // Indicar que se eliminó la tarea correctamente
+  } catch (error) {
+    console.error("Error al eliminar la tarea:", error);
+  }
+}

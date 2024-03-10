@@ -2,52 +2,46 @@ import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
-// import { db } from "../firebase/config";
-// import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { addTaskDay } from "../function/addTask";
+import { addTaskDay, deleteTaskDay } from "../function/addTask";
 import { useInfoMonth } from "../context/InfoMonthContext";
 
 const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   const [createTask, setCreateTask] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [infoTask, setInfoTask] = useState([]);
+  const navigate = useNavigate();
 
   const { infoOfMonth, getInfoMonthFirestore } = useInfoMonth();
 
   useEffect(() => {
     setInfoTask([]);
     if (dayNumber in infoOfMonth) {
-      // El número está presente como una clave en el objeto
-      // Puedes acceder al valor correspondiente utilizando la clave
       const infoOfDay = infoOfMonth[dayNumber];
       setInfoTask(infoOfDay);
     }
   }, [infoOfMonth]);
-
-  const navigate = useNavigate();
 
   const goToPageDay = () => {
     const nuevaFecha = `/m/${month}/d/${dayNumber}/y/${year}`;
     navigate(nuevaFecha);
   };
 
-  const openAddTask = () => {
-    setCreateTask(true);
+  const addTask = async () => {
+    const refresh = await addTaskDay(month, dayNumber, inputValue);
+    console.log(refresh);
+    if (refresh === true) {
+      getInfoMonthFirestore(month);
+      console.log("ok");
+    }
+    setInputValue("");
+    setCreateTask(false);
   };
 
-  const addTask = async () => {
-    try {
-      const refresh = await addTaskDay(month, dayNumber, inputValue);
-      console.log(refresh);
-      if (refresh === true) {
-        getInfoMonthFirestore(month);
-        console.log("ok");
-      }
-      setInputValue("");
-      setCreateTask(false);
-    } catch (error) {
-      console.error("Error al agregar la tarea:", error);
-      // Manejar el error según sea necesario
+  const deletTask = async (index) => {
+    const deleted = await deleteTaskDay(month, dayNumber, index);
+    if (deleted) {
+      // La tarea se eliminó correctamente, actualiza la información del mes
+      getInfoMonthFirestore(month);
     }
   };
 
@@ -55,10 +49,6 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
     if (event.key === "Enter") {
       addTask();
     }
-  };
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
   };
 
   return (
@@ -70,7 +60,7 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
     >
       <div className="icons">
         <div>{dayNumber}</div>
-        <button onClick={openAddTask}>
+        <button onClick={() => setCreateTask(true)}>
           <IoMdAdd />
         </button>
       </div>
@@ -79,7 +69,7 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
           <input
             type="text"
             value={inputValue}
-            onChange={handleInputChange}
+            onChange={(event) => setInputValue(event.target.value)}
             onKeyPress={handleKeyPress}
             autoFocus
           />
@@ -91,8 +81,11 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
         <div>
           {type === "current" ? (
             <div>
-              {infoTask.map((item, index) => (
-                <h1 key={index}>{item}</h1>
+              {infoTask?.map((item, index) => (
+                <div key={index}>
+                  <h1>{item}</h1>
+                  <button onClick={() => deletTask(index)}>delet</button>
+                </div>
               ))}
             </div>
           ) : (
