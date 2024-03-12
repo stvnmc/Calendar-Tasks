@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db } from "./config";
 import { monthsNames } from "../components/infor/MonthsDays";
 
 export function addTaskDay(monthNumber, day, taskValue) {
@@ -76,13 +76,8 @@ export function getInfoTaskDay(monthNumber) {
 
   return getDoc(docRef)
     .then((doc) => {
-      if (doc.exists()) {
-        const data = doc.data();
-        return data; // Retornar los datos del documento
-      } else {
-        console.log("El documento para el mes", monthNames, "no existe.");
-        return null; // Retornar null si el documento no existe
-      }
+      const data = doc.data();
+      return data; // Retornar los datos del documento
     })
     .catch((error) => {
       console.error(
@@ -91,7 +86,6 @@ export function getInfoTaskDay(monthNumber) {
         ":",
         error
       );
-      throw error; // Relanzar el error para que se maneje externamente
     });
 }
 
@@ -108,7 +102,6 @@ export async function deleteTaskDay(monthNumber, day, index) {
     await updateDoc(docRef, {
       [day]: updatedTasks,
     });
-    console.log("Tarea eliminada del día", day, "en el mes", monthNames);
     return true; // Indicar que se eliminó la tarea correctamente
   } catch (error) {
     console.error("Error al eliminar la tarea:", error);

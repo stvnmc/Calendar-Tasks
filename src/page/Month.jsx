@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { dayNames, monthsNames } from "../components/infor/MonthsDays";
-import Loading from "../components/Loading";
+
 import DayContainer from "../components/DayContainer";
 
 import { useInfoMonth } from "../context/InfoMonthContext";
+import { Loading } from "../components/Loading";
 
 const Month = () => {
   const { id } = useParams();

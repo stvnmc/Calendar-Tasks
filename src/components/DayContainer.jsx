@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { addTaskDay, deleteTaskDay } from "../function/addTask";
+import { addTaskDay, deleteTaskDay } from "../firebase/TaskData";
 import { useInfoMonth } from "../context/InfoMonthContext";
 
 const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
@@ -81,12 +81,13 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
         <div>
           {type === "current" ? (
             <div>
-              {infoTask?.map((item, index) => (
-                <div key={index}>
-                  <h1>{item}</h1>
-                  <button onClick={() => deletTask(index)}>delet</button>
-                </div>
-              ))}
+              {Array.isArray(infoTask) &&
+                infoTask.map((item, index) => (
+                  <div key={index}>
+                    <h1>{item}</h1>
+                    <button onClick={() => deletTask(index)}>delet</button>
+                  </div>
+                ))}
             </div>
           ) : (
             <div></div>

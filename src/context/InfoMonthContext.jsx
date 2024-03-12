@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { getInfoTaskDay } from "../function/addTask";
+import { getInfoTaskDay } from "../firebase/TaskData";
 
 export const InfoMonthContext = createContext();
 
