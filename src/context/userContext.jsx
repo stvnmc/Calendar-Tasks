@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { dbAuth } from "../firebase/config";
 
@@ -10,8 +11,6 @@ export const userContext = createContext();
 export const useUser = () => {
   const context = useContext(userContext);
 
-  // Si el contexto no está definido, puedes manejar este caso según tus necesidades
-  // Por ejemplo, puedes lanzar un error, devolver un valor por defecto o imprimir un mensaje de advertencia
   if (!context) {
     console.warn(
       "userContext not found. Make sure you are using UserProvider."
@@ -25,13 +24,22 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+  const localStore = (name, accessToken) => {
+    const newInfo = [{ name: name, accessCalendar: accessToken }];
+    localStorage.setItem("Calendar", JSON.stringify(newInfo));
+  };
 
   async function signup(email, password) {
     try {
       const res = await createUserWithEmailAndPassword(dbAuth, email, password);
 
-      setUser(res.user);
+      const emailParts = res.user.email.split("@");
+      const username = emailParts[0];
+      setUser(username);
+
+      localStore(username, res.user.accessToken);
       setIsAuthenticated(true);
     } catch (error) {
       let errorMessage = error.code;
@@ -50,8 +58,12 @@ export const UserProvider = ({ children }) => {
   async function signin(email, password) {
     try {
       const res = await signInWithEmailAndPassword(dbAuth, email, password);
-      setUser(res.user);
 
+      const emailParts = res.user.email.split("@");
+      const username = emailParts[0];
+      setUser(username);
+
+      localStore(username, res.user.accessToken);
       setIsAuthenticated(true);
     } catch (error) {
       let errorMessage = error.code;
@@ -67,6 +79,17 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  async function logout() {
+    try {
+      await signOut(dbAuth);
+      setUser(null);
+      localStorage.removeItem("Calendar");
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  }
+
   useEffect(() => {
     if (errors.length > 0) {
       const timer = setTimeout(() => {
@@ -76,10 +99,29 @@ export const UserProvider = ({ children }) => {
     }
   }, [errors]);
 
-  // Aquí devolvemos el usuario, las funciones de registro y inicio de sesión
+  useEffect(() => {
+    const storedInfo = localStorage.getItem("Calendar");
+    if (storedInfo !== null) {
+      const info = JSON.parse(storedInfo);
+      const name = info[0].name;
+      setIsAuthenticated(true);
+      setUser(name);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
   return (
     <userContext.Provider
-      value={{ user, signup, signin, errors, isAuthenticated }}
+      value={{
+        user,
+        signup,
+        signin,
+        errors,
+        isAuthenticated,
+        logout,
+        setIsAuthenticated,
+      }}
     >
       {children}
     </userContext.Provider>

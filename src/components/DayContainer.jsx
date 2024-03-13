@@ -2,8 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { addTaskDay, deleteTaskDay } from "../firebase/TaskData";
-import { useInfoMonth } from "../context/InfoMonthContext";
+import { useMonthData } from "../context/MonthDataContext";
 
 const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   const [createTask, setCreateTask] = useState(false);
@@ -11,15 +10,16 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   const [infoTask, setInfoTask] = useState([]);
   const navigate = useNavigate();
 
-  const { infoOfMonth, getInfoMonthFirestore } = useInfoMonth();
+  const { infoOfMonth, getInfoTaskDay, addTaskDay, deleteTaskDay } =
+    useMonthData();
 
   useEffect(() => {
     setInfoTask([]);
-    if (dayNumber in infoOfMonth) {
+    if (infoOfMonth && dayNumber in infoOfMonth) {
       const infoOfDay = infoOfMonth[dayNumber];
       setInfoTask(infoOfDay);
     }
-  }, [infoOfMonth]);
+  }, [infoOfMonth, dayNumber]);
 
   const goToPageDay = () => {
     const nuevaFecha = `/m/${month}/d/${dayNumber}/y/${year}`;
@@ -27,21 +27,20 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   };
 
   const addTask = async () => {
-    const refresh = await addTaskDay(month, dayNumber, inputValue);
-    console.log(refresh);
+    const refresh = await addTaskDay(year, month, dayNumber, inputValue);
+
     if (refresh === true) {
-      getInfoMonthFirestore(month);
-      console.log("ok");
+      getInfoTaskDay(year, month);
     }
     setInputValue("");
     setCreateTask(false);
   };
 
   const deletTask = async (index) => {
-    const deleted = await deleteTaskDay(month, dayNumber, index);
+    const deleted = await deleteTaskDay(year, month, dayNumber, index);
+
     if (deleted) {
-      // La tarea se eliminó correctamente, actualiza la información del mes
-      getInfoMonthFirestore(month);
+      getInfoTaskDay(year, month);
     }
   };
 
@@ -60,9 +59,13 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
     >
       <div className="icons">
         <div>{dayNumber}</div>
-        <button onClick={() => setCreateTask(true)}>
-          <IoMdAdd />
-        </button>
+        {type === "current" ? (
+          <button onClick={() => setCreateTask(true)}>
+            <IoMdAdd />
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       {createTask ? (
         <div className="create-task">
@@ -73,6 +76,7 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
             onKeyPress={handleKeyPress}
             autoFocus
           />
+
           <button onClick={addTask}>
             <FaCheck />
           </button>

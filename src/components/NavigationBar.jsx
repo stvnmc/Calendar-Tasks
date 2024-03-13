@@ -4,14 +4,23 @@ import DigitalClock from "./DigitalClock";
 import { useUser } from "../context/userContext";
 
 const NavigationBar = () => {
-  const { user } = useUser();
-  console.log(user);
+  const { user, logout, isAuthenticated } = useUser();
 
   return (
     <div>
-      <div>{user?.email}</div>
-      <a href="/">Home</a>
-      <DigitalClock />
+      {isAuthenticated ? (
+        <>
+          <div>{user}</div>
+
+          <div>
+            <button onClick={logout}>Logout</button>
+          </div>
+          <a href="/">Home</a>
+          <DigitalClock />
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

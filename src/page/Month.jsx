@@ -5,8 +5,9 @@ import { dayNames, monthsNames } from "../components/infor/MonthsDays";
 
 import DayContainer from "../components/DayContainer";
 
-import { useInfoMonth } from "../context/InfoMonthContext";
+import { useMonthData } from "../context/MonthDataContext";
 import { Loading } from "../components/Loading";
+import { useUser } from "../context/userContext";
 
 const Month = () => {
   const { id } = useParams();
@@ -15,29 +16,41 @@ const Month = () => {
   const [loading, setLoading] = useState(false);
   const [infoCalendar, setinfoCalendar] = useState(null);
 
-  const { getInfoMonthFirestore } = useInfoMonth();
+  const { getInfoTaskDay } = useMonthData();
+  const { user } = useUser();
 
   useEffect(() => {
     getInfoCalendar();
-    getInfoMonthFirestore(id);
-    console.log("new");
-  }, [id]);
 
-  const getInfoCalendar = () => {
+    console.log(user);
+    getInfoTaskDay(year, id);
+  }, [user, id]);
+
+  const getInfoCalendar = async () => {
     setLoading(false);
 
     try {
-      const former = getInfoMonth("former");
-      const current = getInfoMonth("current");
-      let next;
+      const formerPromise = getInfoMonth("former");
+      const currentPromise = getInfoMonth("current");
 
+      // Obtener la información de los meses de forma asincrónica
+      const [former, current] = await Promise.all([
+        formerPromise,
+        currentPromise,
+      ]);
+
+      let next; // Declarar next aquí
+
+      // Determinar si se necesita obtener el próximo mes
       if (current.length + former.length > 34) {
         next = getInfoMonth("next").reverse().slice(7).reverse();
       } else {
         next = getInfoMonth("next");
       }
 
-      setinfoCalendar([...former, ...current, ...next]);
+      // Combinar la información de los tres meses
+      const calendarInfo = [...former, ...current, ...next];
+      setinfoCalendar(calendarInfo);
       setLoading(true);
     } catch (error) {
       console.error("Error al obtener el calendario:", error);

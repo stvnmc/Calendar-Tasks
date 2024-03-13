@@ -13,11 +13,11 @@ function App() {
     <BrowserRouter>
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
           <Route path="/month/:id" element={<Month />} />
           <Route path="/m/:id1/d/:id2/y/:id3" element={<Day />} />
         </Route>
