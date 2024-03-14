@@ -10,10 +10,10 @@ import { Loading } from "../components/Loading";
 import { useUser } from "../context/userContext";
 
 const Month = () => {
-  const { id } = useParams();
+  const { id1, id2 } = useParams();
+
   const navigate = useNavigate();
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [infoCalendar, setinfoCalendar] = useState(null);
 
   const { getInfoTaskDay } = useMonthData();
@@ -21,17 +21,15 @@ const Month = () => {
 
   useEffect(() => {
     getInfoCalendar();
-
-    console.log(user);
-    getInfoTaskDay(year, id);
-  }, [user, id]);
+    getInfoTaskDay(id2, id1);
+  }, [user, id1]);
 
   const getInfoCalendar = async () => {
     setLoading(false);
 
     try {
-      const formerPromise = getInfoMonth("former");
-      const currentPromise = getInfoMonth("current");
+      const formerPromise = getDaysMonth("former");
+      const currentPromise = getDaysMonth("current");
 
       // Obtener la información de los meses de forma asincrónica
       const [former, current] = await Promise.all([
@@ -43,45 +41,45 @@ const Month = () => {
 
       // Determinar si se necesita obtener el próximo mes
       if (current.length + former.length > 34) {
-        next = getInfoMonth("next").reverse().slice(7).reverse();
+        next = getDaysMonth("next").reverse().slice(7).reverse();
       } else {
-        next = getInfoMonth("next");
+        next = getDaysMonth("next");
       }
 
       // Combinar la información de los tres meses
       const calendarInfo = [...former, ...current, ...next];
       setinfoCalendar(calendarInfo);
+
       setLoading(true);
     } catch (error) {
       console.error("Error al obtener el calendario:", error);
-      setLoading(false);
     }
   };
 
-  const getInfoMonth = (type) => {
+  const getDaysMonth = (type) => {
     const idAdjustment = (e) => {
       if (e === "date") {
         return type === "next"
-          ? parseInt(id) + 1
+          ? parseInt(id1) + 1
           : type === "former"
-          ? id - 1
-          : id;
+          ? id1 - 1
+          : id1;
       }
       if (e === "day") {
         return type === "next"
-          ? id
+          ? id1
           : type === "former"
-          ? parseInt(id) - 2
-          : id - 1;
+          ? parseInt(id1) - 2
+          : id1 - 1;
       }
     };
 
-    const daysInMonth = new Date(year, idAdjustment("date"), 0).getDate();
-    const firstDayOfMonth = new Date(year, idAdjustment("day"), 1).getDay();
+    const daysInMonth = new Date(id2, idAdjustment("date"), 0).getDate();
+    const firstDayOfMonth = new Date(id2, idAdjustment("day"), 1).getDay();
 
     const daysArray = Array.from({ length: daysInMonth }, (_, i) => ({
-      month: id,
-      year: year,
+      month: id1,
+      id2: id2,
       type: type,
       dayNumber: i + 1,
       dayOfWeek: (firstDayOfMonth + i) % 7,
@@ -113,8 +111,8 @@ const Month = () => {
   };
 
   const handleMonthChange = (delta) => {
-    let newId = parseInt(id) + delta;
-    let newYear = year;
+    let newId = parseInt(id1) + delta;
+    let newYear = id2;
 
     if (newId < 1) {
       newId = 12;
@@ -124,8 +122,7 @@ const Month = () => {
       newYear++;
     }
 
-    const nuevaFecha = `/month/${newId}`;
-    setYear(newYear);
+    const nuevaFecha = `/month/${newId}/${newYear}`;
     navigate(nuevaFecha);
   };
 
@@ -144,13 +141,12 @@ const Month = () => {
       {loading ? (
         <>
           <div>
-            {/* <button onClick={addmeseback}>add meses</button> */}
             {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
             {monthsNames[new Date().getMonth()]} {new Date().getFullYear()}
           </div>
           <div className="month-chanceMonth">
             <a>
-              {monthsNames[id - 1]} {year}
+              {monthsNames[id1 - 1]} {id2}
             </a>
             <div>
               <a onClick={() => handleMonthChange(-1)}>
@@ -166,7 +162,7 @@ const Month = () => {
               <div key={index}>{dayName}</div>
             ))}
           </div>
-          <div className="days" id="scrollable" onWheel={handleScroll}>
+          <div className="days" id1="scrollable" onWheel={handleScroll}>
             {infoCalendar?.map(
               ({ dayNumber, dayOfWeek, month, type }, index) => (
                 <DayContainer
@@ -174,7 +170,7 @@ const Month = () => {
                   dayNumber={dayNumber}
                   month={month}
                   type={type}
-                  year={year}
+                  year={id2}
                   dayOfWeek={dayOfWeek}
                 />
               )

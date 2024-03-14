@@ -18,7 +18,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
-          <Route path="/month/:id" element={<Month />} />
+          <Route path="/month/:id1/:id2" element={<Month />} />
           <Route path="/m/:id1/d/:id2/y/:id3" element={<Day />} />
         </Route>
       </Routes>

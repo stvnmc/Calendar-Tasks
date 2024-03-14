@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 const Home = () => {
   const month = new Date().getMonth();
+  const year = new Date().getFullYear();
   const navigate = useNavigate();
   const { isAuthenticated } = useUser();
 
@@ -13,7 +14,9 @@ const Home = () => {
 
   return (
     <div>
-      <button onClick={() => navigate(`/month/${month}`)}>Calendar</button>
+      <button onClick={() => navigate(`/month/${month + 1}/${year}`)}>
+        Calendar
+      </button>
     </div>
   );
 };

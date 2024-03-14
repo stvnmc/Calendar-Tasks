@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import {
   doc,
   getDoc,
@@ -28,11 +28,6 @@ export const MonthDataProvider = ({ children }) => {
 
   const [infoOfMonth, setInfoOfMonth] = useState([]);
 
-  // const getInfoMonthFirestore = async (year, monthNumber) => {
-  //   const infoOfMonthRes = await getInfoTaskDay(year, monthNumber);
-  //   setInfoOfMonth(infoOfMonthRes);
-  // };
-
   function addTaskDay(year, monthNumber, day, taskValue) {
     return new Promise(async (resolve, reject) => {
       const monthNames = monthsNames[monthNumber - 1];
@@ -60,14 +55,35 @@ export const MonthDataProvider = ({ children }) => {
               resolve(true);
             }
           } catch (error) {}
-
-          console.log("La colección ya existe.");
+          console.log(error);
         } else {
-          await createCollection(collectionName);
+          const res = await createCollection(collectionName);
+
+          if (res) {
+            try {
+              const docRef = doc(db, collectionName, monthNames);
+
+              const docSnapshot = await getDoc(docRef);
+              const data = docSnapshot.data();
+
+              if (data.hasOwnProperty(day)) {
+                const arrayActual = data[day];
+                arrayActual.push(taskValue);
+
+                await updateDoc(docRef, {
+                  [day]: arrayActual,
+                });
+                resolve(true);
+              } else {
+                await setDoc(docRef, { [day]: [taskValue] }, { merge: true });
+                resolve(true);
+              }
+            } catch (error) {}
+            console.log("La colección ya existe.");
+          }
           console.log(`Se ha creado la colección "${collectionName}".`);
         }
       } catch (error) {
-        console.error(error);
         reject(error);
       }
     });
@@ -147,9 +163,10 @@ export const MonthDataProvider = ({ children }) => {
           console.error("Error al crear la colección:", error);
         }
       }
+      return true;
     } catch (error) {
       console.error("Error al crear la colección:", error);
-      throw error; // Rechazar la promesa para que el código cliente pueda manejar el error
+      return false;
     }
   }
 

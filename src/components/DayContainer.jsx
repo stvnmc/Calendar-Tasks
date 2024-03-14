@@ -1,25 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
+import { FaList } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { useMonthData } from "../context/MonthDataContext";
+import { Loading } from "./Loading";
 
 const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   const [createTask, setCreateTask] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [infoTask, setInfoTask] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const { infoOfMonth, getInfoTaskDay, addTaskDay, deleteTaskDay } =
     useMonthData();
 
   useEffect(() => {
-    setInfoTask([]);
     if (infoOfMonth && dayNumber in infoOfMonth) {
       const infoOfDay = infoOfMonth[dayNumber];
       setInfoTask(infoOfDay);
     }
   }, [infoOfMonth, dayNumber]);
+
+  useEffect(() => {
+    setInfoTask([]);
+  }, []);
 
   const goToPageDay = () => {
     const nuevaFecha = `/m/${month}/d/${dayNumber}/y/${year}`;
@@ -27,13 +33,17 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   };
 
   const addTask = async () => {
-    const refresh = await addTaskDay(year, month, dayNumber, inputValue);
+    setLoading(false);
+    try {
+      const refresh = await addTaskDay(year, month, dayNumber, inputValue);
 
-    if (refresh === true) {
-      getInfoTaskDay(year, month);
-    }
-    setInputValue("");
-    setCreateTask(false);
+      if (refresh === true) {
+        getInfoTaskDay(year, month);
+      }
+      setInputValue("");
+      setCreateTask(false);
+      setLoading(true);
+    } catch (error) {}
   };
 
   const deletTask = async (index) => {
@@ -52,7 +62,6 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
 
   return (
     <div
-      // onClick={goToPageDay}
       id={dayNumber}
       className={`containers num${dayNumber} ${type}`}
       style={{ gridColumn: `${dayOfWeek + 1}` }}
@@ -60,43 +69,54 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
       <div className="icons">
         <div>{dayNumber}</div>
         {type === "current" ? (
-          <button onClick={() => setCreateTask(true)}>
-            <IoMdAdd />
-          </button>
+          <div>
+            <button onClick={goToPageDay}>
+              <FaList />
+            </button>
+            <button onClick={() => setCreateTask(true)}>
+              <IoMdAdd />
+            </button>
+          </div>
         ) : (
           ""
         )}
       </div>
-      {createTask ? (
-        <div className="create-task">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            onKeyPress={handleKeyPress}
-            autoFocus
-          />
+      {loading ? (
+        createTask ? (
+          <div className="create-task">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              onKeyPress={handleKeyPress}
+              autoFocus
+            />
 
-          <button onClick={addTask}>
-            <FaCheck />
-          </button>
-        </div>
+            <button onClick={addTask}>
+              <FaCheck />
+            </button>
+          </div>
+        ) : (
+          <div>
+            {type === "current" ? (
+              <div>
+                {Array.isArray(infoTask) &&
+                  infoTask.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <h1>{item}</h1>
+                        <button onClick={() => deletTask(index)}>delete</button>
+                      </div>
+                    );
+                  })}
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        )
       ) : (
-        <div>
-          {type === "current" ? (
-            <div>
-              {Array.isArray(infoTask) &&
-                infoTask.map((item, index) => (
-                  <div key={index}>
-                    <h1>{item}</h1>
-                    <button onClick={() => deletTask(index)}>delet</button>
-                  </div>
-                ))}
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </div>
+        <Loading />
       )}
     </div>
   );
