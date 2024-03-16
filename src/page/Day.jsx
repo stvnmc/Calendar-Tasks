@@ -7,22 +7,23 @@ const Day = () => {
   const navigate = useNavigate();
 
   const chanceDay = (e) => {
-    let daysInMonth = new Date(id3, parseInt(id1) - 1, 0).getDate();
+    let daysInMonth = new Date(id3, parseInt(id1), 0).getDate();
+
     let newDay = parseInt(e) + parseInt(id2);
+
     let newMonth = id1;
     let newYear = id3;
-    console.log(daysInMonth)
 
     if (newDay < 1) {
-    //   let daysInMonth = new Date(id3, parseInt(id1) - 1, 0).getDate();
-    //   console.log(parseInt(id1) - 1);
-      newDay = daysInMonth;
+      let newDaysInMonth = new Date(id3, parseInt(id1) - 1, 0).getDate();
+      newDay = newDaysInMonth;
 
       newMonth--;
     } else if (newDay > daysInMonth) {
       newDay = 1;
       newMonth++;
     }
+
     if (newMonth < 1) {
       newMonth = 12;
       newYear--;
