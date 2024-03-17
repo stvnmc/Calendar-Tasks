@@ -28,6 +28,7 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
   }, []);
 
   const goToPageDay = () => {
+    console.log(dayNumber);
     const nuevaFecha = `/m/${month}/d/${dayNumber}/y/${year}`;
     navigate(nuevaFecha);
   };

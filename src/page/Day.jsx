@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+import { getInfoCalendar } from "../components/FunctionGetCalendar";
+import { dayNames } from "../components/infor/MonthsDays";
 
 const Day = () => {
   const { id1, id2, id3 } = useParams();
   const navigate = useNavigate();
+  const [infoCalendar, setinfoCalendar] = useState([]);
+
+  useEffect(() => {
+    getCalendar();
+  }, [id1]);
+
+  const getCalendar = async () => {
+    const calendarInfo = await getInfoCalendar(id1, id3);
+    setinfoCalendar(calendarInfo);
+  };
 
   const chanceDay = (e) => {
     let daysInMonth = new Date(id3, parseInt(id1), 0).getDate();
@@ -50,6 +62,17 @@ const Day = () => {
         <h1>
           {id1},{id2},{id3}
         </h1>
+        <div className="days-of-week">
+          {dayNames.map((dayName, index) => (
+            <div key={index}>{dayName.substring(0, 1)}</div>
+          ))}
+        </div>
+        <div className="days">
+          {infoCalendar.map((day, index) => {
+            return <div key={index}>{day.dayNumber}</div>;
+          })}
+        </div>
+        <div></div>
       </div>
     </div>
   );

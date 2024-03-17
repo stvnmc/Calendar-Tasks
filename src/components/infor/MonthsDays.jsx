@@ -37,3 +37,5 @@ export const dayNames = [
   "Viernes",
   "Sábado",
 ];
+
+export const dayHours = () => {};
