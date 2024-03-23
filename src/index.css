@@ -12,7 +12,6 @@
 }
 
 body {
-  overflow: hidden;
 }
 
 a {
@@ -70,4 +69,51 @@ a {
 
 .create-task input {
   width: 75%;
+}
+
+/* day */
+
+.cont-main-day {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.small-calendar {
+  width: 245px;
+  min-width: 210px;
+  margin-bottom: 80px;
+}
+
+.hours {
+  min-width: 445px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 18vw) 1fr;
+  grid-template-rows: repeat(6, 14vh) 1fr;
+}
+
+.early-Morning {
+  grid-column: 1;
+}
+
+.morning {
+  grid-column: 2;
+}
+.afternoon {
+  grid-column: 3;
+}
+.night {
+  grid-column: 4;
+}
+
+
+
+
+
+/* create routine */
+
+
+.selected{
+  background-color: #ac5656;
 }

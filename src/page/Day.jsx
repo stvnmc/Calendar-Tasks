@@ -4,6 +4,8 @@ import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
 import { dayNames } from "../components/infor/MonthsDays";
 
+import CreateRoutine from "../components/CreateRoutine";
+
 const Day = () => {
   const { id1, id2, id3 } = useParams();
   const navigate = useNavigate();
@@ -51,28 +53,30 @@ const Day = () => {
   return (
     <div>
       <div>
-        <a onClick={() => chanceDay(-1)}>
-          <SlArrowUp />
-        </a>
-        <a onClick={() => chanceDay(1)}>
-          <SlArrowDown />
-        </a>
+        <div>
+          <a onClick={() => chanceDay(-1)}>
+            <SlArrowUp />
+          </a>
+          <a onClick={() => chanceDay(1)}>
+            <SlArrowDown />
+          </a>
+        </div>
+        <h1>{id3}</h1>
       </div>
-      <div>
-        <h1>
-          {id1},{id2},{id3}
-        </h1>
-        <div className="days-of-week">
-          {dayNames.map((dayName, index) => (
-            <div key={index}>{dayName.substring(0, 1)}</div>
-          ))}
+      <div className="cont-main-day">
+        <div className="small-calendar">
+          <div className="days-of-week">
+            {dayNames.map((dayName, index) => (
+              <div key={index}>{dayName.substring(0, 1)}</div>
+            ))}
+          </div>
+          <div className="days">
+            {infoCalendar.map((day, index) => {
+              return <div key={index}>{day.dayNumber}</div>;
+            })}
+          </div>
         </div>
-        <div className="days">
-          {infoCalendar.map((day, index) => {
-            return <div key={index}>{day.dayNumber}</div>;
-          })}
-        </div>
-        <div></div>
+        <CreateRoutine />
       </div>
     </div>
   );
