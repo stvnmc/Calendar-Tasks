@@ -28,6 +28,8 @@ export const MonthDataProvider = ({ children }) => {
 
   const [infoOfMonth, setInfoOfMonth] = useState([]);
 
+  // firebase
+
   function addTaskDay(year, monthNumber, day, taskValue) {
     return new Promise(async (resolve, reject) => {
       const monthNames = monthsNames[monthNumber - 1];
@@ -137,6 +139,7 @@ export const MonthDataProvider = ({ children }) => {
     }
   }
 
+  // create collection
   async function collectionExists(collectionName) {
     try {
       const querySnapshot = await getDocs(collection(db, collectionName));

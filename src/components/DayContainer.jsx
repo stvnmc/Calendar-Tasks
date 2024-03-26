@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+// icons
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+
 import { useMonthData } from "../context/MonthDataContext";
 import { Loading } from "./Loading";
 

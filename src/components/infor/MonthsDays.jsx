@@ -73,3 +73,17 @@ export const dayHours = () => {
 
   return hours;
 };
+
+export const Hours = () => {
+  const hours = [];
+
+  for (let hour = 0; hour < 24; hour++) {
+    if (hour === 0) {
+      hours.push({ hour: 24 });
+    } else {
+      hours.push({ hour: hour });
+    }
+  }
+
+  return hours;
+};
