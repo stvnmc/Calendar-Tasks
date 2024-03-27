@@ -93,7 +93,7 @@ export const MonthDataProvider = ({ children }) => {
 
   function getInfoTaskDay(year, monthNumber) {
     if (!user || typeof user !== "string") {
-      return; // Salir de la función si el usuario no es válido
+      return; 
     }
 
     const collectionName = user + year;

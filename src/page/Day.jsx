@@ -5,15 +5,28 @@ import { getInfoCalendar } from "../components/FunctionGetCalendar";
 import { dayNames } from "../components/infor/MonthsDays";
 
 import CreateRoutine from "../components/CreateRoutine";
+import { useRoutine } from "../context/RoutineContext";
+import { useUser } from "../context/userContext";
 
 const Day = () => {
   const { id1, id2, id3 } = useParams();
   const navigate = useNavigate();
   const [infoCalendar, setinfoCalendar] = useState([]);
 
+  // context
+  const { rutine, getRoutine } = useRoutine();
+  const { user } = useUser();
+
   useEffect(() => {
     getCalendar();
-  }, [id1]);
+    rutine();
+    getRoutine(id1, id2);
+  }, [id1, id2]);
+
+  useEffect(() => {
+    rutine();
+    getRoutine(id1, id2);
+  }, [user]);
 
   const getCalendar = async () => {
     const calendarInfo = await getInfoCalendar(id1, id3);
