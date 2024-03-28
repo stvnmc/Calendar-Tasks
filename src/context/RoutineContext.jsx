@@ -34,18 +34,15 @@ export const RoutineProvider = ({ children }) => {
   const [currentValueInputText, setCurrentValueInputText] = useState("");
   const [stages, setStages] = useState("Workday");
 
-  // Firebase
+  // Firebase routine
   async function addRoutine() {
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
     const collectionExistsResult = await collectionExists(collectionRef);
     if (collectionExistsResult) {
-      console.log("si existe");
     } else {
-      console.log("no existe");
       await createCollection(collectionRef);
-      console.log("collection create");
     }
   }
 
@@ -53,6 +50,7 @@ export const RoutineProvider = ({ children }) => {
     if (!user || typeof user !== "string") {
       return;
     }
+    setLoading(false);
     // collectionRef
 
     const collectionName = user + "rutine";
@@ -70,23 +68,59 @@ export const RoutineProvider = ({ children }) => {
 
     const isWeekend = weekend.includes(currentDay.dayOfWeek);
 
+    // add all routine
     try {
       let routineData;
       if (isWeekend) {
         const docRefWeekend = doc(collectionRef, "weekend");
         const docSnapshot = await getDoc(docRefWeekend);
         routineData = docSnapshot.data();
-        console.log("weekend");
+        setStages("weekend");
       } else {
         const docRefWorkday = doc(collectionRef, "workday");
         const docSnapshot = await getDoc(docRefWorkday);
         routineData = docSnapshot.data();
-        console.log("workday");
+        setStages("workday");
       }
 
       setRoutineDay(routineData);
+
+      // loging
+      setLoading(true);
     } catch (error) {
       console.error("Error al obtener la rutina:", error);
+    }
+  }
+
+  // Firebase routine day porcentaje
+
+  async function addRoutineDayporcentaje(
+    month,
+    day,
+    year,
+    porcentaje,
+    routinePercentage
+  ) {
+    console.log(routinePercentage);
+    try {
+      const collectionName = user + "rutine";
+      const collectionRef = collection(db, collectionName);
+      const DaynPorcentaje = {
+        [`${month}/${day}/${year}`]: { porcentaje, routinePercentage },
+      };
+
+      const docRefRoutineDayPorcentaje = doc(
+        collectionRef,
+        "RoutineDayPorcentaje"
+      );
+      await setDoc(docRefRoutineDayPorcentaje, DaynPorcentaje, { merge: true });
+
+      console.log("Porcentaje de rutina para el día agregado correctamente.");
+    } catch (error) {
+      console.error(
+        "Error al agregar el porcentaje de rutina para el día:",
+        error
+      );
     }
   }
 
@@ -148,22 +182,18 @@ export const RoutineProvider = ({ children }) => {
     } else {
       setOpenCreateRutine(false);
     }
-    setLoading(true);
   };
 
   const createRoutine = () => {
     setOpenSFD(true);
   };
 
-  const addInfoRoutine = (h, t) => {
+  const addInfoRoutine = (hour, text) => {
     if (stages === "Workday") {
-      console.log(h, t, stages);
-      console.log(RoutineWorkday);
-
       setRoutineWorkday((prev) =>
         prev.map((item) => {
-          if (item.hour === h) {
-            return { ...item, task: t };
+          if (item.hour === hour) {
+            return { ...item, task: text };
           }
           return item;
         })
@@ -184,6 +214,7 @@ export const RoutineProvider = ({ children }) => {
     <RoutineContext.Provider
       value={{
         loading,
+        setLoading,
         routineDay,
         rutine,
         createRoutine,
@@ -204,6 +235,7 @@ export const RoutineProvider = ({ children }) => {
         OpenCreateRutine,
         setOpenCreateRutine,
         addRoutine,
+        addRoutineDayporcentaje,
       }}
     >
       {children}
