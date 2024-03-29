@@ -1,7 +1,23 @@
 import React, { useState } from "react";
 
-const Routine = ({ hour, period, style, routine, addTask, deleteTask }) => {
+const Routine = ({
+  hour,
+  period,
+  style,
+  routine,
+  addTask,
+  deleteTask,
+  routineTaskCompleted,
+}) => {
   const [completTask, setCompletTask] = useState(true);
+
+  const isTaskCompleted = routineTaskCompleted.some(
+    (item) => item.hour === hour
+  );
+
+  useState(() => {
+    setCompletTask(!isTaskCompleted);
+  }, [isTaskCompleted]);
 
   const chanceStateTask = () => {
     if (completTask) {
@@ -15,7 +31,6 @@ const Routine = ({ hour, period, style, routine, addTask, deleteTask }) => {
   return (
     <div className={`hour ${period}`} style={style} onClick={chanceStateTask}>
       <h1>{hour}</h1>
-
       {routine?.task ? completTask ? <h2>{routine.task}</h2> : "complet" : ""}
     </div>
   );

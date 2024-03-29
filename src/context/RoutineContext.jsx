@@ -92,27 +92,30 @@ export const RoutineProvider = ({ children }) => {
     }
   }
 
-  // Firebase routine day porcentaje
+  // Firebase routine day task - porcentaje
 
-  async function addRoutineDayporcentaje(
+  async function addRoutineDayTasks(
     month,
     day,
     year,
     porcentaje,
-    routinePercentage
+    TaskCompleted,
+    TaskIncomplete,
+    stages
   ) {
-    console.log(routinePercentage);
     try {
       const collectionName = user + "rutine";
       const collectionRef = collection(db, collectionName);
       const DaynPorcentaje = {
-        [`${month}/${day}/${year}`]: { porcentaje, routinePercentage },
+        [`${month}/${day}/${year}`]: {
+          porcentaje,
+          stages,
+          TaskCompleted,
+          TaskIncomplete,
+        },
       };
 
-      const docRefRoutineDayPorcentaje = doc(
-        collectionRef,
-        "RoutineDayPorcentaje"
-      );
+      const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
       await setDoc(docRefRoutineDayPorcentaje, DaynPorcentaje, { merge: true });
 
       console.log("Porcentaje de rutina para el día agregado correctamente.");
@@ -121,6 +124,30 @@ export const RoutineProvider = ({ children }) => {
         "Error al agregar el porcentaje de rutina para el día:",
         error
       );
+    }
+  }
+
+  async function getRoutineDayTasks(month, day, year) {
+    try {
+      const collectionName = user + "rutine";
+      const collectionRef = collection(db, collectionName);
+      const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
+
+      const docSnapshot = await getDoc(docRefRoutineDayPorcentaje);
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        const dayInfo = data[`${month}/${day}/${year}`];
+        if (dayInfo && dayInfo.stages) {
+          setStages(dayInfo.stages);
+          return dayInfo;
+        } else {
+          console.log(
+            "La información de la rutina para el día especificado no tiene la estructura esperada."
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error al obtener la información de la rutina:", error);
     }
   }
 
@@ -235,7 +262,8 @@ export const RoutineProvider = ({ children }) => {
         OpenCreateRutine,
         setOpenCreateRutine,
         addRoutine,
-        addRoutineDayporcentaje,
+        addRoutineDayTasks,
+        getRoutineDayTasks,
       }}
     >
       {children}

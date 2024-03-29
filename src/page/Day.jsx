@@ -14,8 +14,8 @@ const Day = () => {
   const { id1, id2, id3 } = useParams();
   const navigate = useNavigate();
   const [infoCalendar, setinfoCalendar] = useState([]);
-  const [routinePercentage, setRoutinePercentage] = useState([]);
-
+  const [routineTaskCompleted, setRoutineTaskCompleted] = useState([]);
+  const [routineTaskIncomplete, setRoutineTaskIncomplete] = useState([]);
   // context
   const {
     loading,
@@ -27,7 +27,8 @@ const Day = () => {
     setOpenSFD,
     stages,
     routineDay,
-    addRoutineDayporcentaje,
+    addRoutineDayTasks,
+    getRoutineDayTasks,
   } = useRoutine();
   const { user } = useUser();
 
@@ -35,12 +36,18 @@ const Day = () => {
     getCalendar();
     rutine();
     getRoutine(id1, id2);
+    getTask();
   }, [id1, id2]);
 
   useEffect(() => {
     rutine();
     getRoutine(id1, id2);
+    getTask();
   }, [user]);
+
+  useEffect(() => {
+    addTaskIncomplete();
+  }, [routineDay]);
 
   const getCalendar = async () => {
     const calendarInfo = await getInfoCalendar(id1, id3);
@@ -75,6 +82,9 @@ const Day = () => {
 
     const nuevaFecha = `/m/${newMonth}/d/${newDay}/y/${newYear}`;
     navigate(nuevaFecha);
+
+    setRoutineTaskCompleted([]);
+    setRoutineTaskIncomplete([]);
   };
 
   const openCreateRutine = () => {
@@ -86,24 +96,60 @@ const Day = () => {
   const finallyDay = async () => {
     chanceDay(1);
     const porcentaje = getPercentageDay();
-    addRoutineDayporcentaje(id1, id2, id3, porcentaje, routinePercentage);
+    addRoutineDayTasks(
+      id1,
+      id2,
+      id3,
+      porcentaje,
+      routineTaskCompleted,
+      routineTaskIncomplete,
+      stages
+    );
 
-    setRoutinePercentage();
-    setRoutinePercentage([]);
+    setRoutineTaskCompleted([]);
+    setRoutineTaskIncomplete([]);
   };
 
-  const addTask = (hour, task) => {
-    setRoutinePercentage((prev) => {
+  // Routine
+
+  const getTask = async () => {
+    const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
+
+    if (routineDayTasks) {
+      setRoutineTaskCompleted(routineDayTasks?.TaskCompleted);
+      setRoutineTaskIncomplete(routineDayTasks?.TaskIncomplete);
+    }
+  };
+
+  const addTaskCompleted = (hour, task) => {
+    setRoutineTaskCompleted((prev) => {
       if (prev && !prev.some((item) => item.hour === hour)) {
         return [...prev, { hour, task }];
       } else {
         return prev;
       }
     });
+
+    setRoutineTaskIncomplete((prev) =>
+      prev?.filter((item) => item.hour !== hour)
+    );
   };
 
-  const deleteTask = (hour) => {
-    setRoutinePercentage((prev) => prev?.filter((item) => item.hour !== hour));
+  const deleteTaskCompleted = (hour) => {
+    setRoutineTaskCompleted((prev) =>
+      prev?.filter((item) => item.hour !== hour)
+    );
+  };
+
+  const addTaskIncomplete = () => {
+    for (const item of Object.values(routineDay)) {
+      if (item.task) {
+        setRoutineTaskIncomplete((prev) => [
+          ...prev,
+          { hour: item.hour, task: item.task },
+        ]);
+      }
+    }
   };
 
   const getPercentageDay = () => {
@@ -114,8 +160,8 @@ const Day = () => {
       }
     }
 
-    if (routinePercentage) {
-      const porcentaje = (routinePercentage?.length / count) * 100;
+    if (routineTaskCompleted) {
+      const porcentaje = (routineTaskCompleted?.length / count) * 100;
       return porcentaje;
     } else {
       const porcentaje = (0 / count) * 100;
@@ -148,7 +194,6 @@ const Day = () => {
               return <div key={index}>{day.dayNumber}</div>;
             })}
           </div>
-          <h1>porciento</h1>
         </div>
 
         {loading ? (
@@ -166,8 +211,9 @@ const Day = () => {
                     period={hourObj.period}
                     style={hourObj.style}
                     routine={routineDay[index]}
-                    addTask={addTask}
-                    deleteTask={deleteTask}
+                    addTask={addTaskCompleted}
+                    deleteTask={deleteTaskCompleted}
+                    routineTaskCompleted={routineTaskCompleted}
                   />
                 ))}
               </div>
