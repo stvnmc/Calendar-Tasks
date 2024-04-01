@@ -72,7 +72,7 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
     >
       <div className="icons">
         <div>{dayNumber}</div>
-        {type === "current" ? (
+        {type === "current" && (
           <div>
             <button onClick={goToPageDay}>
               <FaList />
@@ -81,8 +81,6 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
               <IoMdAdd />
             </button>
           </div>
-        ) : (
-          ""
         )}
       </div>
       {loading ? (

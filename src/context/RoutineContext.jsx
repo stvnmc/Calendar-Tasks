@@ -39,11 +39,7 @@ export const RoutineProvider = ({ children }) => {
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
-    const collectionExistsResult = await collectionExists(collectionRef);
-    if (collectionExistsResult) {
-    } else {
-      await createCollection(collectionRef);
-    }
+    await createCollection(collectionRef);
   }
 
   async function getRoutine(day, month) {
@@ -60,7 +56,11 @@ export const RoutineProvider = ({ children }) => {
     const docRefDaysOfWeekend = doc(collectionRef, "DaysOfWeekend");
     const docSnapshot = await getDoc(docRefDaysOfWeekend);
     const DaysOfWeekend = docSnapshot.data();
-    setWeekend(DaysOfWeekend.weekend);
+    if (DaysOfWeekend) {
+      setWeekend(DaysOfWeekend.weekend);
+    } else {
+      setWeekend([]);
+    }
 
     const calendar = await getInfoCalendar(day, month);
 
@@ -82,7 +82,7 @@ export const RoutineProvider = ({ children }) => {
         routineData = docSnapshot.data();
         setStages("workday");
       }
-
+      console.log(routineData);
       setRoutineDay(routineData);
 
       // loging
@@ -117,8 +117,6 @@ export const RoutineProvider = ({ children }) => {
 
       const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
       await setDoc(docRefRoutineDayPorcentaje, DaynPorcentaje, { merge: true });
-
-      console.log("Porcentaje de rutina para el día agregado correctamente.");
     } catch (error) {
       console.error(
         "Error al agregar el porcentaje de rutina para el día:",
@@ -213,10 +211,11 @@ export const RoutineProvider = ({ children }) => {
 
   const createRoutine = () => {
     setOpenSFD(true);
+    console.log(weekend);
   };
 
   const addInfoRoutine = (hour, text) => {
-    if (stages === "Workday") {
+    if (stages === "workday") {
       setRoutineWorkday((prev) =>
         prev.map((item) => {
           if (item.hour === hour) {
@@ -228,8 +227,8 @@ export const RoutineProvider = ({ children }) => {
     } else {
       setRoutineWeekend((prev) =>
         prev.map((item) => {
-          if (item.hour === h) {
-            return { ...item, task: t };
+          if (item.hour === hour) {
+            return { ...item, task: text };
           }
           return item;
         })

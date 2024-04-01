@@ -29,9 +29,11 @@ const Routine = ({
   };
 
   return (
-    <div className={`hour ${period}`} style={style} onClick={chanceStateTask}>
+    <div className={`hour ${period}`} style={style}>
       <h1>{hour}</h1>
       {routine?.task ? completTask ? <h2>{routine.task}</h2> : "complet" : ""}
+      
+      {routine?.task && <button onClick={chanceStateTask}>complet</button>}
     </div>
   );
 };

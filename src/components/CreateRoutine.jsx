@@ -19,7 +19,6 @@ const CreateRoutine = () => {
     addInfoRoutine,
     currentValueInputText,
     setCurrentValueInputText,
-
     setOpenCreateRutine,
     setStages,
     stages,
@@ -31,21 +30,31 @@ const CreateRoutine = () => {
   };
 
   const nextStage = () => {
-    if (stages === "Weekend") {
+    console.log(stages);
+    if (stages === "weekend") {
       setOpenCreateRutine(true);
       addRoutine();
     } else {
-      setStages("Weekend");
+      setStages("weekend");
       setCurrentValueInputText("");
     }
   };
 
   const previousStage = () => {
-    if (stages === "Workday") {
+    if (stages === "workday") {
       setOpenSFD(false);
     } else {
-      setStages("Workday");
+      setStages("workday");
       setCurrentValueInputText("");
+    }
+  };
+
+  const addWeekedDay = (i) => {
+    console.log(weekend);
+    if (!weekend.includes(i)) {
+      setWeekend((prevFreeDays) => [...prevFreeDays, i]);
+    } else {
+      setWeekend((prevFreeDays) => prevFreeDays.filter((day) => day !== i));
     }
   };
 
@@ -74,17 +83,13 @@ const CreateRoutine = () => {
       ) : (
         <div>
           <h2>Días de descanso:</h2>
-          {dayNames.map((item, i) => (
-            <div key={i}>
+          {dayNames.map((dayName, index) => (
+            <div key={index}>
               <button
-                className={isDaySelected(i) ? "selected" : ""}
-                onClick={() => {
-                  if (!weekend.includes(i)) {
-                    setWeekend((prevFreeDays) => [...prevFreeDays, i]);
-                  }
-                }}
+                className={isDaySelected(index) ? "selected" : ""}
+                onClick={() => addWeekedDay(index)}
               >
-                {item}
+                {dayName}
               </button>
             </div>
           ))}

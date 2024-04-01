@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { dayHours } from "./infor/MonthsDays";
 
 const InputTextCR = ({
   hourObj,
@@ -20,9 +19,9 @@ const InputTextCR = ({
   }, [RoutineWorkday, RoutineWeekend, stages]);
 
   const showInfoTask = () => {
-    if (stages === "Workday") {
+    if (stages === "weekend") {
       setTask(
-        RoutineWorkday.map((item) => {
+        RoutineWeekend.map((item) => {
           if (item.hour === hourObj.hour) {
             return item.task;
           }
@@ -30,7 +29,7 @@ const InputTextCR = ({
       );
     } else {
       setTask(
-        RoutineWeekend.map((item) => {
+        RoutineWorkday.map((item) => {
           if (item.hour === hourObj.hour) {
             return item.task;
           }

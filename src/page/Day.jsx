@@ -45,6 +45,8 @@ const Day = () => {
     getTask();
   }, [user]);
 
+  
+
   useEffect(() => {
     addTaskIncomplete();
   }, [routineDay]);
@@ -79,16 +81,15 @@ const Day = () => {
       newMonth = 1;
       newYear++;
     }
+    setRoutineTaskCompleted([]);
+    setRoutineTaskIncomplete([]);
 
     const nuevaFecha = `/m/${newMonth}/d/${newDay}/y/${newYear}`;
     navigate(nuevaFecha);
-
-    setRoutineTaskCompleted([]);
-    setRoutineTaskIncomplete([]);
   };
 
   const openCreateRutine = () => {
-    setStages("Workday");
+    setStages("workday");
     setOpenCreateRutine(false);
     setOpenSFD(false);
   };
@@ -142,6 +143,8 @@ const Day = () => {
   };
 
   const addTaskIncomplete = () => {
+    if (!routineDay || typeof routineDay !== "object") return;
+
     for (const item of Object.values(routineDay)) {
       if (item.task) {
         setRoutineTaskIncomplete((prev) => [
@@ -154,18 +157,22 @@ const Day = () => {
 
   const getPercentageDay = () => {
     let count = 0;
+
     for (const hour in routineDay) {
       if (routineDay[hour].task) {
         count++;
       }
     }
 
-    if (routineTaskCompleted) {
-      const porcentaje = (routineTaskCompleted?.length / count) * 100;
+    if (count !== 0) {
+      const porcentaje = Math.round(
+        (routineTaskCompleted.length / count) * 100
+      );
+
       return porcentaje;
     } else {
-      const porcentaje = (0 / count) * 100;
-      return porcentaje;
+      console.log(0);
+      return 0;
     }
   };
 
@@ -204,18 +211,21 @@ const Day = () => {
               <h1>{getPercentageDay()}%</h1>
               <h1>{stages}</h1>
               <div className="hours">
-                {dayHours().map((hourObj, index) => (
-                  <Routine
-                    key={index}
-                    hour={hourObj.hour}
-                    period={hourObj.period}
-                    style={hourObj.style}
-                    routine={routineDay[index]}
-                    addTask={addTaskCompleted}
-                    deleteTask={deleteTaskCompleted}
-                    routineTaskCompleted={routineTaskCompleted}
-                  />
-                ))}
+                {routineDay &&
+                  dayHours().map((hourObj, index) => (
+                    <Routine
+                      key={index}
+                      hour={hourObj.hour}
+                      period={hourObj.period}
+                      style={hourObj.style}
+                      routine={
+                        index === 0 ? routineDay[24] : routineDay[hourObj.hour]
+                      }
+                      addTask={addTaskCompleted}
+                      deleteTask={deleteTaskCompleted}
+                      routineTaskCompleted={routineTaskCompleted}
+                    />
+                  ))}
               </div>
             </div>
           ) : (
