@@ -40,9 +40,9 @@ export const dayNames = [
 
 export const dayHours = () => {
   const hours = [];
-  let d = 1;
-  let t = 1;
-  let n = 1;
+  let morning = 1;
+  let afternoon = 1;
+  let night = 1;
 
   for (let hour = 0; hour < 24; hour++) {
     if (hour < 6) {
@@ -60,14 +60,26 @@ export const dayHours = () => {
         });
       }
     } else if (hour < 12) {
-      hours.push({ hour: hour, period: "morning", style: { gridRow: d } });
-      d++;
+      hours.push({
+        hour: hour,
+        period: "morning",
+        style: { gridRow: morning },
+      });
+      morning++;
     } else if (hour < 18) {
-      hours.push({ hour: hour, period: "afternoon", style: { gridRow: t } });
-      t++;
+      hours.push({
+        hour: hour,
+        period: "afternoon",
+        style: { gridRow: afternoon },
+      });
+      afternoon++;
     } else {
-      hours.push({ hour: hour, period: "night", style: { gridRow: n } });
-      n++;
+      hours.push({
+        hour: hour,
+        period: "night",
+        style: { gridRow: night },
+      });
+      night++;
     }
   }
 
@@ -79,9 +91,9 @@ export const Hours = () => {
 
   for (let hour = 0; hour < 24; hour++) {
     if (hour === 0) {
-      hours.push({ hour: 24 });
+      hours.push({ hour: 24, task: "", completed: false });
     } else {
-      hours.push({ hour: hour });
+      hours.push({ hour: hour, task: "", completed: false });
     }
   }
 

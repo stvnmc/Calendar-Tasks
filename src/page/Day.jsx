@@ -4,7 +4,6 @@ import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
 import { dayHours, dayNames } from "../components/infor/MonthsDays";
 
-import CreateRoutine from "../components/CreateRoutine";
 import { useRoutine } from "../context/RoutineContext";
 import { useUser } from "../context/userContext";
 import { Loading } from "../components/Loading";
@@ -16,36 +15,29 @@ const Day = () => {
   const [infoCalendar, setinfoCalendar] = useState([]);
   const [routineTaskCompleted, setRoutineTaskCompleted] = useState([]);
   const [routineTaskIncomplete, setRoutineTaskIncomplete] = useState([]);
+
   // context
   const {
     loading,
+    setLoading,
     rutine,
+    setRoutineDay,
     getRoutine,
-    OpenCreateRutine,
-    setOpenCreateRutine,
     setStages,
     setOpenSFD,
     stages,
     routineDay,
     addRoutineDayTasks,
     getRoutineDayTasks,
+    setCurrentDay,
   } = useRoutine();
   const { user } = useUser();
 
   useEffect(() => {
     getCalendar();
     rutine();
-    getRoutine(id1, id2);
     getTask();
-  }, [id1, id2]);
-
-  useEffect(() => {
-    rutine();
-    getRoutine(id1, id2);
-    getTask();
-  }, [user]);
-
-  
+  }, [id1, id2, user]);
 
   useEffect(() => {
     addTaskIncomplete();
@@ -57,6 +49,7 @@ const Day = () => {
   };
 
   const chanceDay = (e) => {
+    setLoading(false);
     let daysInMonth = new Date(id3, parseInt(id1), 0).getDate();
 
     let newDay = parseInt(e) + parseInt(id2);
@@ -81,17 +74,20 @@ const Day = () => {
       newMonth = 1;
       newYear++;
     }
+
     setRoutineTaskCompleted([]);
     setRoutineTaskIncomplete([]);
-
     const nuevaFecha = `/m/${newMonth}/d/${newDay}/y/${newYear}`;
     navigate(nuevaFecha);
   };
 
   const openCreateRutine = () => {
     setStages("workday");
-    setOpenCreateRutine(false);
     setOpenSFD(false);
+    console.log(id1, id2, id3);
+    setCurrentDay({ id1, id2, id3 });
+    const nuevaFecha = `/create-routine`;
+    navigate(nuevaFecha);
   };
 
   const finallyDay = async () => {
@@ -114,32 +110,54 @@ const Day = () => {
   // Routine
 
   const getTask = async () => {
-    const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
+    console.log("routineData");
+    setLoading(false);
 
-    if (routineDayTasks) {
-      setRoutineTaskCompleted(routineDayTasks?.TaskCompleted);
-      setRoutineTaskIncomplete(routineDayTasks?.TaskIncomplete);
+    try {
+      const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
+      console.log(routineDayTasks);
+      if (routineDayTasks) {
+        setRoutineTaskCompleted(routineDayTasks?.TaskCompleted);
+        setRoutineTaskIncomplete(routineDayTasks?.TaskIncomplete);
+        console.log(routineDayTasks.TaskIncomplete);
+      } else {
+        await getRoutine(id1, id2, id3);
+      }
+    } catch (error) {
+      console.error("Error al obtener las tareas de rutina del día:", error);
+    } finally {
+      setLoading(true);
     }
   };
 
-  const addTaskCompleted = (hour, task) => {
-    setRoutineTaskCompleted((prev) => {
-      if (prev && !prev.some((item) => item.hour === hour)) {
-        return [...prev, { hour, task }];
-      } else {
-        return prev;
-      }
-    });
+  const addTaskCompleted = (hour) => {
+    let updatedRoutineDay = { ...routineDay };
 
-    setRoutineTaskIncomplete((prev) =>
-      prev?.filter((item) => item.hour !== hour)
-    );
+    // Verificamos si la hora que queremos actualizar existe en el estado
+    if (updatedRoutineDay.hasOwnProperty(hour)) {
+      // Actualizamos la propiedad 'completed' del objeto de esa hora
+      updatedRoutineDay[hour] = {
+        ...updatedRoutineDay[hour],
+        completed: true,
+      };
+
+      setRoutineDay(updatedRoutineDay);
+    }
   };
 
   const deleteTaskCompleted = (hour) => {
-    setRoutineTaskCompleted((prev) =>
-      prev?.filter((item) => item.hour !== hour)
-    );
+    let updatedRoutineDay = { ...routineDay };
+
+    // Verificamos si la hora que queremos actualizar existe en el estado
+    if (updatedRoutineDay.hasOwnProperty(hour)) {
+      // Actualizamos la propiedad 'completed' del objeto de esa hora
+      updatedRoutineDay[hour] = {
+        ...updatedRoutineDay[hour],
+        completed: false,
+      };
+
+      setRoutineDay(updatedRoutineDay);
+    }
   };
 
   const addTaskIncomplete = () => {
@@ -171,7 +189,6 @@ const Day = () => {
 
       return porcentaje;
     } else {
-      console.log(0);
       return 0;
     }
   };
@@ -198,39 +215,48 @@ const Day = () => {
           </div>
           <div className="days">
             {infoCalendar.map((day, index) => {
-              return <div key={index}>{day.dayNumber}</div>;
+              return (
+                <div
+                  key={index}
+                  className={
+                    day.type === "current" && day.dayNumber === parseInt(id2)
+                      ? "today"
+                      : ""
+                  }
+                >
+                  {day.dayNumber}
+                </div>
+              );
             })}
           </div>
         </div>
 
         {loading ? (
-          OpenCreateRutine ? (
-            <div>
-              <button onClick={openCreateRutine}>createRoutine new</button>
-              <button onClick={finallyDay}>finallyDay</button>
-              <h1>{getPercentageDay()}%</h1>
-              <h1>{stages}</h1>
-              <div className="hours">
-                {routineDay &&
-                  dayHours().map((hourObj, index) => (
-                    <Routine
-                      key={index}
-                      hour={hourObj.hour}
-                      period={hourObj.period}
-                      style={hourObj.style}
-                      routine={
-                        index === 0 ? routineDay[24] : routineDay[hourObj.hour]
-                      }
-                      addTask={addTaskCompleted}
-                      deleteTask={deleteTaskCompleted}
-                      routineTaskCompleted={routineTaskCompleted}
-                    />
-                  ))}
-              </div>
+          <div>
+            <button onClick={openCreateRutine}>createRoutine new</button>
+            <button onClick={finallyDay}>finallyDay</button>
+            <h1>{getPercentageDay()}%</h1>
+            <h1>{stages}</h1>
+            <div className="hours">
+              {routineDay &&
+                dayHours().map((hourObj, index) => (
+                  <Routine
+                    key={index}
+                    hour={hourObj.hour}
+                    period={hourObj.period}
+                    style={hourObj.style}
+                    routine={
+                      routineDay === 0
+                        ? routineDay[24]
+                        : routineDay[hourObj.hour]
+                    }
+                    addTask={addTaskCompleted}
+                    deleteTask={deleteTaskCompleted}
+                    routineTaskCompleted={routineTaskCompleted}
+                  />
+                ))}
             </div>
-          ) : (
-            <CreateRoutine chanceDay={chanceDay} />
-          )
+          </div>
         ) : (
           <Loading />
         )}

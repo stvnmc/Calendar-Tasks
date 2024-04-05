@@ -107,13 +107,13 @@ a {
   grid-column: 4;
 }
 
-
-
-
-
 /* create routine */
 
-
-.selected{
+.selected {
   background-color: #ac5656;
+}
+
+/* minicalenraio  */
+.today {
+  background-color: rgb(130, 150, 168);
 }

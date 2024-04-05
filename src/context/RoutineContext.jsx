@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Hours } from "../components/infor/MonthsDays";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
@@ -27,22 +27,45 @@ export const RoutineProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [weekend, setWeekend] = useState([]);
   const [openSFD, setOpenSFD] = useState(false);
-  const [OpenCreateRutine, setOpenCreateRutine] = useState(true);
+
   const [routineDay, setRoutineDay] = useState([]);
   const [RoutineWorkday, setRoutineWorkday] = useState(Hours());
   const [RoutineWeekend, setRoutineWeekend] = useState(Hours());
   const [currentValueInputText, setCurrentValueInputText] = useState("");
-  const [stages, setStages] = useState("Workday");
+  const [stages, setStages] = useState("");
+  const [currentDay, setCurrentDay] = useState([]);
+
+  useEffect(() => {
+    console.log(routineDay);
+  }, [routineDay]);
 
   // Firebase routine
   async function addRoutine() {
+    console.log(RoutineWeekend);
+    console.log(RoutineWorkday);
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
-    await createCollection(collectionRef);
+    return await createCollection(collectionRef);
   }
 
-  async function getRoutine(day, month) {
+  async function getWeekend() {
+    const collectionName = user + "rutine";
+    const collectionRef = collection(db, collectionName);
+
+    // get days of weekend
+    const docRefDaysOfWeekend = doc(collectionRef, "DaysOfWeekend");
+    const docSnapshot = await getDoc(docRefDaysOfWeekend);
+    const DaysOfWeekend = docSnapshot.data();
+
+    if (DaysOfWeekend) {
+      setWeekend(DaysOfWeekend.weekend);
+    } else {
+      setWeekend([]);
+    }
+  }
+
+  async function getRoutine(month, day, year) {
     if (!user || typeof user !== "string") {
       return;
     }
@@ -52,23 +75,21 @@ export const RoutineProvider = ({ children }) => {
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
-    // get days of weekend
-    const docRefDaysOfWeekend = doc(collectionRef, "DaysOfWeekend");
-    const docSnapshot = await getDoc(docRefDaysOfWeekend);
-    const DaysOfWeekend = docSnapshot.data();
-    if (DaysOfWeekend) {
-      setWeekend(DaysOfWeekend.weekend);
+    let firstDayOfMonth =
+      new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).getDay() + 1;
+
+    if (firstDayOfMonth === 0) {
+      firstDayOfMonth = 6;
     } else {
-      setWeekend([]);
+      firstDayOfMonth--;
     }
 
-    const calendar = await getInfoCalendar(day, month);
+    // Searching if the day exists in the weekends to determine if it's a workday or weekend
 
-    const currentDay = calendar.find((d) => d.type === "current");
+    await getWeekend();
 
-    const isWeekend = weekend.includes(currentDay.dayOfWeek);
+    const isWeekend = weekend.includes(firstDayOfMonth);
 
-    // add all routine
     try {
       let routineData;
       if (isWeekend) {
@@ -82,11 +103,12 @@ export const RoutineProvider = ({ children }) => {
         routineData = docSnapshot.data();
         setStages("workday");
       }
-      console.log(routineData);
+
       setRoutineDay(routineData);
 
       // loging
       setLoading(true);
+      return;
     } catch (error) {
       console.error("Error al obtener la rutina:", error);
     }
@@ -126,26 +148,46 @@ export const RoutineProvider = ({ children }) => {
   }
 
   async function getRoutineDayTasks(month, day, year) {
-    try {
-      const collectionName = user + "rutine";
-      const collectionRef = collection(db, collectionName);
-      const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
+    setLoading(false);
 
-      const docSnapshot = await getDoc(docRefRoutineDayPorcentaje);
-      if (docSnapshot.exists()) {
-        const data = docSnapshot.data();
-        const dayInfo = data[`${month}/${day}/${year}`];
-        if (dayInfo && dayInfo.stages) {
-          setStages(dayInfo.stages);
-          return dayInfo;
-        } else {
-          console.log(
-            "La información de la rutina para el día especificado no tiene la estructura esperada."
+    const collectionName = user + "rutine";
+    const collectionRef = collection(db, collectionName);
+    const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
+
+    const docSnapshot = await getDoc(docRefRoutineDayPorcentaje);
+
+    await getWeekend();
+
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+      const dayInfo = await data[`${month}/${day}/${year}`];
+      if (dayInfo) {
+        setStages(dayInfo.stages);
+        if (dayInfo.stages === "worday") {
+          const combinedTasks = dayInfo.TaskCompleted.concat(
+            dayInfo.TaskCompleted
           );
+          combinedTasks.sort((a, b) =>
+            a.hour === 24 ? -1 : b.hour === 24 ? 1 : a.hour - b.hour
+          );
+
+          setRoutineDay(combinedTasks);
+        } else {
+          const combinedTasks = dayInfo.TaskIncomplete.concat(
+            dayInfo.TaskCompleted
+          );
+          combinedTasks.sort((a, b) => a.hour - b.hour);
+
+          setRoutineDay(combinedTasks);
         }
+        return dayInfo;
+      } else {
+        console.log("no existe");
+        return null;
       }
-    } catch (error) {
-      console.error("Error al obtener la información de la rutina:", error);
+    } else {
+      setLoading(true);
+      return null; // Devuelve null si el documento no existe
     }
   }
 
@@ -165,6 +207,9 @@ export const RoutineProvider = ({ children }) => {
   }
 
   async function createCollection(collectionRef) {
+    console.log(RoutineWeekend);
+    console.log(RoutineWorkday);
+    setLoading(false);
     try {
       const docRefWeekend = doc(collectionRef, "weekend");
 
@@ -192,6 +237,8 @@ export const RoutineProvider = ({ children }) => {
     } catch (error) {
       console.error("Error al crear la colección:", error);
       return false;
+    } finally {
+      setLoading(true);
     }
   }
 
@@ -201,17 +248,11 @@ export const RoutineProvider = ({ children }) => {
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
-    const collectionExistsResult = await collectionExists(collectionRef);
-    if (collectionExistsResult) {
-      setOpenCreateRutine(true);
-    } else {
-      setOpenCreateRutine(false);
-    }
+    await collectionExists(collectionRef);
   };
 
   const createRoutine = () => {
     setOpenSFD(true);
-    console.log(weekend);
   };
 
   const addInfoRoutine = (hour, text) => {
@@ -242,6 +283,7 @@ export const RoutineProvider = ({ children }) => {
         loading,
         setLoading,
         routineDay,
+        setRoutineDay,
         rutine,
         createRoutine,
         setWeekend,
@@ -258,11 +300,11 @@ export const RoutineProvider = ({ children }) => {
         setStages,
         stages,
         setOpenSFD,
-        OpenCreateRutine,
-        setOpenCreateRutine,
         addRoutine,
         addRoutineDayTasks,
         getRoutineDayTasks,
+        setCurrentDay,
+        currentDay,
       }}
     >
       {children}

@@ -1,52 +1,45 @@
-export const getInfoCalendar = async (id1, id2) => {
-  try {
-    const formerPromise = getDaysMonth("former", id1, id2);
-    const currentPromise = getDaysMonth("current", id1, id2);
+export const getInfoCalendar = async (month, day) => {
+  const formerPromise = getDaysMonth("former", month, day);
+  const currentPromise = getDaysMonth("current", month, day);
 
-    // Obtener la información de los meses de forma asincrónica
-    const [former, current] = await Promise.all([
-      formerPromise,
-      currentPromise,
-    ]);
+  // Obtener la información de los meses de forma asincrónica
+  const [former, current] = await Promise.all([formerPromise, currentPromise]);
 
-    let next;
+  let next;
 
-    // Determinar si se necesita obtener el próximo mes
-    if (current.length + former.length > 34) {
-      next = getDaysMonth("next", id1, id2).reverse().slice(7).reverse();
-    } else {
-      next = getDaysMonth("next", id1, id2);
-    }
-
-    // Combinar la información de los tres meses
-    const calendarInfo = [...former, ...current, ...next];
-    return calendarInfo;
-  } catch (error) {
-    console.error("Error al obtener el calendario:", error);
+  // Determinar si se necesita obtener el próximo mes
+  if (current.length + former.length > 34) {
+    next = getDaysMonth("next", month, day).reverse().slice(7).reverse();
+  } else {
+    next = getDaysMonth("next", month, day);
   }
+
+  // Combinar la información de los tres meses
+  const calendarInfo = [...former, ...current, ...next];
+  return calendarInfo;
 };
 
-const getDaysMonth = (type, id1, id2) => {
+const getDaysMonth = (type, month, day) => {
   const idAdjustment = (e) => {
     if (e === "date") {
       return type === "next"
-        ? parseInt(id1) + 1
+        ? parseInt(month) + 1
         : type === "former"
-        ? id1 - 1
-        : id1;
+        ? month - 1
+        : month;
     }
     if (e === "day") {
       return type === "next"
-        ? id1
+        ? month
         : type === "former"
-        ? parseInt(id1) - 2
-        : id1 - 1;
+        ? parseInt(month) - 2
+        : month - 1;
     }
   };
 
-  const daysInMonth = new Date(id2, idAdjustment("date"), 0).getDate();
-  const firstDayOfMonth = new Date(id2, idAdjustment("day"), 1).getDay();
-
+  const daysInMonth = new Date(day, idAdjustment("date"), 0).getDate();
+  const firstDayOfMonth = new Date(day, idAdjustment("day"), 1).getDay();
+  
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => ({
     type: type,
     dayNumber: i + 1,
