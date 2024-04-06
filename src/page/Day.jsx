@@ -13,8 +13,6 @@ const Day = () => {
   const { id1, id2, id3 } = useParams();
   const navigate = useNavigate();
   const [infoCalendar, setinfoCalendar] = useState([]);
-  const [routineTaskCompleted, setRoutineTaskCompleted] = useState([]);
-  const [routineTaskIncomplete, setRoutineTaskIncomplete] = useState([]);
 
   // context
   const {
@@ -35,13 +33,8 @@ const Day = () => {
 
   useEffect(() => {
     getCalendar();
-    rutine();
     getTask();
   }, [id1, id2, user]);
-
-  useEffect(() => {
-    addTaskIncomplete();
-  }, [routineDay]);
 
   const getCalendar = async () => {
     const calendarInfo = await getInfoCalendar(id1, id3);
@@ -75,8 +68,6 @@ const Day = () => {
       newYear++;
     }
 
-    setRoutineTaskCompleted([]);
-    setRoutineTaskIncomplete([]);
     const nuevaFecha = `/m/${newMonth}/d/${newDay}/y/${newYear}`;
     navigate(nuevaFecha);
   };
@@ -93,36 +84,33 @@ const Day = () => {
   const finallyDay = async () => {
     chanceDay(1);
     const porcentaje = getPercentageDay();
-    addRoutineDayTasks(
-      id1,
-      id2,
-      id3,
-      porcentaje,
-      routineTaskCompleted,
-      routineTaskIncomplete,
-      stages
-    );
-
-    setRoutineTaskCompleted([]);
-    setRoutineTaskIncomplete([]);
+    addRoutineDayTasks(id1, id2, id3, porcentaje);
   };
 
   // Routine
 
   const getTask = async () => {
-    console.log("routineData");
-    setLoading(false);
-
+    if (!user || typeof user !== "string") {
+      return;
+    }
     try {
-      const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
-      console.log(routineDayTasks);
-      if (routineDayTasks) {
-        setRoutineTaskCompleted(routineDayTasks?.TaskCompleted);
-        setRoutineTaskIncomplete(routineDayTasks?.TaskIncomplete);
-        console.log(routineDayTasks.TaskIncomplete);
-      } else {
-        await getRoutine(id1, id2, id3);
+      setLoading(false);
+
+      const res = await rutine();
+
+      if (!res) {
+        setCurrentDay({ id1, id2, id3 });
+        const nuevaFecha = `/create-routine`;
+        navigate(nuevaFecha);
+        return;
       }
+
+      const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
+
+      if (routineDayTasks) return;
+
+      const resTask = await getRoutine(id1, id2, id3);
+      setRoutineDay(resTask);
     } catch (error) {
       console.error("Error al obtener las tareas de rutina del día:", error);
     } finally {
@@ -131,61 +119,44 @@ const Day = () => {
   };
 
   const addTaskCompleted = (hour) => {
+    // Actualizamos la tarea en la hora correcta
     let updatedRoutineDay = { ...routineDay };
 
-    // Verificamos si la hora que queremos actualizar existe en el estado
-    if (updatedRoutineDay.hasOwnProperty(hour)) {
-      // Actualizamos la propiedad 'completed' del objeto de esa hora
-      updatedRoutineDay[hour] = {
-        ...updatedRoutineDay[hour],
-        completed: true,
-      };
-
-      setRoutineDay(updatedRoutineDay);
-    }
+    updatedRoutineDay[hour] = {
+      ...updatedRoutineDay[hour],
+      completed: true,
+    };
+    console.log(updatedRoutineDay);
+    setRoutineDay(updatedRoutineDay);
   };
 
   const deleteTaskCompleted = (hour) => {
+    //  Eliminarmos el completado en la tarea en la hora correcta
     let updatedRoutineDay = { ...routineDay };
 
-    // Verificamos si la hora que queremos actualizar existe en el estado
-    if (updatedRoutineDay.hasOwnProperty(hour)) {
-      // Actualizamos la propiedad 'completed' del objeto de esa hora
-      updatedRoutineDay[hour] = {
-        ...updatedRoutineDay[hour],
-        completed: false,
-      };
+    updatedRoutineDay[hour] = {
+      ...updatedRoutineDay[hour],
+      completed: false,
+    };
 
-      setRoutineDay(updatedRoutineDay);
-    }
-  };
-
-  const addTaskIncomplete = () => {
-    if (!routineDay || typeof routineDay !== "object") return;
-
-    for (const item of Object.values(routineDay)) {
-      if (item.task) {
-        setRoutineTaskIncomplete((prev) => [
-          ...prev,
-          { hour: item.hour, task: item.task },
-        ]);
-      }
-    }
+    setRoutineDay(updatedRoutineDay);
   };
 
   const getPercentageDay = () => {
-    let count = 0;
+    let countTask = 0;
+    let countTaskComplet = 0;
 
     for (const hour in routineDay) {
-      if (routineDay[hour].task) {
-        count++;
+      if (routineDay[hour].task !== "") {
+        countTask++;
+        if (routineDay[hour].completed === true) {
+          countTaskComplet++;
+        }
       }
     }
 
-    if (count !== 0) {
-      const porcentaje = Math.round(
-        (routineTaskCompleted.length / count) * 100
-      );
+    if (countTask !== 0) {
+      const porcentaje = Math.round((countTaskComplet / countTask) * 100);
 
       return porcentaje;
     } else {
@@ -238,23 +209,19 @@ const Day = () => {
             <h1>{getPercentageDay()}%</h1>
             <h1>{stages}</h1>
             <div className="hours">
-              {routineDay &&
-                dayHours().map((hourObj, index) => (
-                  <Routine
-                    key={index}
-                    hour={hourObj.hour}
-                    period={hourObj.period}
-                    style={hourObj.style}
-                    routine={
-                      routineDay === 0
-                        ? routineDay[24]
-                        : routineDay[hourObj.hour]
-                    }
-                    addTask={addTaskCompleted}
-                    deleteTask={deleteTaskCompleted}
-                    routineTaskCompleted={routineTaskCompleted}
-                  />
-                ))}
+              {dayHours().map((hourObj, index) => (
+                <Routine
+                  key={index}
+                  hour={hourObj.hour}
+                  period={hourObj.period}
+                  style={hourObj.style}
+                  routine={
+                    routineDay === 0 ? routineDay[24] : routineDay[hourObj.hour]
+                  }
+                  addTask={addTaskCompleted}
+                  deleteTask={deleteTaskCompleted}
+                />
+              ))}
             </div>
           </div>
         ) : (

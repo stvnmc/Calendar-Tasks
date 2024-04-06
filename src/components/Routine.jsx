@@ -1,25 +1,12 @@
 import React, { useState } from "react";
 
-const Routine = ({
-  hour,
-  period,
-  style,
-  routine,
-  addTask,
-  deleteTask,
-  routineTaskCompleted,
-}) => {
-  const [completTask, setCompletTask] = useState(true);
+const Routine = ({ hour, period, style, routine, addTask, deleteTask }) => {
+  const { task, completed } = routine;
 
-  const isTaskCompleted = routineTaskCompleted.some(
-    (item) => item.hour === hour
-  );
-
-  useState(() => {
-    setCompletTask(!isTaskCompleted);
-  }, [isTaskCompleted]);
+  const [completTask, setCompletTask] = useState(completed);
 
   const chanceStateTask = () => {
+    console.log(completTask)
     if (completTask) {
       addTask(hour);
     } else {
@@ -31,9 +18,9 @@ const Routine = ({
   return (
     <div className={`hour ${period}`} style={style}>
       <h1>{hour}</h1>
-      {routine?.task ? completTask ? <h2>{routine.task}</h2> : "complet" : ""}
+      {task ? completed ? "complet" : <h2>{task}</h2> : ""}
 
-      {routine?.task && <button onClick={chanceStateTask}>complet</button>}
+      {task && <button onClick={chanceStateTask}>complet</button>}
     </div>
   );
 };

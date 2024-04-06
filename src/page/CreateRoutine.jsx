@@ -22,7 +22,6 @@ const CreateRoutine = () => {
     addInfoRoutine,
     currentValueInputText,
     setCurrentValueInputText,
-    setOpenCreateRutine,
     setStages,
     stages,
     addRoutine,
@@ -43,8 +42,6 @@ const CreateRoutine = () => {
 
   const nextStage = () => {
     if (stages === "weekend") {
-      setOpenCreateRutine(true);
-
       const res = addRoutine();
 
       if (res) {
@@ -67,10 +64,8 @@ const CreateRoutine = () => {
   };
 
   const addWeekedDay = (i) => {
-    console.log(RoutineWeekend);
-    console.log(RoutineWorkday);
-    setRoutineWorkday(Hours());
-    setRoutineWeekend(Hours());
+    setRoutineWorkday([]);
+    setRoutineWeekend([]);
     if (!weekend.includes(i)) {
       setWeekend((prevFreeDays) => [...prevFreeDays, i]);
     } else {

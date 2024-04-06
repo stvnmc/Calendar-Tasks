@@ -1,9 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Hours } from "../components/infor/MonthsDays";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useUser } from "./userContext";
-import { getInfoCalendar } from "../components/FunctionGetCalendar";
 
 export const RoutineContext = createContext();
 
@@ -35,14 +41,8 @@ export const RoutineProvider = ({ children }) => {
   const [stages, setStages] = useState("");
   const [currentDay, setCurrentDay] = useState([]);
 
-  useEffect(() => {
-    console.log(routineDay);
-  }, [routineDay]);
-
   // Firebase routine
   async function addRoutine() {
-    console.log(RoutineWeekend);
-    console.log(RoutineWorkday);
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
@@ -63,16 +63,14 @@ export const RoutineProvider = ({ children }) => {
     } else {
       setWeekend([]);
     }
+    return DaysOfWeekend;
   }
 
   async function getRoutine(month, day, year) {
-    if (!user || typeof user !== "string") {
-      return;
-    }
-    setLoading(false);
     // collectionRef
 
     const collectionName = user + "rutine";
+
     const collectionRef = collection(db, collectionName);
 
     let firstDayOfMonth =
@@ -86,9 +84,9 @@ export const RoutineProvider = ({ children }) => {
 
     // Searching if the day exists in the weekends to determine if it's a workday or weekend
 
-    await getWeekend();
+    const res = await getWeekend();
 
-    const isWeekend = weekend.includes(firstDayOfMonth);
+    const isWeekend = res.weekend.includes(firstDayOfMonth);
 
     try {
       let routineData;
@@ -97,18 +95,14 @@ export const RoutineProvider = ({ children }) => {
         const docSnapshot = await getDoc(docRefWeekend);
         routineData = docSnapshot.data();
         setStages("weekend");
+        return routineData;
       } else {
         const docRefWorkday = doc(collectionRef, "workday");
         const docSnapshot = await getDoc(docRefWorkday);
         routineData = docSnapshot.data();
         setStages("workday");
+        return routineData;
       }
-
-      setRoutineDay(routineData);
-
-      // loging
-      setLoading(true);
-      return;
     } catch (error) {
       console.error("Error al obtener la rutina:", error);
     }
@@ -116,24 +110,16 @@ export const RoutineProvider = ({ children }) => {
 
   // Firebase routine day task - porcentaje
 
-  async function addRoutineDayTasks(
-    month,
-    day,
-    year,
-    porcentaje,
-    TaskCompleted,
-    TaskIncomplete,
-    stages
-  ) {
+  async function addRoutineDayTasks(month, day, year, porcentaje) {
     try {
       const collectionName = user + "rutine";
       const collectionRef = collection(db, collectionName);
+
       const DaynPorcentaje = {
         [`${month}/${day}/${year}`]: {
           porcentaje,
           stages,
-          TaskCompleted,
-          TaskIncomplete,
+          routineDay,
         },
       };
 
@@ -148,47 +134,29 @@ export const RoutineProvider = ({ children }) => {
   }
 
   async function getRoutineDayTasks(month, day, year) {
-    setLoading(false);
+    try {
+      setLoading(false);
 
-    const collectionName = user + "rutine";
-    const collectionRef = collection(db, collectionName);
-    const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
+      const collectionName = user + "rutine";
+      const collectionRef = collection(db, collectionName);
 
-    const docSnapshot = await getDoc(docRefRoutineDayPorcentaje);
+      const docRefRoutineDayPorcentaje = doc(collectionRef, "RoutineDay");
 
-    await getWeekend();
+      const docSnapshot = await getDoc(docRefRoutineDayPorcentaje);
 
-    if (docSnapshot.exists()) {
+      if (!docSnapshot.exists()) return false;
+      
       const data = docSnapshot.data();
+
       const dayInfo = await data[`${month}/${day}/${year}`];
-      if (dayInfo) {
-        setStages(dayInfo.stages);
-        if (dayInfo.stages === "worday") {
-          const combinedTasks = dayInfo.TaskCompleted.concat(
-            dayInfo.TaskCompleted
-          );
-          combinedTasks.sort((a, b) =>
-            a.hour === 24 ? -1 : b.hour === 24 ? 1 : a.hour - b.hour
-          );
 
-          setRoutineDay(combinedTasks);
-        } else {
-          const combinedTasks = dayInfo.TaskIncomplete.concat(
-            dayInfo.TaskCompleted
-          );
-          combinedTasks.sort((a, b) => a.hour - b.hour);
+      if (!dayInfo) return false;
 
-          setRoutineDay(combinedTasks);
-        }
-        return dayInfo;
-      } else {
-        console.log("no existe");
-        return null;
-      }
-    } else {
-      setLoading(true);
-      return null; // Devuelve null si el documento no existe
-    }
+      setStages(dayInfo.stages);
+      setRoutineDay(dayInfo.routineDay);
+      return true;
+
+    } catch (error) {}
   }
 
   // create collection
@@ -207,31 +175,36 @@ export const RoutineProvider = ({ children }) => {
   }
 
   async function createCollection(collectionRef) {
-    console.log(RoutineWeekend);
-    console.log(RoutineWorkday);
     setLoading(false);
     try {
+      const batch = writeBatch(db);
+
+      // Combine RoutineWeekend into a single object
+      const weekendData = {};
+      RoutineWeekend.forEach((item) => {
+        weekendData[item.hour] = item;
+      });
+
+      // Combine RoutineWorkday into a single object
+      const workdayData = {};
+      RoutineWorkday.forEach((item) => {
+        workdayData[item.hour] = item;
+      });
+
+      // Update weekend collection with combined data
       const docRefWeekend = doc(collectionRef, "weekend");
+      batch.set(docRefWeekend, weekendData, { merge: true });
 
-      for (const item of RoutineWeekend) {
-        const docData = {
-          [item.hour]: item,
-        };
-        await setDoc(docRefWeekend, docData, { merge: true });
-      }
-
+      // Update workday collection with combined data
       const docRefWorkday = doc(collectionRef, "workday");
+      batch.set(docRefWorkday, workdayData, { merge: true });
 
-      for (const item of RoutineWorkday) {
-        const docData = {
-          [item.hour]: item,
-        };
-        await setDoc(docRefWorkday, docData, { merge: true });
-      }
-
+      // Update DaysOfWeekend collection with 'weekend' data
       const docRefDaysOfWeekend = doc(collectionRef, "DaysOfWeekend");
+      batch.set(docRefDaysOfWeekend, { weekend }, { merge: true });
 
-      await setDoc(docRefDaysOfWeekend, { weekend }, { merge: true });
+      // Commit the batched writes
+      await batch.commit();
 
       return true;
     } catch (error) {
@@ -248,7 +221,8 @@ export const RoutineProvider = ({ children }) => {
     const collectionName = user + "rutine";
     const collectionRef = collection(db, collectionName);
 
-    await collectionExists(collectionRef);
+    const res = await collectionExists(collectionRef);
+    return res;
   };
 
   const createRoutine = () => {
