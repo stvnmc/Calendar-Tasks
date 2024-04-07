@@ -1,26 +1,49 @@
 import React, { useState } from "react";
+//icons
+import { CiBookmarkPlus } from "react-icons/ci";
+import { CiBookmarkCheck } from "react-icons/ci";
 
-const Routine = ({ hour, period, style, routine, addTask, deleteTask }) => {
+const Routine = ({
+  hour,
+  period,
+  style,
+  routine,
+  setNewRoutineDay,
+  dayExists,
+}) => {
   const { task, completed } = routine;
 
   const [completTask, setCompletTask] = useState(completed);
 
   const chanceStateTask = () => {
-    console.log(completTask)
     if (completTask) {
-      addTask(hour);
+      setNewRoutineDay(hour, false);
     } else {
-      deleteTask(hour);
+      setNewRoutineDay(hour, true);
     }
     setCompletTask(!completTask);
+  };
+
+  const renderTaskSection = () => {
+    if (!task) return null;
+
+    return (
+      <div>
+        <div>{completTask ? <CiBookmarkCheck /> : <CiBookmarkPlus />}</div>
+        <h2>{task}</h2>
+        {dayExists && (
+          <button onClick={chanceStateTask}>
+            {completTask ? "incomplet" : "complet"}
+          </button>
+        )}
+      </div>
+    );
   };
 
   return (
     <div className={`hour ${period}`} style={style}>
       <h1>{hour}</h1>
-      {task ? completed ? "complet" : <h2>{task}</h2> : ""}
-
-      {task && <button onClick={chanceStateTask}>complet</button>}
+      {renderTaskSection()}
     </div>
   );
 };

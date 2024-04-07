@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
 import { dayHours, dayNames } from "../components/infor/MonthsDays";
 
@@ -9,10 +8,15 @@ import { useUser } from "../context/userContext";
 import { Loading } from "../components/Loading";
 import Routine from "../components/Routine";
 
+// icons
+import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+
 const Day = () => {
   const { id1, id2, id3 } = useParams();
   const navigate = useNavigate();
   const [infoCalendar, setinfoCalendar] = useState([]);
+  const [percentag, setPercentag] = useState(0);
+  const [dayExists, setDayExists] = useState(true);
 
   // context
   const {
@@ -35,6 +39,10 @@ const Day = () => {
     getCalendar();
     getTask();
   }, [id1, id2, user]);
+
+  useEffect(() => {
+    getPercentageDay();
+  }, [routineDay]);
 
   const getCalendar = async () => {
     const calendarInfo = await getInfoCalendar(id1, id3);
@@ -75,7 +83,6 @@ const Day = () => {
   const openCreateRutine = () => {
     setStages("workday");
     setOpenSFD(false);
-    console.log(id1, id2, id3);
     setCurrentDay({ id1, id2, id3 });
     const nuevaFecha = `/create-routine`;
     navigate(nuevaFecha);
@@ -83,8 +90,7 @@ const Day = () => {
 
   const finallyDay = async () => {
     chanceDay(1);
-    const porcentaje = getPercentageDay();
-    addRoutineDayTasks(id1, id2, id3, porcentaje);
+    addRoutineDayTasks(id1, id2, id3, percentag);
   };
 
   // Routine
@@ -96,6 +102,7 @@ const Day = () => {
     try {
       setLoading(false);
 
+      //  si no existe rutine crea una para el cliente
       const res = await rutine();
 
       if (!res) {
@@ -105,12 +112,18 @@ const Day = () => {
         return;
       }
 
+      //  verifica si el dia esta registrado
       const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
 
-      if (routineDayTasks) return;
+      if (routineDayTasks) {
+        setDayExists(false);
+        return;
+      }
 
+      //  agrega la rutina guardada
       const resTask = await getRoutine(id1, id2, id3);
       setRoutineDay(resTask);
+      setDayExists(true);
     } catch (error) {
       console.error("Error al obtener las tareas de rutina del día:", error);
     } finally {
@@ -118,27 +131,12 @@ const Day = () => {
     }
   };
 
-  const addTaskCompleted = (hour) => {
-    // Actualizamos la tarea en la hora correcta
+  const setNewRoutineDay = (hour, completed) => {
     let updatedRoutineDay = { ...routineDay };
-
     updatedRoutineDay[hour] = {
       ...updatedRoutineDay[hour],
-      completed: true,
+      completed: completed,
     };
-    console.log(updatedRoutineDay);
-    setRoutineDay(updatedRoutineDay);
-  };
-
-  const deleteTaskCompleted = (hour) => {
-    //  Eliminarmos el completado en la tarea en la hora correcta
-    let updatedRoutineDay = { ...routineDay };
-
-    updatedRoutineDay[hour] = {
-      ...updatedRoutineDay[hour],
-      completed: false,
-    };
-
     setRoutineDay(updatedRoutineDay);
   };
 
@@ -158,9 +156,9 @@ const Day = () => {
     if (countTask !== 0) {
       const porcentaje = Math.round((countTaskComplet / countTask) * 100);
 
-      return porcentaje;
+      setPercentag(porcentaje);
     } else {
-      return 0;
+      setPercentag(0);
     }
   };
 
@@ -205,8 +203,8 @@ const Day = () => {
         {loading ? (
           <div>
             <button onClick={openCreateRutine}>createRoutine new</button>
-            <button onClick={finallyDay}>finallyDay</button>
-            <h1>{getPercentageDay()}%</h1>
+            {dayExists && <button onClick={finallyDay}>finallyDay</button>}
+            <h1>{percentag}%</h1>
             <h1>{stages}</h1>
             <div className="hours">
               {dayHours().map((hourObj, index) => (
@@ -218,8 +216,8 @@ const Day = () => {
                   routine={
                     routineDay === 0 ? routineDay[24] : routineDay[hourObj.hour]
                   }
-                  addTask={addTaskCompleted}
-                  deleteTask={deleteTaskCompleted}
+                  setNewRoutineDay={setNewRoutineDay}
+                  dayExists={dayExists}
                 />
               ))}
             </div>

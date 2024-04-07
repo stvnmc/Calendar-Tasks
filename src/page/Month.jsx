@@ -18,6 +18,7 @@ const Month = () => {
   const [infoCalendar, setinfoCalendar] = useState([]);
 
   const { getInfoTaskDay } = useMonthData();
+
   const { user } = useUser();
 
   useEffect(() => {

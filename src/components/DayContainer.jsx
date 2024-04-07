@@ -9,7 +9,7 @@ import { FaList } from "react-icons/fa6";
 import { useMonthData } from "../context/MonthDataContext";
 import { Loading } from "./Loading";
 
-const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
+const DayContainer = ({ dayNumber, dayOfWeek, month, type, year, day }) => {
   const [createTask, setCreateTask] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [infoTask, setInfoTask] = useState([]);
@@ -28,7 +28,8 @@ const DayContainer = ({ dayNumber, dayOfWeek, month, type, year }) => {
 
   useEffect(() => {
     setInfoTask([]);
-  }, []);
+    console.log("chacn")
+  }, [month]);
 
   const goToPageDay = () => {
     console.log(dayNumber);

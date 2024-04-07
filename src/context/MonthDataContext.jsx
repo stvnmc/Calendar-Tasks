@@ -93,7 +93,7 @@ export const MonthDataProvider = ({ children }) => {
 
   function getInfoTaskDay(year, monthNumber) {
     if (!user || typeof user !== "string") {
-      return; 
+      return;
     }
 
     const collectionName = user + year;
@@ -180,6 +180,7 @@ export const MonthDataProvider = ({ children }) => {
         addTaskDay,
         getInfoTaskDay,
         deleteTaskDay,
+        setInfoOfMonth,
       }}
     >
       {children}
