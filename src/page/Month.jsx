@@ -14,16 +14,22 @@ const Month = () => {
   const { id1, id2 } = useParams();
 
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [infoCalendar, setinfoCalendar] = useState([]);
 
-  const { getInfoTaskDay } = useMonthData();
+  const {
+    loading,
+    setLoading,
+    infoOfMonth,
+    getInfoTaskDay,
+    addTaskDay,
+    deleteTaskDay,
+  } = useMonthData();
 
   const { user } = useUser();
 
   useEffect(() => {
     getCalendar();
-    getInfoTaskDay(id2, id1);
+    getInfoTasksClandarar();
   }, [user, id1]);
 
   const getCalendar = async () => {
@@ -55,6 +61,17 @@ const Month = () => {
     } else {
       handleMonthChange(-1);
     }
+  };
+
+  const goToPageDay = (day) => {
+    const nuevaFecha = `/m/${id1}/d/${day}/y/${id2}`;
+    navigate(nuevaFecha);
+  };
+
+  const getInfoTasksClandarar = async () => {
+    setLoading(false);
+    await getInfoTaskDay(id2, id1);
+    setLoading(true);
   };
 
   return (
@@ -92,6 +109,10 @@ const Month = () => {
                 type={type}
                 year={id2}
                 dayOfWeek={dayOfWeek}
+                infoOfMonth={infoOfMonth[dayNumber]}
+                addTaskDay={addTaskDay}
+                deleteTaskDay={deleteTaskDay}
+                goToPageDay={goToPageDay}
               />
             ))}
           </div>

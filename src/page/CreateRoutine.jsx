@@ -3,7 +3,7 @@ import { useRoutine } from "../context/RoutineContext";
 
 // import
 
-import { dayHours, dayNames, Hours } from "../components/infor/MonthsDays";
+import { dayHours, dayNames } from "../components/infor/MonthsDays";
 import InputTextCR from "../components/InputTextCR";
 import { useNavigate } from "react-router-dom";
 

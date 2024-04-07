@@ -145,7 +145,7 @@ export const RoutineProvider = ({ children }) => {
       const docSnapshot = await getDoc(docRefRoutineDayPorcentaje);
 
       if (!docSnapshot.exists()) return false;
-      
+
       const data = docSnapshot.data();
 
       const dayInfo = await data[`${month}/${day}/${year}`];
@@ -155,7 +155,6 @@ export const RoutineProvider = ({ children }) => {
       setStages(dayInfo.stages);
       setRoutineDay(dayInfo.routineDay);
       return true;
-
     } catch (error) {}
   }
 
@@ -226,10 +225,12 @@ export const RoutineProvider = ({ children }) => {
   };
 
   const createRoutine = () => {
+    setStages("workday");
     setOpenSFD(true);
   };
 
   const addInfoRoutine = (hour, text) => {
+    console.log(hour, text);
     if (stages === "workday") {
       setRoutineWorkday((prev) =>
         prev.map((item) => {

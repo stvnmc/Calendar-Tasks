@@ -40,8 +40,7 @@ const InputTextCR = ({
 
   const handleEnterPress = (e) => {
     if (e.key === "Enter") {
-      addInfoRoutine(hourObj.hour, currentValueInputText);
-      setOpenAddTask(false);
+      handleAddTask();
     }
   };
 

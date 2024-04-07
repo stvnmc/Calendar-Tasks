@@ -6,6 +6,7 @@ import {
   setDoc,
   updateDoc,
   collection,
+  writeBatch,
 } from "firebase/firestore";
 
 import { db } from "../firebase/config";
@@ -24,97 +25,61 @@ export const useMonthData = () => {
 };
 
 export const MonthDataProvider = ({ children }) => {
-  const { user } = useUser();
-
+  const [loading, setLoading] = useState(true);
   const [infoOfMonth, setInfoOfMonth] = useState([]);
 
+  const { user } = useUser();
   // firebase
 
-  function addTaskDay(year, monthNumber, day, taskValue) {
-    return new Promise(async (resolve, reject) => {
-      const monthNames = monthsNames[monthNumber - 1];
-      const collectionName = user + year;
-
-      try {
-        const collectionExistsResult = await collectionExists(collectionName);
-        if (collectionExistsResult) {
-          try {
-            const docRef = doc(db, collectionName, monthNames);
-
-            const docSnapshot = await getDoc(docRef);
-            const data = docSnapshot.data();
-
-            if (data.hasOwnProperty(day)) {
-              const arrayActual = data[day];
-              arrayActual.push(taskValue);
-
-              await updateDoc(docRef, {
-                [day]: arrayActual,
-              });
-              resolve(true);
-            } else {
-              await setDoc(docRef, { [day]: [taskValue] }, { merge: true });
-              resolve(true);
-            }
-          } catch (error) {}
-          console.log(error);
-        } else {
-          const res = await createCollection(collectionName);
-
-          if (res) {
-            try {
-              const docRef = doc(db, collectionName, monthNames);
-
-              const docSnapshot = await getDoc(docRef);
-              const data = docSnapshot.data();
-
-              if (data.hasOwnProperty(day)) {
-                const arrayActual = data[day];
-                arrayActual.push(taskValue);
-
-                await updateDoc(docRef, {
-                  [day]: arrayActual,
-                });
-                resolve(true);
-              } else {
-                await setDoc(docRef, { [day]: [taskValue] }, { merge: true });
-                resolve(true);
-              }
-            } catch (error) {}
-            console.log("La colección ya existe.");
-          }
-          console.log(`Se ha creado la colección "${collectionName}".`);
-        }
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
-  function getInfoTaskDay(year, monthNumber) {
+  async function getInfoTaskDay(year, monthNumber) {
     if (!user || typeof user !== "string") {
       return;
     }
+    try {
+      const collectionName = user + year;
 
+      const ress = await collectionExists(collectionName);
+
+      if (!ress) {
+        await createCollection(collectionName);
+        return;
+      }
+      const monthNames = monthsNames[monthNumber - 1];
+
+      const docRef = doc(db, collectionName, monthNames);
+
+      const res = await getDoc(docRef);
+
+      const data = res.data();
+
+      setInfoOfMonth(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function addTaskDay(year, monthNumber, day, taskValue) {
+    const monthNames = monthsNames[monthNumber - 1];
     const collectionName = user + year;
 
-    const monthNames = monthsNames[monthNumber - 1];
-
     const docRef = doc(db, collectionName, monthNames);
+    try {
+      const docSnapshot = await getDoc(docRef);
+      const data = docSnapshot.data();
+      if (data.hasOwnProperty(day)) {
+        const arrayActual = data[day];
+        arrayActual.push(taskValue);
 
-    return getDoc(docRef)
-      .then((doc) => {
-        const data = doc.data();
-        setInfoOfMonth(data);
-      })
-      .catch((error) => {
-        console.error(
-          "Error al obtener el documento del mes",
-          monthNames,
-          ":",
-          error
-        );
-      });
+        await updateDoc(docRef, {
+          [day]: arrayActual,
+        });
+      } else {
+        await setDoc(docRef, { [day]: [taskValue] }, { merge: true });
+      }
+      await getInfoTaskDay(year, monthNumber);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function deleteTaskDay(year, monthNumber, day, index) {
@@ -133,7 +98,8 @@ export const MonthDataProvider = ({ children }) => {
       await updateDoc(docRef, {
         [day]: updatedTasks,
       });
-      return true; // Indicar que se eliminó la tarea correctamente
+
+      await getInfoTaskDay(year, monthNumber);
     } catch (error) {
       console.error("Error al eliminar la tarea:", error);
     }
@@ -157,15 +123,14 @@ export const MonthDataProvider = ({ children }) => {
   async function createCollection(collectionName) {
     try {
       const collectionRef = collection(db, collectionName);
+      const batch = writeBatch(db);
 
       for (const monthName in months) {
         const docRef = doc(collectionRef, monthName);
-        try {
-          await setDoc(docRef, months[monthName]);
-        } catch (error) {
-          console.error("Error al crear la colección:", error);
-        }
+        batch.set(docRef, months[monthName]);
       }
+
+      await batch.commit();
       return true;
     } catch (error) {
       console.error("Error al crear la colección:", error);
@@ -176,6 +141,8 @@ export const MonthDataProvider = ({ children }) => {
   return (
     <MonthDataContext.Provider
       value={{
+        loading,
+        setLoading,
         infoOfMonth,
         addTaskDay,
         getInfoTaskDay,
