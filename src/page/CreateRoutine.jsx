@@ -3,7 +3,7 @@ import { useRoutine } from "../context/RoutineContext";
 
 // import
 
-import { dayHours, dayNames } from "../components/infor/MonthsDays";
+import { dayHours, dayNames, Hours } from "../components/infor/MonthsDays";
 import InputTextCR from "../components/InputTextCR";
 import { useNavigate } from "react-router-dom";
 
@@ -64,8 +64,8 @@ const CreateRoutine = () => {
   };
 
   const addWeekedDay = (i) => {
-    setRoutineWorkday([]);
-    setRoutineWeekend([]);
+    setRoutineWorkday(Hours());
+    setRoutineWeekend(Hours());
     if (!weekend.includes(i)) {
       setWeekend((prevFreeDays) => [...prevFreeDays, i]);
     } else {

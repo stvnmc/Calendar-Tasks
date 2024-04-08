@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useUser } from "../context/userContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -17,20 +17,22 @@ const LoginPage = () => {
   }, [isAuthenticated]);
 
   return (
-    <div>
-      <h1>{errors}</h1>
+    <div className="login-register">
+      <div className="main-container">
+        <h1>{errors}</h1>
 
-      <form onSubmit={login}>
-        <input type="email" placeholder="Email" id="email" />
+        <form onSubmit={login}>
+          <input type="email" placeholder="Email" id="email" />
 
-        <input type="password" placeholder="Password" id="password" />
+          <input type="password" placeholder="Password" id="password" />
 
-        <button>Login</button>
-      </form>
+          <button>Login</button>
+        </form>
 
-      <p>
-        Don't have an account? <Link to="/register">Sign Up</Link>
-      </p>
+        <p>
+          Don't have an account? <Link to="/register">Sign Up</Link>
+        </p>
+      </div>
     </div>
   );
 };

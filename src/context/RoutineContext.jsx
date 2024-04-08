@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { Hours } from "../components/infor/MonthsDays";
 import {
   collection,
@@ -153,6 +153,7 @@ export const RoutineProvider = ({ children }) => {
       if (!dayInfo) return false;
 
       setStages(dayInfo.stages);
+
       setRoutineDay(dayInfo.routineDay);
       return true;
     } catch (error) {}
@@ -230,7 +231,6 @@ export const RoutineProvider = ({ children }) => {
   };
 
   const addInfoRoutine = (hour, text) => {
-    console.log(hour, text);
     if (stages === "workday") {
       setRoutineWorkday((prev) =>
         prev.map((item) => {

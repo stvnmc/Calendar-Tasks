@@ -11,9 +11,7 @@ const Routine = ({
   setNewRoutineDay,
   dayExists,
 }) => {
-  const { task, completed } = routine;
-
-  const [completTask, setCompletTask] = useState(completed);
+  const [completTask, setCompletTask] = useState(routine?.completed);
 
   const chanceStateTask = () => {
     if (completTask) {
@@ -25,12 +23,12 @@ const Routine = ({
   };
 
   const renderTaskSection = () => {
-    if (!task) return null;
+    if (!routine?.task) return null;
 
     return (
       <div>
         <div>{completTask ? <CiBookmarkCheck /> : <CiBookmarkPlus />}</div>
-        <h2>{task}</h2>
+        <h2>{routine?.task}</h2>
         {dayExists && (
           <button onClick={chanceStateTask}>
             {completTask ? "incomplet" : "complet"}

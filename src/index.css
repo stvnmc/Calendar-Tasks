@@ -12,6 +12,7 @@
 }
 
 body {
+  background-color: #070707e5;
 }
 
 a {
@@ -23,7 +24,27 @@ a {
 .container {
   padding: 1rem;
 }
-.containers {
+
+/* //////////////// login and register//////////////////////////////////// */
+
+.login-register {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  background: #ccbfbf;
+  width: 400px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+}
+.main-container form {
+  display: flex;
+  flex-direction: column;
 }
 
 /* month */
