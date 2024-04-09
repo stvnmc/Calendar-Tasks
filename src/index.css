@@ -1,14 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:wght@100;300;500&display=swap");
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Raleway", sans-serif;
   color-scheme: light dark;
 
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(20, 19, 19, 0.87);
   background-color: #242424;
 }
 
 * {
   padding: 0;
   margin: 0;
+}
+
+input:focus,
+button:focus {
+  outline: none; /* Elimina el contorno al enfocar */
 }
 
 body {
@@ -25,6 +32,12 @@ a {
   padding: 1rem;
 }
 
+/* ////////////////  clases para predeterminadas  ////////////////////// */
+.df-c {
+  display: flex;
+  flex-direction: column;
+}
+
 /* //////////////// login and register//////////////////////////////////// */
 
 .login-register {
@@ -36,17 +49,91 @@ a {
 }
 
 .main-container {
-  background: #ccbfbf;
-  width: 400px;
-  height: 700px;
+  min-width: 400px;
+  max-width: 500px;
+  background: #f7f3f3;
+  width: 32vw;
+  height: 438px;
   display: flex;
   flex-direction: column;
-}
-.main-container form {
-  display: flex;
-  flex-direction: column;
+  padding: 5rem 2rem;
+  border-radius: 18px;
 }
 
+.main-container p {
+  margin-left: 30px;
+  font-size: 18px;
+}
+.main-container p span {
+  margin-left: 10px;
+  text-decoration: underline;
+  color: rgba(155, 111, 111, 0.932);
+}
+
+.main-container p span:hover {
+  color: rgba(44, 43, 43, 0.774);
+}
+
+.main-container .cont {
+  position: relative;
+  margin: 17px 0;
+}
+
+.main-container label {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  font-size: 19px;
+  color: transparent;
+  font-family: "Arial", sans-serif;
+  transition: 0.3s;
+}
+.main-container .show label {
+  display: flex;
+  position: absolute;
+  top: -18px;
+  left: 1px;
+  font-size: 17px;
+  color: rgba(73, 72, 72, 0.932);
+  font-family: "Arial", sans-serif;
+}
+
+.main-container .cont input {
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  font-size: 19px;
+  border-bottom: solid rgba(73, 72, 72, 0.932);
+  color: rgba(73, 72, 72, 0.932);
+}
+
+.cont.df-c input[type="password"]::placeholder {
+  color: rgba(73, 72, 72, 0.932);
+}
+.main-container button {
+  cursor: pointer;
+  height: 50px;
+  background-color: transparent;
+  border: solid rgba(73, 72, 72, 0.932);
+  color: rgba(73, 72, 72, 0.932);
+  margin: 30px 0 40px;
+  font-size: 19px;
+}
+
+.main-container button:hover {
+  background-color: rgba(73, 72, 72, 0.932);
+  border: solid rgb(192, 186, 186);
+  color: #f7f3f3;
+}
+
+.error {
+  height: 30px;
+  color: rgba(73, 72, 72, 0.932);
+}
+.title {
+  height: 67px;
+  margin: 0px 64px 34px;
+}
 /* month */
 
 .month-chanceMonth {
