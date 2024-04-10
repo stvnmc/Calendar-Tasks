@@ -12,8 +12,8 @@ function DigitalClock() {
   }, []);
 
   return (
-    <div>
-      <div>{time.toLocaleTimeString()}</div>
+    <div className="digital-clock">
+      <h1>{time.toLocaleTimeString()}</h1>
     </div>
   );
 }

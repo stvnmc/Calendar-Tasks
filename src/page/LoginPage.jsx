@@ -54,6 +54,7 @@ const LoginPage = () => {
               onClick={() => handleClick("email")}
               onBlur={handleBlur}
               id="email"
+              autoComplete="off"
             />
           </div>
           <div className={showTextPassword ? "cont df-c show" : "cont df-c"}>
@@ -64,6 +65,7 @@ const LoginPage = () => {
               onClick={() => handleClick("password")}
               onBlur={handleBlur}
               id="password"
+              autoComplete="off"
             />
           </div>
           <button>Login</button>

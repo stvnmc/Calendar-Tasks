@@ -13,13 +13,8 @@
   margin: 0;
 }
 
-input:focus,
-button:focus {
-  outline: none; /* Elimina el contorno al enfocar */
-}
-
 body {
-  background-color: #070707e5;
+  background-color: rgb(197 188 188 / 93%);
 }
 
 a {
@@ -38,6 +33,47 @@ a {
   flex-direction: column;
 }
 
+input:focus,
+button:focus {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* //////////////// Home /////////////////////////// */
+
+.home {
+  color: rgba(249, 243, 243, 0.93);
+  padding: 130px 0;
+}
+
+.first {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 125px);
+  grid-template-rows: repeat(3, 170px);
+}
+
+.square {
+  transition: 2s;
+  width: 100%;
+  height: 100%;
+}
+
+.square h1 {
+  margin-left: 5px;
+  transition: 2s;
+}
+
+.first-texto {
+  margin: 71px 32px;
+}
+
 /* //////////////// login and register//////////////////////////////////// */
 
 .login-register {
@@ -53,10 +89,10 @@ a {
   max-width: 500px;
   background: #f7f3f3;
   width: 32vw;
-  height: 438px;
+  height: 530px;
   display: flex;
   flex-direction: column;
-  padding: 5rem 2rem;
+  padding: 3rem 2rem;
   border-radius: 18px;
 }
 
@@ -76,7 +112,7 @@ a {
 
 .main-container .cont {
   position: relative;
-  margin: 17px 0;
+  margin: 22px 0;
 }
 
 .main-container label {
@@ -111,7 +147,6 @@ a {
   color: rgba(73, 72, 72, 0.932);
 }
 .main-container button {
-  cursor: pointer;
   height: 50px;
   background-color: transparent;
   border: solid rgba(73, 72, 72, 0.932);
@@ -128,12 +163,50 @@ a {
 
 .error {
   height: 30px;
-  color: rgba(73, 72, 72, 0.932);
+  color: rgba(92, 89, 89, 0.932);
+  margin: 0px 2px 11px;
 }
 .title {
   height: 67px;
-  margin: 0px 64px 34px;
+  margin: 0px 66px 91px;
 }
+
+/* ///////////////////////// page-top ////////////////////// */
+
+.page-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 87px;
+  background: rgba(73, 72, 72, 0.932);
+  padding: 0 19px;
+}
+
+.digital-clock {
+  color: rgba(249, 243, 243, 0.93);
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+}
+
+.page-top h2,
+.page-top h1 {
+  color: rgba(249, 243, 243, 0.93);
+}
+
+.logout button {
+  height: 47px;
+  width: 82px;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid rgba(249, 243, 243, 0.93);
+  color: rgba(249, 243, 243, 0.93);
+  margin: 0 22px 1px;
+  font-size: 19px;
+}
+
 /* month */
 
 .month-chanceMonth {

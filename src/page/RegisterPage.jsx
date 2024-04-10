@@ -55,6 +55,7 @@ const RegisterPage = () => {
               onClick={() => handleClick("email")}
               onBlur={handleBlur}
               id="email"
+              autoComplete="off"
             />
           </div>
 
@@ -66,6 +67,7 @@ const RegisterPage = () => {
               onClick={() => handleClick("password")}
               onBlur={handleBlur}
               id="password"
+              autoComplete="off"
             />
           </div>
           <button>Register</button>

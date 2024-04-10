@@ -23,7 +23,6 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const localStore = (name, accessToken) => {
@@ -51,7 +50,6 @@ export const UserProvider = ({ children }) => {
       // Elimina todos los guiones (-) del mensaje de error
       errorMessage = errorMessage.replace(/-/g, " ");
       setErrors(errorMessage);
-      throw error;
     }
   }
 
@@ -75,7 +73,6 @@ export const UserProvider = ({ children }) => {
       // Elimina todos los guiones (-) del mensaje de error
       errorMessage = errorMessage.replace(/-/g, " ");
       setErrors(errorMessage);
-      throw error;
     }
   }
 

@@ -1,5 +1,4 @@
 import React from "react";
-
 import DigitalClock from "./DigitalClock";
 import { useUser } from "../context/userContext";
 
@@ -7,21 +6,21 @@ const NavigationBar = () => {
   const { user, logout, isAuthenticated } = useUser();
 
   return (
-    <div>
-      {isAuthenticated ? (
+    <div className="page-top">
+      {isAuthenticated && (
         <>
-          <div>{user}</div>
-
-          <div>
+          <div className="logo">
+            <h1>calendarRoutine</h1>
+          </div>
+          <DigitalClock />
+          <div className="logout">
+            <h2>{user}</h2>
             <button onClick={logout}>Logout</button>
           </div>
-          <a href="/">Home</a>
-          <DigitalClock />
         </>
-      ) : (
-        ""
       )}
     </div>
   );
 };
+
 export default NavigationBar;
