@@ -6,9 +6,9 @@ const NavigationBar = () => {
   const { user, logout, isAuthenticated } = useUser();
 
   return (
-    <div className="page-top">
+    <>
       {isAuthenticated && (
-        <>
+        <div className="page-top">
           <div className="logo">
             <h1>calendarRoutine</h1>
           </div>
@@ -17,9 +17,9 @@ const NavigationBar = () => {
             <h2>{user}</h2>
             <button onClick={logout}>Logout</button>
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

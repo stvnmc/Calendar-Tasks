@@ -14,7 +14,8 @@
 }
 
 body {
-  background-color: rgb(197 188 188 / 93%);
+  position: relative;
+  background-color: rgba(160, 159, 157, 0);
 }
 
 a {
@@ -45,18 +46,35 @@ button {
 /* //////////////// Home /////////////////////////// */
 
 .home {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
   color: rgba(249, 243, 243, 0.93);
-  padding: 130px 0;
+  height: 147vh;
+  width: 99vw;
+  z-index: -1;
+  background-image: url(https://images.unsplash.com/photo-1625401733796-544e6fde7d8f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left bottom 21%;
 }
 
 .first {
+  margin-top: 239px;
   display: flex;
+  height: 35vh;
 }
 
 .grid {
+  width: 43vw;
+  margin-left: 74px;
+  min-width: 400px;
   display: grid;
-  grid-template-columns: repeat(5, 125px);
-  grid-template-rows: repeat(3, 170px);
+  grid-template-columns: repeat(5, 20%);
+  grid-template-rows: repeat(3, 50%);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
 }
 
 .square {
@@ -66,14 +84,59 @@ button {
 }
 
 .square h1 {
-  margin-left: 5px;
+  margin-left: 8px;
   transition: 2s;
 }
 
 .first-texto {
-  margin: 71px 32px;
+  display: flex;
+  width: 48vw;
+  margin: 0px 32px;
+  flex-direction: column;
+  align-items: center;
 }
 
+.first-texto > h1 {
+  color: #e2d1bd;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 68px;
+  margin-bottom: 4.1rem;
+}
+.first-texto p {
+  font-size: 20px;
+  padding: 0 52px;
+}
+
+.first-texto button {
+  height: 53px;
+  width: 216px;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid #eedcda;
+  color: #eedcda;
+  margin: 35px 0px 0px;
+  font-size: 22px;
+}
+
+.second {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 87vh;
+  justify-content: space-evenly;
+}
+
+.second button {
+  height: 88px;
+  width: 286px;
+  background-color: #c4b6a6f5;
+  border: none;
+  border: solid #e2d1bd;
+  color: #eedcda;
+  margin: 35px 0px 0px;
+  font-size: 22px;
+  box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
+}
 /* //////////////// login and register//////////////////////////////////// */
 
 .login-register {
@@ -168,22 +231,27 @@ button {
 }
 .title {
   height: 67px;
-  margin: 0px 66px 91px;
+  margin: 0px 66px 49px;
 }
 
 /* ///////////////////////// page-top ////////////////////// */
 
 .page-top {
+  position: absolute;
+  width: 94vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 87px;
-  background: rgba(73, 72, 72, 0.932);
-  padding: 0 19px;
+  height: 14vh;
+  margin: 0 3vw;
+  background: rgba(27, 27, 25, 0);
 }
 
 .digital-clock {
-  color: rgba(249, 243, 243, 0.93);
+  font-size: 1.5rem;
+  margin-right: 11vw;
+  color: #e2d1bd;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .logout {
@@ -191,10 +259,20 @@ button {
   align-items: center;
 }
 
-.page-top h2,
-.page-top h1 {
-  color: rgba(249, 243, 243, 0.93);
+.page-top .logo h1 {
+  color: #e2d1bd;
+  font-size: 2.5vw;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+.page-top h2 {
+  color: #e2d1bd;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* .page-top h2,
+  color: rgba(249, 243, 243, 0.93);
+} */
 
 .logout button {
   height: 47px;
@@ -205,6 +283,7 @@ button {
   color: rgba(249, 243, 243, 0.93);
   margin: 0 22px 1px;
   font-size: 19px;
+  z-index: 1;
 }
 
 /* month */
