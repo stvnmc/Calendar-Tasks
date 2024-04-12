@@ -16,6 +16,7 @@
 body {
   position: relative;
   background-color: rgba(160, 159, 157, 0);
+  overflow-x: hidden;
 }
 
 a {
@@ -50,29 +51,29 @@ button {
   display: flex;
   flex-direction: column;
   color: rgba(249, 243, 243, 0.93);
-  height: 147vh;
+  height: 179vh;
   width: 99vw;
   z-index: -1;
   background-image: url(https://images.unsplash.com/photo-1625401733796-544e6fde7d8f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: left bottom 21%;
+  background-position: left bottom 7%;
 }
 
 .first {
-  margin-top: 239px;
+  margin-top: 31vh;
   display: flex;
-  height: 35vh;
+  height: 40vh;
 }
 
 .grid {
   width: 43vw;
-  margin-left: 74px;
+  margin-left: 2rem;
   min-width: 400px;
   display: grid;
   grid-template-columns: repeat(5, 20%);
   grid-template-rows: repeat(3, 50%);
-  border-radius: 2px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
 }
@@ -88,55 +89,106 @@ button {
   transition: 2s;
 }
 
+.square p {
+  font-size: 1.2vw;
+  padding: 0 5%;
+  margin-top: 3vh;
+  text-align: center;
+  transition: 1s;
+}
+
 .first-texto {
   display: flex;
   width: 48vw;
-  margin: 0px 32px;
+  margin: 4vh 2vw;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .first-texto > h1 {
   color: #e2d1bd;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  font-size: 68px;
-  margin-bottom: 4.1rem;
-}
-.first-texto p {
-  font-size: 20px;
-  padding: 0 52px;
+  font-size: 3vw;
+  padding: 0 5%;
 }
 
 .first-texto button {
-  height: 53px;
-  width: 216px;
-  background-color: transparent;
+  height: 8vh;
+  width: 16vw;
+  background: #222d28;
   border: none;
-  border-bottom: solid #eedcda;
-  color: #eedcda;
-  margin: 35px 0px 0px;
-  font-size: 22px;
+  color: #e2d1bd;
+  margin: 7vh 0px 0px;
+  font-size: 1.6vw;
+  padding: 0 5%;
+  font-weight: bolder;
+  box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
+  transition: 0.7s;
+  border-radius: 4px;
+}
+
+.first-texto button:hover {
+  background-color: #e9d9d9e7;
+  color: #2e2b28;
 }
 
 .second {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 87vh;
+  height: 58vh;
   justify-content: space-evenly;
+  align-items: center;
+}
+.contSecond {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.second button {
-  height: 88px;
-  width: 286px;
-  background-color: #c4b6a6f5;
-  border: none;
-  border: solid #e2d1bd;
-  color: #eedcda;
-  margin: 35px 0px 0px;
-  font-size: 22px;
-  box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
+.contSecond h1 {
+  color: #e2d1bd;
+  border-bottom: 5px solid #222d28;
+  font-size: 4vw;
+  padding: 0 5%;
+  text-shadow: 2px 2px 22px rgba(0, 0, 0, 0.5);
 }
+
+.listTask {
+  display: flex;
+  width: 34vw;
+  height: 7vh;
+  background: #222d28;
+  align-items: center;
+  margin-top: 3vh;
+  border-radius: 4px;
+  transition: 1s;
+  cursor: pointer;
+  box-shadow: 32px 24px 24px -14px rgba(0, 0, 0, 0.75);
+}
+.listTask h2 {
+  color: #e2d1bd;
+  display: flex;
+  width: 35%;
+  justify-content: center;
+}
+
+.listTask:hover {
+  background-color: #e9d9d9e7;
+}
+.listTask h2:hover {
+  color: #2e2b28;
+}
+
+.third .cont-text {
+  margin: 0 19vw;
+  background-color: #222d28;
+  color: #e2d1bd;
+  font-size: 2vw;
+  padding: 8px 5%;
+  border-radius: 4px;
+  box-shadow: 0px 14px 26px -14px rgba(0, 0, 0, 0.75);
+}
+
 /* //////////////// login and register//////////////////////////////////// */
 
 .login-register {
@@ -248,8 +300,9 @@ button {
 }
 
 .digital-clock {
-  font-size: 1.5rem;
-  margin-right: 11vw;
+  font-size: 1.6vw;
+  padding: 0 5%;
+  margin-top: 1vh;
   color: #e2d1bd;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -376,4 +429,28 @@ button {
 /* minicalenraio  */
 .today {
   background-color: rgb(130, 150, 168);
+}
+
+/* ///////////////////// footer ///////////////////////// */
+footer {
+  width: 93vw;
+  height: 40vh;
+  margin: 0px 3vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+footer h4 {
+  font-size: 2vw;
+  margin-bottom: 2vh;
+  color: #e2d1bd;
+}
+
+footer .contact div {
+  display: flex;
+  margin-bottom: 2vh;
+}
+footer .contact div h2 {
+  margin-left: 1vw;
 }

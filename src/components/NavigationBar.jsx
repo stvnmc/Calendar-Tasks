@@ -16,6 +16,7 @@ const NavigationBar = () => {
           <div className="logout">
             <h2>{user}</h2>
             <button onClick={logout}>Logout</button>
+            <button>Contact</button>
           </div>
         </div>
       )}
