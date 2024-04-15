@@ -25,10 +25,6 @@ a {
   text-decoration: none;
 }
 
-.container {
-  padding: 1rem;
-}
-
 /* ////////////////  clases para predeterminadas  ////////////////////// */
 .df-c {
   display: flex;
@@ -36,7 +32,7 @@ a {
 }
 
 input:focus,
-button:focus {
+:focus {
   outline: none;
 }
 
@@ -61,7 +57,7 @@ button {
 }
 
 .first {
-  margin-top: 31vh;
+  margin-top: 19vh;
   display: flex;
   height: 40vh;
 }
@@ -169,6 +165,8 @@ button {
   color: #e2d1bd;
   display: flex;
   width: 35%;
+  font-size: 2vw;
+  padding: 8px 5%;
   justify-content: center;
 }
 
@@ -182,7 +180,7 @@ button {
 .third .cont-text {
   margin: 0 19vw;
   background-color: #222d28;
-  color: #e2d1bd;
+  color: #f9ead8;
   font-size: 2vw;
   padding: 8px 5%;
   border-radius: 4px;
@@ -294,7 +292,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 14vh;
+  height: 9vh;
   margin: 0 3vw;
   background: rgba(27, 27, 25, 0);
 }
@@ -319,31 +317,147 @@ button {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .page-top h2 {
+  margin-right: 2vw;
   color: #e2d1bd;
+  padding: 0 1%;
+  font-size: 1.6vw;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* .page-top h2,
-  color: rgba(249, 243, 243, 0.93);
-} */
-
 .logout button {
-  height: 47px;
-  width: 82px;
+  height: 5vh;
+  width: 7vw;
   background-color: transparent;
   border: none;
-  border-bottom: solid rgba(249, 243, 243, 0.93);
-  color: rgba(249, 243, 243, 0.93);
+  border-bottom: 4px solid #222d28;
+  color: #e2d1bd;
   margin: 0 22px 1px;
-  font-size: 19px;
+  font-size: 1.6vw;
+  padding: 0 1%;
   z-index: 1;
+  font-weight: 700;
+  box-shadow: 11px 32px 22px -28px rgba(0, 0, 0, 0.75);
 }
 
-/* month */
+/* ///////////////////// footer ///////////////////////// */
+footer {
+  width: 93vw;
+  height: 46vh;
+  margin: 0px 3vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+footer h4 {
+  font-size: 2vw;
+  margin-bottom: 2vh;
+  color: #e2d1bd;
+}
+
+footer .contact div {
+  display: flex;
+  margin-bottom: 2vh;
+}
+footer .contact div h2 {
+  margin-left: 1vw;
+}
+
+.cont-links {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2vh;
+}
+.cont-links svg {
+  margin-right: 1vw;
+  font-size: 2vw;
+  padding: 0 2%;
+}
+
+.footer-rigth p {
+  margin: 2vh 1vw;
+  font-size: 2vw;
+  padding: 0 2%;
+  width: 7vw;
+}
+
+/*/////////////////// month ///////////////////////*/
+
+.container {
+  height: 100vh;
+  background-color: #ab9184;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar {
+  margin: 0.4%;
+}
+
+.top-bar-calendario {
+  display: flex;
+  justify-content: space-between;
+  margin: 2vh 2vw 0vh 2vw
+}
+.container .digital-clock{
+  margin: 0px 12vw 0px 0vw
+}
+
+.top-bar-calendario h2,
+.container .digital-clock h1 {
+  color: #222d28;
+  font-size: 2vw;
+  color: #816f5c;
+}
+
+.user-control {
+  display: flex;
+}
 
 .month-chanceMonth {
   display: flex;
   justify-content: space-between;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  color: #e2d1bd;
+}
+
+.date {
+  display: flex;
+}
+
+.IoReturnUpBack {
+  width: 7vw;
+  height: 4vh;
+  margin-right: 2vw;
+  background: #222d28;
+  border-radius: 2px;
+  border: none;
+  color: #e2d1bd;
+  font-size: 2vw;
+  padding: 0 2%;
+}
+
+
+
+.month-chanceMonth h2 {
+  font-size: 2vw;
+}
+
+.icons-calendar {
+  display: flex;
+  margin-left: 1vw;
+}
+
+.icons-calendar button {
+  font-size: 2vw;
+  margin-left: 1vw;
+  background: #222d28;
+  border-radius: 2px;
+  border: none;
+  width: 3vw;
+  height: 4vh;
+  color: #e2d1bd;
 }
 
 .days-of-week {
@@ -351,21 +465,47 @@ button {
   grid-template-columns: repeat(7, 1fr);
 }
 
+.days-of-week h2 {
+  margin-left: 1vw;
+  margin-bottom: 0.4vh;
+  padding: 0 2%;
+  font-size: 1.4vw;
+  color: #e2d1bd;
+}
+
 .days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  overflow-y: auto;
+  gap: 0.2vw;
+  grid-template-columns: repeat(7, 13.9vw);
+  grid-template-rows: repeat(6, 13.2vh);
+  overflow-y: hidden;
+  height: 83vh;
 }
 
 .containers {
-  height: 13vh;
-  background: #ac5656;
-  margin: 4px;
+  height: 100%;
+  width: 100%;
+  background: #b4746c;
+  border-radius: 2px;
+}
+
+.cont-tasks {
+  display: flex;
+}
+.cont-tasks h2 {
+  width: 12vw;
+  font-size: 1.3vw;
+}
+
+.icons-add-rutine {
 }
 
 .containers.next,
 .containers.former {
-  background: #ccbfbf;
+  background: #c8ada6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .linea {
@@ -378,6 +518,12 @@ button {
 .icons {
   display: flex;
   justify-content: space-between;
+}
+
+.icons h1 {
+  font-size: 2vw;
+  padding: 0 2%;
+  margin-left: 0.4vw;
 }
 
 .create-task input {
@@ -427,30 +573,7 @@ button {
 }
 
 /* minicalenraio  */
+
 .today {
   background-color: rgb(130, 150, 168);
-}
-
-/* ///////////////////// footer ///////////////////////// */
-footer {
-  width: 93vw;
-  height: 40vh;
-  margin: 0px 3vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-footer h4 {
-  font-size: 2vw;
-  margin-bottom: 2vh;
-  color: #e2d1bd;
-}
-
-footer .contact div {
-  display: flex;
-  margin-bottom: 2vh;
-}
-footer .contact div h2 {
-  margin-left: 1vw;
 }

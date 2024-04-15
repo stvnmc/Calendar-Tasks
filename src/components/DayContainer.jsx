@@ -3,7 +3,8 @@ import { useState } from "react";
 // icons
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
-import { FaList } from "react-icons/fa6";
+
+import { FaTasks } from "react-icons/fa";
 
 import { Loading } from "./Loading";
 
@@ -48,11 +49,11 @@ const DayContainer = ({
       style={{ gridColumn: `${dayOfWeek + 1}` }}
     >
       <div className="icons">
-        <div>{dayNumber}</div>
+        <h1>{dayNumber}</h1>
         {type === "current" && (
-          <div>
+          <div className="icons-add-rutine">
             <button onClick={() => goToPageDay(dayNumber)}>
-              <FaList />
+              <FaTasks />
             </button>
             <button onClick={() => setCreateTask(true)}>
               <IoMdAdd />
@@ -78,16 +79,16 @@ const DayContainer = ({
         ) : (
           <div>
             {type === "current" ? (
-              <div>
+              <>
                 {infoOfMonth?.map((item, i) => (
-                  <div key={i}>
-                    <h1>{item}</h1>
+                  <div key={i} className="cont-tasks">
+                    <h2>{item}</h2>
                     <button onClick={() => chanceState("delet", i)}>
                       delete
                     </button>
                   </div>
                 ))}
-              </div>
+              </>
             ) : (
               <div></div>
             )}

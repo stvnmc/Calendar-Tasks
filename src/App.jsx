@@ -12,7 +12,6 @@ import CreateRoutine from "./page/CreateRoutine";
 function App() {
   return (
     <BrowserRouter>
-      <NavigationBar />
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />

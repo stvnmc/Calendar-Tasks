@@ -3,7 +3,7 @@ import DigitalClock from "./DigitalClock";
 import { useUser } from "../context/userContext";
 
 const NavigationBar = () => {
-  const { user, logout, isAuthenticated } = useUser();
+  const { user, isAuthenticated } = useUser();
 
   return (
     <>
@@ -15,7 +15,6 @@ const NavigationBar = () => {
           <DigitalClock />
           <div className="logout">
             <h2>{user}</h2>
-            <button onClick={logout}>Logout</button>
             <button>Contact</button>
           </div>
         </div>
