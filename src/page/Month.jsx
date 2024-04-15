@@ -94,6 +94,9 @@ const Month = () => {
               <div className="user-control">
                 <h2>{user}</h2>
                 <button onClick={logout}>Logout</button>
+                <button className="IoReturnUpBack" onClick={goPageGome}>
+                  <IoReturnUpBack />
+                </button>
               </div>
             </div>
             <div className="month-chanceMonth">
@@ -110,9 +113,6 @@ const Month = () => {
                   </button>
                 </div>
               </div>
-              <button className="IoReturnUpBack" onClick={goPageGome}>
-                <IoReturnUpBack />
-              </button>
             </div>
           </div>
           <div className="calendar">
