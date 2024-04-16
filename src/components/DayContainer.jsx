@@ -5,7 +5,7 @@ import { IoMdAdd } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
 
 import { FaTasks } from "react-icons/fa";
-
+import { MdBookmarkRemove } from "react-icons/md";
 import { Loading } from "./Loading";
 
 const DayContainer = ({
@@ -24,10 +24,14 @@ const DayContainer = ({
 
   const [loading, setLoading] = useState(true);
 
+  const chanceCreateTask = () => {
+    setCreateTask(!createTask);
+  };
+
   const chanceState = async (type, i) => {
     setLoading(false);
     if (type === "add") {
-      await addTaskDay(year, month, dayNumber, inputValue);
+      if (inputValue) await addTaskDay(year, month, dayNumber, inputValue);
       setInputValue("");
       setCreateTask(false);
     } else {
@@ -55,7 +59,10 @@ const DayContainer = ({
             <button onClick={() => goToPageDay(dayNumber)}>
               <FaTasks />
             </button>
-            <button onClick={() => setCreateTask(true)}>
+            <button
+              className={createTask ? "hover" : "none"}
+              onClick={() => chanceCreateTask()}
+            >
               <IoMdAdd />
             </button>
           </div>
@@ -83,8 +90,11 @@ const DayContainer = ({
                 {infoOfMonth?.map((item, i) => (
                   <div key={i} className="cont-tasks">
                     <h2>{item}</h2>
-                    <button onClick={() => chanceState("delet", i)}>
-                      delete
+                    <button
+                      className="delete"
+                      onClick={() => chanceState("delet", i)}
+                    >
+                      <MdBookmarkRemove />
                     </button>
                   </div>
                 ))}
