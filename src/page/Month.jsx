@@ -7,7 +7,7 @@ import { dayNames, monthsNames } from "../components/infor/MonthsDays";
 import DayContainer from "../components/DayContainer";
 
 import { useMonthData } from "../context/MonthDataContext";
-import { Loading } from "../components/Loading";
+import { Loading } from "../components/Loading/Loading";
 import { useUser } from "../context/userContext";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
 import DigitalClock from "../components/DigitalClock";
@@ -121,7 +121,7 @@ const Month = () => {
                 <h2 key={index}>{dayName}</h2>
               ))}
             </div>
-            <div className="days" id1="scrollable" onWheel={handleScroll}>
+            <div className="days" id1="scrollable" >
               {infoCalendar?.map(({ dayNumber, dayOfWeek, type }, index) => (
                 <DayContainer
                   key={index}

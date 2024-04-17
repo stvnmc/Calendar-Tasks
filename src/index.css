@@ -502,15 +502,40 @@ footer .contact div h2 {
   border-radius: 2px;
 }
 
+.tasks {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 7vh;
+}
+
+.tasks::-webkit-scrollbar {
+  width: 0.4vw;
+}
+
+.tasks::-webkit-scrollbar-track {
+  background: #f1f1f104;
+}
+
+.tasks::-webkit-scrollbar-thumb {
+  background: #222d28bd;
+}
+
+.tasks::-webkit-scrollbar-thumb:hover {
+  background: #222d28f3;
+}
+
 .cont-tasks {
   display: flex;
   justify-content: space-between;
-  margin-top: 0.4vw;
+  margin-top: 0.3vw;
 }
 .cont-tasks h2 {
   width: 11vw;
   font-size: 1.3vw;
   margin-left: 0.6vw;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .icons-add-rutine button {
@@ -527,6 +552,8 @@ footer .contact div h2 {
 .icons-add-rutine .none:hover {
   background: rgba(59, 175, 123, 0.176);
   color: #222d28f3;
+  border-bottom: 1px solid rgb(25 38 32 / 22%);
+  border-right: 1px solid rgb(25 38 32 / 22%);
 }
 
 .icons-add-rutine .hover svg,
@@ -580,11 +607,43 @@ footer .contact div h2 {
   margin-left: 0.4vw;
 }
 
+.create-task {
+  height: 7vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
 .create-task input {
-  width: 75%;
+  width: 10vw;
+  height: 2.5vh;
+  font-size: 1vw;
+  padding: 0 2%;
+  background-color: #a58d84;
+  border: none;
+  border-bottom: 2px solid rgba(158, 123, 123, 0.377);
+  border-radius: 4px;
+}
+
+.create-task input::placeholder {
+  color: #e2d1bd;
+}
+
+.create-task .add {
+  background: rgba(59, 175, 123, 0.176);
+  color: #222d28f3;
+  border: none;
+  width: 7.8vw;
+  height: 3vh;
+  border-radius: 2px;
+  border-bottom: 1px solid rgb(25 38 32 / 22%);
 }
 
 /* day */
+.day-routine {
+  background-color: #877463;
+}
 
 .cont-main-day {
   display: flex;
@@ -630,4 +689,16 @@ footer .contact div h2 {
 
 .today {
   background-color: rgb(130, 150, 168);
+}
+
+.days-mini {
+  display: grid;
+  gap: 0.3vh 0.3vw;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  overflow-y: hidden;
+}
+.days-of-week-mini {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }

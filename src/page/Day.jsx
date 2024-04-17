@@ -5,11 +5,13 @@ import { dayHours, dayNames } from "../components/infor/MonthsDays";
 
 import { useRoutine } from "../context/RoutineContext";
 import { useUser } from "../context/userContext";
-import { Loading } from "../components/Loading";
+import { Loading } from "../components/Loading/Loading";
 import Routine from "../components/Routine";
 
 // icons
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+import { useMonthData } from "../context/MonthDataContext";
+import { ImTab } from "react-icons/im";
 
 const Day = () => {
   const { id1, id2, id3 } = useParams();
@@ -35,10 +37,18 @@ const Day = () => {
   } = useRoutine();
   const { user } = useUser();
 
+  const { infoOfMonth, getInfoTaskDay, addTaskDay, deleteTaskDay } =
+    useMonthData();
+
   useEffect(() => {
     getCalendar();
     getTask();
+    getInfoTaskDay(id3, id1);
   }, [id1, id2, user]);
+
+  useEffect(() => {
+    console.log(infoOfMonth);
+  }, [infoOfMonth]);
 
   useEffect(() => {
     getPercentageDay();
@@ -163,7 +173,7 @@ const Day = () => {
   };
 
   return (
-    <div>
+    <div className="day-routine">
       <div>
         <div>
           <a onClick={() => chanceDay(-1)}>
@@ -177,12 +187,12 @@ const Day = () => {
       </div>
       <div className="cont-main-day">
         <div className="small-calendar">
-          <div className="days-of-week">
+          <div className="days-of-week-mini">
             {dayNames.map((dayName, index) => (
               <div key={index}>{dayName.substring(0, 1)}</div>
             ))}
           </div>
-          <div className="days">
+          <div className="days-mini">
             {infoCalendar.map((day, index) => {
               return (
                 <div
@@ -197,6 +207,10 @@ const Day = () => {
                 </div>
               );
             })}
+          </div>
+          <div>
+            <h1>task</h1>
+            {infoCalendar}
           </div>
         </div>
 

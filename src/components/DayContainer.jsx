@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa";
 
 import { FaTasks } from "react-icons/fa";
 import { MdBookmarkRemove } from "react-icons/md";
-import { Loading } from "./Loading";
+import { Loading } from "./Loading/Loading";
 
 const DayContainer = ({
   dayNumber,
@@ -74,17 +74,18 @@ const DayContainer = ({
             <input
               type="text"
               value={inputValue}
+              placeholder="Task"
               onChange={(event) => setInputValue(event.target.value)}
               onKeyPress={handleKeyPress}
               autoFocus
             />
 
-            <button onClick={() => chanceState("add")}>
+            <button className="add" onClick={() => chanceState("add")}>
               <FaCheck />
             </button>
           </div>
         ) : (
-          <div>
+          <div className="tasks">
             {type === "current" ? (
               <>
                 {infoOfMonth?.map((item, i) => (
