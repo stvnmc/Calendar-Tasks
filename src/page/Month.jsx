@@ -66,10 +66,12 @@ const Month = () => {
   };
 
   const goToPageDay = (day) => {
+    setLoading(false);
     const nuevaFecha = `/m/${id1}/d/${day}/y/${id2}`;
     navigate(nuevaFecha);
   };
   const goPageGome = () => {
+    setLoading(false);
     const nuevaFecha = `/`;
     navigate(nuevaFecha);
   };
@@ -121,7 +123,7 @@ const Month = () => {
                 <h2 key={index}>{dayName}</h2>
               ))}
             </div>
-            <div className="days" id1="scrollable" >
+            <div className="days" id1="scrollable">
               {infoCalendar?.map(({ dayNumber, dayOfWeek, type }, index) => (
                 <DayContainer
                   key={index}

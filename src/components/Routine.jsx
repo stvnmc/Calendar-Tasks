@@ -2,6 +2,8 @@ import React, { useState } from "react";
 //icons
 import { CiBookmarkPlus } from "react-icons/ci";
 import { CiBookmarkCheck } from "react-icons/ci";
+import { MdWbSunny } from "react-icons/md";
+import { IoMdMoon } from "react-icons/io";
 
 const Routine = ({
   hour,
@@ -40,7 +42,13 @@ const Routine = ({
 
   return (
     <div className={`hour ${period}`} style={style}>
-      <h1>{hour}</h1>
+      {period === "early-Morning" || period === "night" ? (
+        <IoMdMoon />
+      ) : (
+        <MdWbSunny />
+      )}
+
+      <h1>{hour}:00</h1>
       {renderTaskSection()}
     </div>
   );

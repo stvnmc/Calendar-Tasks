@@ -30,13 +30,16 @@ const DayContainer = ({
 
   const chanceState = async (type, i) => {
     setLoading(false);
-    if (type === "add") {
-      if (inputValue) await addTaskDay(year, month, dayNumber, inputValue);
+    if (typeof type !== "undefined" && type === "add") {
+      if (inputValue) {
+        await addTaskDay(year, month, dayNumber, inputValue);
+      }
       setInputValue("");
       setCreateTask(false);
     } else {
       await deleteTaskDay(year, month, dayNumber, i);
     }
+
     setLoading(true);
   };
 
@@ -49,16 +52,20 @@ const DayContainer = ({
   return (
     <div
       id={dayNumber}
-      className={`containers num${dayNumber} ${type}`}
-      style={{ gridColumn: `${dayOfWeek + 1}` }}
+      className={`containers num${dayNumber} ${type} ${
+        dayOfWeek === null ? "day-task-rotuine" : ""
+      }`}
+      style={{ gridColumn: `${dayOfWeek ? dayOfWeek + 1 : 1}` }}
     >
       <div className="icons">
         <h1>{dayNumber}</h1>
         {type === "current" && (
           <div className="icons-add-rutine">
-            <button onClick={() => goToPageDay(dayNumber)}>
-              <FaTasks />
-            </button>
+            {dayOfWeek === null ? null : (
+              <button onClick={() => goToPageDay(dayNumber)}>
+                <FaTasks />
+              </button>
+            )}
             <button
               className={createTask ? "hover" : "none"}
               onClick={() => chanceCreateTask()}
