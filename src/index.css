@@ -400,8 +400,11 @@ footer .contact div h2 {
 .top-bar-calendario {
   display: flex;
   justify-content: space-between;
-  margin: 2vh 0vw 0vh 2vw;
+  align-items: center;
+  height: 10vh;
+  margin: 0 3vw;
 }
+
 .container .digital-clock {
   margin: 0px 9vw 0px 0vw;
 }
@@ -441,7 +444,6 @@ footer .contact div h2 {
 .month-chanceMonth {
   display: flex;
   justify-content: space-between;
-  margin: 3vh 3vw 2vh;
   color: #e2d1bd;
 }
 
@@ -488,18 +490,19 @@ footer .contact div h2 {
 
 .days {
   display: grid;
-  gap: 0.3vh 0.3vw;
+  gap: 0.2vh 0.2vw;
   grid-template-columns: repeat(7, 13.4vw);
-  grid-template-rows: repeat(6, 12.5vh);
+  grid-template-rows: repeat(6, 14vh);
   overflow-y: hidden;
-  height: 79vh;
+  height: 85vh;
+  width: 96vw;
 }
 
 .containers {
   height: 100%;
   width: 100%;
   background: #d3a49e;
-  border-radius: 2px;
+  border-radius: 0.5em;
 }
 
 .tasks {
@@ -528,13 +531,13 @@ footer .contact div h2 {
 .cont-tasks {
   display: flex;
   justify-content: space-between;
-  margin: 0.8vh 0.9vw;
+  margin: 0.5vh 0.9vw;
   border-bottom: 0.2vh solid #887e5e47;
 }
 .cont-tasks h2 {
   width: 11vw;
   font-size: 1.3vw;
-  word-wrap: break-word;
+
   overflow-wrap: break-word;
 }
 
@@ -543,6 +546,8 @@ footer .contact div h2 {
   height: 2.5vh;
   margin-right: 0.3vw;
   border: none;
+  border-bottom: 0.2vh solid #d5caca;
+  border-right: 0.1vw solid #d5caca;
   border-radius: 2px;
   background: #222d282d;
   color: #cfc2c2;
@@ -665,6 +670,8 @@ footer .contact div h2 {
   background-color: #b1b3b273;
   border: none;
   border-radius: 4px;
+  border-bottom: 0.2vh solid #c7c3c3;
+  border-right: 0.1vw solid #c7c3c3;
 }
 
 .title-left button h2 {
@@ -676,6 +683,7 @@ footer .contact div h2 {
 .title-left > h1 {
   color: #e2d1bd;
   font-size: 3vw;
+  text-shadow: 2px 2px 22px rgba(0, 0, 0, 0.5);
 }
 
 .top-day-icons {
@@ -690,6 +698,8 @@ footer .contact div h2 {
   background-color: #b1b3b273;
   border: none;
   border-radius: 4px;
+  border-bottom: 0.2vh solid #c7c3c3;
+  border-right: 0.1vw solid #c7c3c3;
 }
 
 .top-day-icons button svg {
@@ -708,14 +718,27 @@ footer .contact div h2 {
   gap: 0.5vh 0.5vw;
 }
 
+.hour {
+  padding: 0.5vh 0.6vw;
+  color: #fff;
+  border-radius: 4px;
+}
+
 .early-Morning {
   background-color: #435c5c;
   grid-column: 1;
+}
+.early-Morning .title-hour svg {
+  color: #c1cae9;
 }
 
 .morning {
   background-color: #a8cec9;
   grid-column: 2;
+}
+
+.morning .title-hour svg {
+  color: #c5a172;
 }
 .afternoon {
   background-color: #bb916b;
@@ -724,6 +747,11 @@ footer .contact div h2 {
 .night {
   background-color: #2f467e;
   grid-column: 4;
+}
+
+.hour .title-hour svg,
+.hour .title-hour h1 {
+  font-size: 1.4vw;
 }
 
 /* create routine */
@@ -740,6 +768,8 @@ footer .contact div h2 {
   border-radius: 6px;
   padding: 2%;
   color: #f5e9e9;
+  border-bottom: 0.4vh solid rgb(151, 148, 148);
+  border-right: 0.2vw solid rgb(151, 148, 148);
 }
 
 .content-routine {
@@ -772,24 +802,25 @@ footer .contact div h2 {
 .day-mini-calendar {
   display: flex;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
   border: none;
   background-color: transparent;
 }
 
 .today {
-  background-color: rgb(130, 150, 168);
+  background-color: #a87570;
 }
 
-.days-mini .day-mini-calendar:hover{
-  background-color: #686048;
+.days-mini .day-mini-calendar:hover {
+  background-color: #b1b3b273;
 }
 
 .days-mini .day-mini-calendar h2 {
-  font-size: 1.4vw;
-  padding: 0 2%;
-  font-weight: 500;
   color: #e6e4e2;
+  font-size: 1.1vw;
+  padding: 0 2%;
+  font-weight: 400;
 }
 
 .task-day {
@@ -799,6 +830,7 @@ footer .contact div h2 {
   margin-bottom: 2vh;
   font-size: 2vw;
   padding: 0 2%;
+  color: #e2d1bd;
 }
 
 /*  */
@@ -806,7 +838,9 @@ footer .contact div h2 {
 .day-task-rotuine {
   background-color: #f0d0d073;
   border-radius: 5px;
-  width: 27vw;
+  width: 26vw;
+  border-bottom: 0.3vh solid #d5caca;
+  border-right: 0.2vw solid #d5caca;
 }
 
 .day-task-rotuine .icons > h1 {
@@ -848,22 +882,25 @@ footer .contact div h2 {
 }
 
 .day-task-rotuine .tasks {
-  height: 40vh;
+  height: 36vh;
 }
 
 .title-routine {
   display: flex;
   margin-bottom: 2vh;
   justify-content: space-between;
+  align-items: center;
 }
 
 .title-routine .title-top {
   display: flex;
+  color: #e2d1bd;
+  text-shadow: 2px 2px 22px rgba(0, 0, 0, 0.5);
 }
 
 .title-routine h1 {
-  font-size: 2.3vw;
-  margin-right: 2vw;
+  font-size: 3.3vw;
+  margin-right: 4vw;
   padding: 0 2%;
 }
 
@@ -874,6 +911,8 @@ footer .contact div h2 {
   background-color: #6d8a92;
   border: none;
   border-radius: 4px;
+  border-bottom: 0.2vh solid #c7c3c3;
+  border-right: 0.1vw solid #c7c3c3;
 }
 .title-routine button h2 {
   font-size: 1.1vw;
@@ -882,10 +921,65 @@ footer .contact div h2 {
 }
 
 .day-task-rotuine .cont-tasks h2 {
-  width: 18vw;
+  width: 21vw;
 }
 
 .title-routine button {
   background-color: #b1b3b273;
   color: rgba(20, 19, 19, 0.87);
+}
+
+.title-hour {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-routine {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2vw;
+  height: 9vh;
+  margin-top: 1vh;
+  overflow-wrap: break-word;
+}
+.task-routine h2 {
+  width: 12vw;
+  overflow-wrap: break-word;
+  overflow: auto;
+}
+
+.task-routine h2::-webkit-scrollbar {
+  width: 0.2vw;
+}
+
+.task-routine h2::-webkit-scrollbar-track {
+  background: #f1f1f104;
+}
+
+.task-routine h2::-webkit-scrollbar-thumb {
+  background: #222d2856;
+}
+
+.task-routine h2::-webkit-scrollbar-thumb:hover {
+  background: #222d28f3;
+}
+
+.task-routine button {
+  display: flex;
+  width: 2vw;
+  height: 3.4vh;
+  font-size: 1.5vw;
+  background-color: #b1b3b22b;
+  color: rgba(20, 19, 19, 0.87);
+  border: none;
+  border-radius: 4px;
+  border-bottom: 0.2vh solid #c7c3c3;
+  border-right: 0.1vw solid #c7c3c3;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-routine button svg {
+  color: #fff;
 }

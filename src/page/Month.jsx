@@ -88,10 +88,26 @@ const Month = () => {
         <>
           <div>
             <div className="top-bar-calendario">
-              <h2>
+              {/* <h2>
                 {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
                 {monthsNames[new Date().getMonth()]} {new Date().getFullYear()}
-              </h2>
+              </h2> */}
+
+              <div className="month-chanceMonth">
+                <div className="date">
+                  <h2>
+                    {monthsNames[id1 - 1]} {id2}
+                  </h2>
+                  <div className="icons-calendar">
+                    <button>
+                      <SlArrowDown onClick={() => handleMonthChange(1)} />
+                    </button>
+                    <button>
+                      <SlArrowUp onClick={() => handleMonthChange(-1)} />
+                    </button>
+                  </div>
+                </div>
+              </div>
               <DigitalClock />
               <div className="user-control">
                 <h2>{user}</h2>
@@ -99,21 +115,6 @@ const Month = () => {
                 <button className="IoReturnUpBack" onClick={goPageGome}>
                   <IoReturnUpBack />
                 </button>
-              </div>
-            </div>
-            <div className="month-chanceMonth">
-              <div className="date">
-                <h2>
-                  {monthsNames[id1 - 1]} {id2}
-                </h2>
-                <div className="icons-calendar">
-                  <button>
-                    <SlArrowDown onClick={() => handleMonthChange(1)} />
-                  </button>
-                  <button>
-                    <SlArrowUp onClick={() => handleMonthChange(-1)} />
-                  </button>
-                </div>
               </div>
             </div>
           </div>

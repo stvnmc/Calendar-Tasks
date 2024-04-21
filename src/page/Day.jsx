@@ -13,6 +13,7 @@ import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { useMonthData } from "../context/MonthDataContext";
 
 import DayContainer from "../components/DayContainer";
+import { DaysMiniCalendar } from "../components/components/DaysMiniCalendar";
 
 const Day = () => {
   const { id1, id2, id3 } = useParams();
@@ -61,6 +62,13 @@ const Day = () => {
   const goBack = () => {
     setLoading(false);
     const nuevaFecha = `/month/${id1}/${id3}`;
+    navigate(nuevaFecha);
+  };
+
+  const goDay = (month, day, year) => {
+    console.log(month, day, year);
+    setLoading(false);
+    const nuevaFecha = `/m/${month}/d/${day}/y/${year}`;
     navigate(nuevaFecha);
   };
 
@@ -213,20 +221,16 @@ const Day = () => {
                       ))}
                     </div>
                     <div className="days-mini">
-                      {infoCalendar.map((day, index) => {
-                        return (
-                          <button
-                            className={
-                              day.type === "current" &&
-                              day.dayNumber === parseInt(id2)
-                                ? "day-mini-calendar today "
-                                : "day-mini-calendar"
-                            }
-                          >
-                            <h2 key={index}>{day.dayNumber}</h2>
-                          </button>
-                        );
-                      })}
+                      {infoCalendar.map((day, index) => (
+                        <DaysMiniCalendar
+                          key={index}
+                          item={day}
+                          month={id1}
+                          day={id2}
+                          year={id3}
+                          goDay={goDay}
+                        />
+                      ))}
                     </div>
                   </div>
                   <div className="top-day-icons">
@@ -261,7 +265,7 @@ const Day = () => {
               <div className="title-routine">
                 <div>
                   <button onClick={openCreateRutine}>
-                    <h2>createRoutine new</h2>
+                    <h2>Create Routine</h2>
                   </button>
                   {dayExists && (
                     <button onClick={finallyDay}>

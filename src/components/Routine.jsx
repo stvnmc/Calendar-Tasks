@@ -28,27 +28,33 @@ const Routine = ({
     if (!routine?.task) return null;
 
     return (
-      <div>
-        <div>{completTask ? <CiBookmarkCheck /> : <CiBookmarkPlus />}</div>
-        <h2>{routine?.task}</h2>
-        {dayExists && (
+      <>
+        <div className="task-routine">
+          <h2>{routine?.task}</h2>
           <button onClick={chanceStateTask}>
+            {completTask ? <CiBookmarkCheck /> : <CiBookmarkPlus />}
+          </button>
+        </div>
+        {/* {dayExists && (
+          <button onClick={chanceStateTask} className="completed">
             {completTask ? "incomplet" : "complet"}
           </button>
-        )}
-      </div>
+        )} */}
+      </>
     );
   };
 
   return (
     <div className={`hour ${period}`} style={style}>
-      {period === "early-Morning" || period === "night" ? (
-        <IoMdMoon />
-      ) : (
-        <MdWbSunny />
-      )}
+      <div className="title-hour">
+        <h1>{hour}:00</h1>
+        {period === "early-Morning" || period === "night" ? (
+          <IoMdMoon />
+        ) : (
+          <MdWbSunny />
+        )}
+      </div>
 
-      <h1>{hour}:00</h1>
       {renderTaskSection()}
     </div>
   );
