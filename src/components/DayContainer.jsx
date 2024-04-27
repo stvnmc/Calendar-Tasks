@@ -18,6 +18,7 @@ const DayContainer = ({
   addTaskDay,
   goToPageDay,
   deleteTaskDay,
+  handleMonthChange,
 }) => {
   const [createTask, setCreateTask] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -56,9 +57,19 @@ const DayContainer = ({
         dayOfWeek === null ? "day-task-rotuine" : ""
       }`}
       style={{ gridColumn: `${dayOfWeek ? dayOfWeek + 1 : 1}` }}
+      onClick={() => {
+        if (type === "former") {
+          handleMonthChange(-1);
+        } else if (type === "next") {
+          handleMonthChange(1);
+        }
+      }}
     >
       <div className="icons">
-        <h1>{dayNumber}</h1>
+        <div className="title-task">
+          <h1>{dayNumber}</h1>
+          {dayOfWeek === null ? <h1>Day Task</h1> : null}
+        </div>
         {type === "current" && (
           <div className="icons-add-rutine">
             {dayOfWeek === null ? null : (

@@ -7,6 +7,8 @@ import { dayHours, dayNames, Hours } from "../components/infor/MonthsDays";
 import InputTextCR from "../components/InputTextCR";
 import { useNavigate } from "react-router-dom";
 
+import { TbPointFilled } from "react-icons/tb";
+
 const CreateRoutine = () => {
   //   context
   const {
@@ -32,6 +34,9 @@ const CreateRoutine = () => {
     if (!currentDay.id1) {
       navigate(`/`);
     }
+
+    setRoutineWorkday(Hours());
+    setRoutineWeekend(Hours());
   }, []);
 
   const navigate = useNavigate();
@@ -55,17 +60,16 @@ const CreateRoutine = () => {
   };
 
   const previousStage = () => {
-    if (stages === "weekend") {
+    if (stages === "workday") {
       setOpenSFD(false);
-    } else {
+    }
+    if (stages === "weekend") {
       setStages("workday");
       setCurrentValueInputText("");
     }
   };
 
   const addWeekedDay = (i) => {
-    setRoutineWorkday(Hours());
-    setRoutineWeekend(Hours());
     if (!weekend.includes(i)) {
       setWeekend((prevFreeDays) => [...prevFreeDays, i]);
     } else {
@@ -74,10 +78,16 @@ const CreateRoutine = () => {
   };
 
   return (
-    <>
+    <div className="cont-create">
+      <div className="steps-to-follow">
+        <h1>pasos a seguir</h1>
+        <TbPointFilled />
+        <TbPointFilled />
+        <TbPointFilled />
+      </div>
       {openSFD ? (
-        <div>
-          <h2>agrega la información de tu rutina de los {stages}</h2>
+        <div className="add-info-routine">
+          <h1>agrega la información de tu rutina de los {stages}</h1>
           <div className="hours">
             {dayHours().map((hourObj, index, completed) => (
               <InputTextCR
@@ -93,26 +103,42 @@ const CreateRoutine = () => {
               />
             ))}
           </div>
-          <button onClick={previousStage}>previous</button>
-          <button onClick={nextStage}>next</button>
+          <div className="next-previous">
+            <button onClick={previousStage}>previous</button>
+            <button onClick={nextStage}>next</button>
+          </div>
         </div>
       ) : (
-        <div>
-          <h2>Días de descanso:</h2>
-          {dayNames.map((dayName, index) => (
-            <div key={index}>
-              <button
-                className={isDaySelected(index) ? "selected" : ""}
+        <div className="select-routine">
+          <h1>Select rest days:</h1>
+          <div className="days-off">
+            {dayNames.map((dayName, index) => (
+              <div
+                key={index}
+                className={
+                  isDaySelected(index) ? "days-create selected" : "days-create"
+                }
                 onClick={() => addWeekedDay(index)}
               >
-                {dayName}
-              </button>
-            </div>
-          ))}
-          <button onClick={createRoutine}>next</button>
+                <h1>{dayName}</h1>
+                <ul className="lines">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
+            ))}
+          </div>
+          <button className="next" onClick={createRoutine}>
+            next
+          </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
-import { dayHours, dayNames } from "../components/infor/MonthsDays";
+import {
+  dayHours,
+  dayNames,
+  monthsNames,
+} from "../components/infor/MonthsDays";
 
 import { useRoutine } from "../context/RoutineContext";
 import { useUser } from "../context/userContext";
@@ -11,7 +15,7 @@ import Routine from "../components/Routine";
 // icons
 import { SlArrowUp, SlArrowDown } from "react-icons/sl";
 import { useMonthData } from "../context/MonthDataContext";
-
+import { IoReturnUpBack } from "react-icons/io5";
 import DayContainer from "../components/DayContainer";
 import { DaysMiniCalendar } from "../components/components/DaysMiniCalendar";
 
@@ -65,10 +69,15 @@ const Day = () => {
     navigate(nuevaFecha);
   };
 
-  const goDay = (month, day, year) => {
-    console.log(month, day, year);
+  const goDay = (month, day, year, type) => {
     setLoading(false);
-    const nuevaFecha = `/m/${month}/d/${day}/y/${year}`;
+    let nextMonth = month;
+    if (type === "next") {
+      nextMonth++;
+    } else if (type === "former") {
+      nextMonth--;
+    }
+    const nuevaFecha = `/m/${nextMonth}/d/${day}/y/${year}`;
     navigate(nuevaFecha);
   };
 
@@ -182,12 +191,35 @@ const Day = () => {
     }
 
     if (countTask !== 0) {
-      const porcentaje = Math.round((countTaskComplet / countTask) * 100);
+      const targetPercentage = Math.round((countTaskComplet / countTask) * 100);
 
-      setPercentag(porcentaje);
+      animatePercentage(targetPercentage);
     } else {
       setPercentag(0);
     }
+  };
+
+  const animatePercentage = (targetPercentage) => {
+    let currentPercentage = percentag;
+    const step = 1;
+    const intervalTime = 40;
+
+    const timer = setInterval(() => {
+      if (currentPercentage < targetPercentage) {
+        currentPercentage = Math.min(
+          currentPercentage + step,
+          targetPercentage
+        );
+      } else if (currentPercentage > targetPercentage) {
+        currentPercentage = Math.max(
+          currentPercentage - step,
+          targetPercentage
+        );
+      } else {
+        clearInterval(timer);
+      }
+      setPercentag(currentPercentage);
+    }, intervalTime);
   };
 
   // tasks
@@ -208,9 +240,11 @@ const Day = () => {
             <div className="cont-day-left">
               <div className="cont-day-top-left">
                 <div className="title-left">
+                  <h1>{monthsNames[id1]}</h1>
+                  <h1>/</h1>
                   <h1>{id3}</h1>
                   <button onClick={goBack}>
-                    <h2>back</h2>
+                    <IoReturnUpBack />
                   </button>
                 </div>
                 <div className="small-calendar">
@@ -245,7 +279,6 @@ const Day = () => {
               </div>
 
               <div className="task-day">
-                <h1>Day Task</h1>
                 <div className="content-task">
                   <DayContainer
                     dayNumber={id2}
@@ -257,7 +290,6 @@ const Day = () => {
                     addTaskDay={addTaskDay}
                     deleteTaskDay={deleteTaskDay}
                   />
-                  {/* goToPageDay={goToPageDay} */}
                 </div>
               </div>
             </div>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 //icons
-import { CiBookmarkPlus } from "react-icons/ci";
-import { CiBookmarkCheck } from "react-icons/ci";
+
 import { MdWbSunny } from "react-icons/md";
 import { IoMdMoon } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
 
 const Routine = ({
   hour,
@@ -31,15 +31,15 @@ const Routine = ({
       <>
         <div className="task-routine">
           <h2>{routine?.task}</h2>
-          <button onClick={chanceStateTask}>
-            {completTask ? <CiBookmarkCheck /> : <CiBookmarkPlus />}
-          </button>
+          {dayExists && (
+            <button
+              onClick={chanceStateTask}
+              className={completTask ? "none" : "incomplet"}
+            >
+              <IoMdAdd />
+            </button>
+          )}
         </div>
-        {/* {dayExists && (
-          <button onClick={chanceStateTask} className="completed">
-            {completTask ? "incomplet" : "complet"}
-          </button>
-        )} */}
       </>
     );
   };
@@ -54,7 +54,6 @@ const Routine = ({
           <MdWbSunny />
         )}
       </div>
-
       {renderTaskSection()}
     </div>
   );

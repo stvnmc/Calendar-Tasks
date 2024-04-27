@@ -19,23 +19,23 @@ const InputTextCR = ({
   }, [RoutineWorkday, RoutineWeekend, stages]);
 
   const showInfoTask = () => {
+    let taskText = "";
+
     if (stages === "weekend") {
-      setTask(
-        RoutineWeekend.map((item) => {
-          if (item.hour === hourObj.hour) {
-            return item.task;
-          }
-        })
-      );
+      RoutineWeekend.forEach((item) => {
+        if (item.hour === hourObj.hour) {
+          taskText = item.task;
+        }
+      });
     } else {
-      setTask(
-        RoutineWorkday.map((item) => {
-          if (item.hour === hourObj.hour) {
-            return item.task;
-          }
-        })
-      );
+      RoutineWorkday.forEach((item) => {
+        if (item.hour === hourObj.hour) {
+          taskText = item.task;
+        }
+      });
     }
+
+    setTask(taskText);
   };
 
   const handleEnterPress = (e) => {
@@ -51,9 +51,18 @@ const InputTextCR = ({
 
   return (
     <div className={`hour ${hourObj.period}`} style={hourObj.style}>
-      <h1>{hourObj.hour}</h1>
+      <div className="title-create">
+        <h1>{hourObj.hour}</h1>
+        <button
+          onClick={() => setOpenAddTask(!openAddTask)}
+          className={`create-input ${openAddTask}`}
+        >
+          <IoMdAdd />
+        </button>
+      </div>
+
       {openAddTask ? (
-        <div>
+        <div className="input-create-routine">
           <input
             type="text"
             placeholder="Task"
@@ -67,13 +76,14 @@ const InputTextCR = ({
             <FaCheck />
           </button>
         </div>
+      ) : Task === "" ? (
+        <ul className="lines">
+          <li></li>
+          <li></li>
+        </ul>
       ) : (
-        <button onClick={() => setOpenAddTask(true)}>
-          <IoMdAdd />
-        </button>
+        <h2>{Task}</h2>
       )}
-
-      <h4>{Task}</h4>
     </div>
   );
 };

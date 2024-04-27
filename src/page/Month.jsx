@@ -88,11 +88,6 @@ const Month = () => {
         <>
           <div>
             <div className="top-bar-calendario">
-              {/* <h2>
-                {dayNames[new Date().getDay()]}, {new Date().getDate()}{" "}
-                {monthsNames[new Date().getMonth()]} {new Date().getFullYear()}
-              </h2> */}
-
               <div className="month-chanceMonth">
                 <div className="date">
                   <h2>
@@ -137,6 +132,7 @@ const Month = () => {
                   addTaskDay={addTaskDay}
                   deleteTaskDay={deleteTaskDay}
                   goToPageDay={goToPageDay}
+                  handleMonthChange={handleMonthChange}
                 />
               ))}
             </div>
