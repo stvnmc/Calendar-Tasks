@@ -76,13 +76,16 @@ const InputTextCR = ({
             <FaCheck />
           </button>
         </div>
-      ) : Task === "" ? (
-        <ul className="lines">
-          <li></li>
-          <li></li>
-        </ul>
       ) : (
-        <h2>{Task}</h2>
+        <div className="input-create-text">
+          {Task === "" ? (
+            <ul className="lines">
+              <li></li>
+            </ul>
+          ) : (
+            <h2>{Task}</h2>
+          )}
+        </div>
       )}
     </div>
   );

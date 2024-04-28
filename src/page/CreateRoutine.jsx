@@ -80,14 +80,62 @@ const CreateRoutine = () => {
   return (
     <div className="cont-create">
       <div className="steps-to-follow">
-        <h1>pasos a seguir</h1>
-        <TbPointFilled />
-        <TbPointFilled />
-        <TbPointFilled />
+        <div className="steps-info">
+          {openSFD ? (
+            stages === "weekend" ? (
+              <>
+                <div>
+                  <img
+                    src={
+                      "https://blush.design/api/download?shareUri=XSoEhB1O7uRDhNR6&c=New%2520Palette%25201_0%7Effffff&f=f8c416-6636dd%7E0%7E%7E1&w=800&h=800&fm=png"
+                    }
+                  />
+                </div>
+                <h1>
+                  los dias de trabajo son los cuales tienes que ser productivos{" "}
+                </h1>
+              </>
+            ) : (
+              <>
+                <div>
+                  <img
+                    src={
+                      "https://blush.design/api/download?shareUri=naag2DS9rAFGJ3Fs&c=New%2520Palette%25201_0%7Effffff&f=f8c416-6636dd%7E0%7E%7E1&w=800&h=800&fm=png"
+                    }
+                  />
+                </div>
+                <h1>
+                  los dias de descanso son impoirtantes porque igual tenesmo
+                </h1>
+              </>
+            )
+          ) : (
+            <>
+              <div>
+                <img
+                  src={
+                    "https://blush.design/api/download?shareUri=MjEGq_quG8p-6B_z&c=New%2520Palette%25201_0%7Effffff&f=f8c416-6636dd%7E0%7E%7E1&w=800&h=800&fm=png"
+                  }
+                />
+              </div>
+              <h1>establese tu rutina ya se que trabajes o estudies </h1>
+            </>
+          )}
+        </div>
+
+        <div className="steps">
+          <TbPointFilled className={openSFD ? "" : "here"} />
+          <TbPointFilled
+            className={openSFD ? (stages === "weekend" ? "" : "here") : ""}
+          />
+          <TbPointFilled
+            className={openSFD ? (stages === "weekend" ? "here" : "") : ""}
+          />
+        </div>
       </div>
       {openSFD ? (
         <div className="add-info-routine">
-          <h1>agrega la información de tu rutina de los {stages}</h1>
+          <h1>Add information about your {stages} routine :</h1>
           <div className="hours">
             {dayHours().map((hourObj, index, completed) => (
               <InputTextCR
