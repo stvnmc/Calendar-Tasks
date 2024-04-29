@@ -52,7 +52,7 @@ const InputTextCR = ({
   return (
     <div className={`hour ${hourObj.period}`} style={hourObj.style}>
       <div className="title-create">
-        <h1>{hourObj.hour}</h1>
+        <h1>{hourObj.hour}:00</h1>
         <button
           onClick={() => setOpenAddTask(!openAddTask)}
           className={`create-input ${openAddTask}`}

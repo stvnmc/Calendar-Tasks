@@ -45,6 +45,10 @@ const CreateRoutine = () => {
     return weekend.includes(index);
   };
 
+  const retroceder = () => {
+    window.history.back();
+  };
+
   const nextStage = () => {
     if (stages === "weekend") {
       const res = addRoutine();
@@ -91,9 +95,7 @@ const CreateRoutine = () => {
                     }
                   />
                 </div>
-                <h1>
-                  los dias de trabajo son los cuales tienes que ser productivos{" "}
-                </h1>
+                <h1>Rest days are very important</h1>
               </>
             ) : (
               <>
@@ -104,9 +106,7 @@ const CreateRoutine = () => {
                     }
                   />
                 </div>
-                <h1>
-                  los dias de descanso son impoirtantes porque igual tenesmo
-                </h1>
+                <h1>The most productive days of the week</h1>
               </>
             )
           ) : (
@@ -118,7 +118,7 @@ const CreateRoutine = () => {
                   }
                 />
               </div>
-              <h1>establese tu rutina ya se que trabajes o estudies </h1>
+              <h1>Having an established routine is important</h1>
             </>
           )}
         </div>
@@ -181,9 +181,12 @@ const CreateRoutine = () => {
               </div>
             ))}
           </div>
-          <button className="next" onClick={createRoutine}>
-            next
-          </button>
+          <div className="next-previous">
+            <button onClick={retroceder}>Back</button>
+            <button className="next" onClick={createRoutine}>
+              next
+            </button>
+          </div>
         </div>
       )}
     </div>

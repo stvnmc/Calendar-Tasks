@@ -387,7 +387,7 @@ footer .contact div h2 {
   height: 100vh;
   background-color: #b29d8a;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='16' viewBox='0 0 20 16'%3E%3Cg fill='%23382e24' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 .04C2.6.22 4.99 1.1 7 2.5A13.94 13.94 0 0 1 15 0h4c.34 0 .67.01 1 .04v2A12 12 0 0 0 7.17 12h5.12A7 7 0 0 1 20 7.07V14a5 5 0 0 0-3-4.58A5 5 0 0 0 14 14H0V7.07c.86.12 1.67.4 2.4.81.75-1.52 1.76-2.9 2.98-4.05C3.79 2.83 1.96 2.2 0 2.04v-2z'/%3E%3C/g%3E%3C/svg%3E");
-  
+
   display: flex;
   flex-direction: column;
 }
@@ -409,6 +409,10 @@ footer .contact div h2 {
 
 .container .digital-clock {
   margin: 0px 9vw 0px 0vw;
+}
+
+.top-bar-calendario h2 {
+  width: 12vw;
 }
 
 .top-bar-calendario h2,
@@ -434,7 +438,7 @@ footer .contact div h2 {
   border: none;
   border-bottom: 2px solid #222d28;
   color: #e2d1bd;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+ 
 }
 
 .IoReturnUpBack svg {
@@ -454,9 +458,10 @@ footer .contact div h2 {
 }
 
 .month-chanceMonth h2 {
+  width: 17vw;
   font-size: 2vw;
   margin-right: 4vw;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: rgb(41 39 39);
 }
 
 .icons-calendar {
@@ -467,9 +472,6 @@ footer .contact div h2 {
 .icons-calendar button {
   font-size: 2vw;
   margin-left: 1vw;
-
-  border-radius: 2px;
-  border: none;
   width: 3vw;
   height: 4vh;
   color: #e2d1bd;
@@ -479,7 +481,7 @@ footer .contact div h2 {
   display: grid;
   grid-template-columns: repeat(7, 14vw);
   margin-bottom: 0.6vh;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
 }
 
 .days-of-week h2 {
@@ -487,7 +489,7 @@ footer .contact div h2 {
   margin-bottom: 0.4vh;
   padding: 0 2%;
   font-size: 1.4vw;
-  color: #e2d1bd;
+  color: rgb(41 39 39);
 }
 
 .days {
@@ -501,17 +503,19 @@ footer .contact div h2 {
 }
 
 .containers {
+  position: relative;
+  overflow: hidden;
   height: 100%;
   width: 100%;
-  background-color: #eadbdb94;
+  background-color: #f3e1e1;
   border-radius: 0.5em;
   border: none;
-  border-bottom: 0.1vh solid #dcd2c3;
-  border-right: 0.1vw solid #dcd2c3;
+  border-bottom: 0.1vh solid #575654;
+  border-right: 0.1vw solid #575654;
 }
 
 .containers:hover {
-  background: #a77670;
+  background: #c59e98;
   border-bottom: 0.1vh solid #868077;
   border-right: 0.1vw solid #868077;
 }
@@ -557,11 +561,11 @@ footer .contact div h2 {
   height: 2.5vh;
   margin-right: 0.3vw;
   border: none;
-  border-bottom: 0.2vh solid #d5caca;
-  border-right: 0.1vw solid #d5caca;
+  border-bottom: 0.2vh solid #aca7a7;
+  border-right: 0.1vw solid #aca7a7;
   border-radius: 2px;
-  background: #2d2b222d;
-  color: #cfc2c2;
+  background: #c99893;
+  color: #fff;
   transition: 1s;
 }
 
@@ -679,7 +683,8 @@ footer .contact div h2 {
 .task-routine button,
 .select-routine button,
 .create-input,
-.next-previous button {
+.next-previous button,
+.icons-calendar button {
   color: #fff;
   background-color: #817a6dd6;
   border: none;
@@ -694,14 +699,14 @@ footer .contact div h2 {
   height: 100vh;
   background-color: #b29d8a;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='16' viewBox='0 0 20 16'%3E%3Cg fill='%23382e24' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 .04C2.6.22 4.99 1.1 7 2.5A13.94 13.94 0 0 1 15 0h4c.34 0 .67.01 1 .04v2A12 12 0 0 0 7.17 12h5.12A7 7 0 0 1 20 7.07V14a5 5 0 0 0-3-4.58A5 5 0 0 0 14 14H0V7.07c.86.12 1.67.4 2.4.81.75-1.52 1.76-2.9 2.98-4.05C3.79 2.83 1.96 2.2 0 2.04v-2z'/%3E%3C/g%3E%3C/svg%3E");
-  
+
   width: 100vw;
   padding-left: 2vw;
   overflow-y: hidden;
 }
 .title-left {
   display: flex;
-  width: 22vw;
+  width: 23vw;
   height: 8vh;
   justify-content: space-between;
   align-items: center;
@@ -714,7 +719,8 @@ footer .contact div h2 {
   height: 3.5vh;
 }
 
-.title-left button:hover {
+.title-left button:hover,
+.icons-calendar button:hover {
   background: rgba(59, 175, 123, 0.176);
   color: #222d28f3;
   border-bottom: 1px solid rgb(25 38 32 / 22%);
@@ -770,6 +776,7 @@ footer .contact div h2 {
 
 .small-calendar {
   display: flex;
+  margin-left: 1.3vw;
 }
 
 .hours {
@@ -780,6 +787,8 @@ footer .contact div h2 {
 }
 
 .hour {
+  position: relative;
+  overflow: hidden;
   padding: 0.5vh 0.6vw;
   color: #fff;
   border-radius: 4px;
@@ -924,7 +933,7 @@ footer .contact div h2 {
   transition: 1s ease;
 }
 .day-task-rotuine:hover {
-  background-color: rgba(199, 194, 194, 0.623);
+  background-color: rgba(224, 220, 220, 0.932);
   border-bottom: 0.3vh solid #746161;
   border-right: 0.2vw solid #746161;
 }
@@ -1088,11 +1097,11 @@ footer .contact div h2 {
   width: 16vw;
   display: flex;
   align-items: center;
-  margin-bottom: 1vh;
+  margin: 1vh 0 1vh 1vw;
 }
 
 .day-task-rotuine .title-task > h1:first-child {
-  font-size: 4vw;
+  font-size: 3vw;
 }
 
 /* /////////// create routine ////////////*/
@@ -1386,8 +1395,33 @@ footer .contact div h2 {
   margin-top: 5vh;
   font-size: 2vw;
   width: 26vw;
+  height: 15vh;
 }
 
-.steps-info div{
-  height: 66vh;
+.steps-info div {
+  height: 58vh;
+}
+
+/* //////////// loading ////////////// */
+
+.cont-loading {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #435c5c00, #f7f4f423, #435c5c00);
+  position: absolute;
+  top: 0;
+  left: -100%;
+  animation: colorTransition 2s linear infinite;
+}
+
+@keyframes colorTransition {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 200%;
+  }
 }

@@ -25,7 +25,7 @@ export const useMonthData = () => {
 };
 
 export const MonthDataProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
+  const [loadingMonth, setLoadingMonth] = useState(true);
   const [infoOfMonth, setInfoOfMonth] = useState([]);
 
   const { user } = useUser();
@@ -141,8 +141,8 @@ export const MonthDataProvider = ({ children }) => {
   return (
     <MonthDataContext.Provider
       value={{
-        loading,
-        setLoading,
+        loadingMonth,
+        setLoadingMonth,
         infoOfMonth,
         addTaskDay,
         getInfoTaskDay,

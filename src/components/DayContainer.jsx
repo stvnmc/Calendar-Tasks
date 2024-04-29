@@ -1,12 +1,10 @@
-import { useState } from "react";
-
-// icons
+import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import { FaCheck } from "react-icons/fa";
-
-import { FaTasks } from "react-icons/fa";
+import { FaCheck, FaTasks } from "react-icons/fa";
 import { MdBookmarkRemove } from "react-icons/md";
 import { Loading } from "./Loading/Loading";
+import LoadingDays from "./Loading/LoadingDays";
+import { useEffect } from "react";
 
 const DayContainer = ({
   dayNumber,
@@ -19,10 +17,10 @@ const DayContainer = ({
   goToPageDay,
   deleteTaskDay,
   handleMonthChange,
+  loadingMonth,
 }) => {
   const [createTask, setCreateTask] = useState(false);
   const [inputValue, setInputValue] = useState("");
-
   const [loading, setLoading] = useState(true);
 
   const chanceCreateTask = () => {
@@ -54,8 +52,8 @@ const DayContainer = ({
     <div
       id={dayNumber}
       className={`containers num${dayNumber} ${type} ${
-        dayOfWeek === null ? "day-task-rotuine" : ""
-      }`}
+        loadingMonth ? "" : "loading"
+      } ${dayOfWeek === null ? "day-task-rotuine" : ""}`}
       style={{ gridColumn: `${dayOfWeek ? dayOfWeek + 1 : 1}` }}
       onClick={() => {
         if (type === "former") {
@@ -65,66 +63,70 @@ const DayContainer = ({
         }
       }}
     >
-      <div className="icons">
-        <div className="title-task">
-          <h1>{dayNumber}</h1>
-          {dayOfWeek === null ? <h1>Day Task</h1> : null}
-        </div>
-        {type === "current" && (
-          <div className="icons-add-rutine">
-            {dayOfWeek === null ? null : (
-              <button onClick={() => goToPageDay(dayNumber)}>
-                <FaTasks />
-              </button>
+      {loadingMonth ? (
+        <>
+          <div className="icons">
+            <div className="title-task">
+              {dayOfWeek === null ? <h1>Day Task</h1> : <h1>{dayNumber}</h1>}
+            </div>
+            {type === "current" && (
+              <div className="icons-add-rutine">
+                {dayOfWeek === null ? null : (
+                  <button onClick={() => goToPageDay(dayNumber)}>
+                    <FaTasks />
+                  </button>
+                )}
+                <button
+                  className={createTask ? "hover" : "none"}
+                  onClick={() => chanceCreateTask()}
+                >
+                  <IoMdAdd />
+                </button>
+              </div>
             )}
-            <button
-              className={createTask ? "hover" : "none"}
-              onClick={() => chanceCreateTask()}
-            >
-              <IoMdAdd />
-            </button>
           </div>
-        )}
-      </div>
-      {loading ? (
-        createTask ? (
-          <div className="create-task">
-            <input
-              type="text"
-              value={inputValue}
-              placeholder="Task"
-              onChange={(event) => setInputValue(event.target.value)}
-              onKeyPress={handleKeyPress}
-              autoFocus
-            />
-
-            <button className="add" onClick={() => chanceState("add")}>
-              <FaCheck />
-            </button>
-          </div>
-        ) : (
-          <div className="tasks">
-            {type === "current" ? (
-              <>
-                {infoOfMonth?.map((item, i) => (
-                  <div key={i} className="cont-tasks">
-                    <h2>{item}</h2>
-                    <button
-                      className="delete"
-                      onClick={() => chanceState("delet", i)}
-                    >
-                      <MdBookmarkRemove />
-                    </button>
-                  </div>
-                ))}
-              </>
+          {loading ? (
+            createTask ? (
+              <div className="create-task">
+                <input
+                  type="text"
+                  value={inputValue}
+                  placeholder="Task"
+                  onChange={(event) => setInputValue(event.target.value)}
+                  onKeyPress={handleKeyPress}
+                  autoFocus
+                />
+                <button className="add" onClick={() => chanceState("add")}>
+                  <FaCheck />
+                </button>
+              </div>
             ) : (
-              <div></div>
-            )}
-          </div>
-        )
+              <div className="tasks">
+                {type === "current" ? (
+                  <>
+                    {infoOfMonth?.map((item, i) => (
+                      <div key={i} className="cont-tasks">
+                        <h2>{item}</h2>
+                        <button
+                          className="delete"
+                          onClick={() => chanceState("delete", i)}
+                        >
+                          <MdBookmarkRemove />
+                        </button>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+            )
+          ) : (
+            <Loading />
+          )}
+        </>
       ) : (
-        <Loading />
+        <div className="cont-loading"></div>
       )}
     </div>
   );

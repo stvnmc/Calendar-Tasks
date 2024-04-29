@@ -19,8 +19,8 @@ const Month = () => {
   const [infoCalendar, setinfoCalendar] = useState([]);
 
   const {
-    loading,
-    setLoading,
+    loadingMonth,
+    setLoadingMonth,
     infoOfMonth,
     getInfoTaskDay,
     addTaskDay,
@@ -66,81 +66,78 @@ const Month = () => {
   };
 
   const goToPageDay = (day) => {
-    setLoading(false);
+    setLoadingMonth(false);
     const nuevaFecha = `/m/${id1}/d/${day}/y/${id2}`;
     navigate(nuevaFecha);
   };
   const goPageGome = () => {
-    setLoading(false);
+    setLoadingMonth(false);
     const nuevaFecha = `/`;
     navigate(nuevaFecha);
   };
 
   const getInfoTasksClandarar = async () => {
-    setLoading(false);
+    setLoadingMonth(false);
     await getInfoTaskDay(id2, id1);
-    setLoading(true);
+    setLoadingMonth(true);
   };
 
   return (
     <div className="container">
-      {loading ? (
-        <>
-          <div>
-            <div className="top-bar-calendario">
-              <div className="month-chanceMonth">
-                <div className="date">
-                  <h2>
-                    {monthsNames[id1 - 1]} {id2}
-                  </h2>
-                  <div className="icons-calendar">
-                    <button>
-                      <SlArrowDown onClick={() => handleMonthChange(1)} />
-                    </button>
-                    <button>
-                      <SlArrowUp onClick={() => handleMonthChange(-1)} />
-                    </button>
-                  </div>
+      <>
+        <div>
+          <div className="top-bar-calendario">
+            <div className="month-chanceMonth">
+              <div className="date">
+                <h2>
+                  {monthsNames[id1 - 1]} {id2}
+                </h2>
+                <div className="icons-calendar">
+                  <button>
+                    <SlArrowDown onClick={() => handleMonthChange(1)} />
+                  </button>
+                  <button>
+                    <SlArrowUp onClick={() => handleMonthChange(-1)} />
+                  </button>
                 </div>
               </div>
-              <DigitalClock />
-              <div className="user-control">
-                <h2>{user}</h2>
-                <button onClick={logout}>Logout</button>
-                <button className="IoReturnUpBack" onClick={goPageGome}>
-                  <IoReturnUpBack />
-                </button>
-              </div>
+            </div>
+            <DigitalClock />
+            <div className="user-control">
+              <h2>{user}</h2>
+              <button onClick={logout}>Logout</button>
+              <button className="IoReturnUpBack" onClick={goPageGome}>
+                <IoReturnUpBack />
+              </button>
             </div>
           </div>
-          <div className="calendar">
-            <div className="days-of-week">
-              {dayNames.map((dayName, index) => (
-                <h2 key={index}>{dayName}</h2>
-              ))}
-            </div>
-            <div className="days" id1="scrollable">
-              {infoCalendar?.map(({ dayNumber, dayOfWeek, type }, index) => (
-                <DayContainer
-                  key={index}
-                  dayNumber={dayNumber}
-                  month={id1}
-                  type={type}
-                  year={id2}
-                  dayOfWeek={dayOfWeek}
-                  infoOfMonth={infoOfMonth[dayNumber]}
-                  addTaskDay={addTaskDay}
-                  deleteTaskDay={deleteTaskDay}
-                  goToPageDay={goToPageDay}
-                  handleMonthChange={handleMonthChange}
-                />
-              ))}
-            </div>
+        </div>
+        <div className="calendar">
+          <div className="days-of-week">
+            {dayNames.map((dayName, index) => (
+              <h2 key={index}>{dayName}</h2>
+            ))}
           </div>
-        </>
-      ) : (
-        <Loading />
-      )}
+          <div className="days" id1="scrollable">
+            {infoCalendar?.map(({ dayNumber, dayOfWeek, type }, index) => (
+              <DayContainer
+                key={index}
+                dayNumber={dayNumber}
+                month={id1}
+                type={type}
+                year={id2}
+                dayOfWeek={dayOfWeek}
+                infoOfMonth={infoOfMonth[dayNumber]}
+                addTaskDay={addTaskDay}
+                deleteTaskDay={deleteTaskDay}
+                goToPageDay={goToPageDay}
+                handleMonthChange={handleMonthChange}
+                loadingMonth={loadingMonth}
+              />
+            ))}
+          </div>
+        </div>
+      </>
     </div>
   );
 };
