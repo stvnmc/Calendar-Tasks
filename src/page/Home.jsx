@@ -5,22 +5,32 @@ import Grid from "../components/styleOfPage/Grid";
 import Table from "../components/styleOfPage/Table";
 
 import { FaGithub, FaInstagram } from "react-icons/fa";
-import NavigationBar from "../components/NavigationBar";
+import DigitalClock from "../components/DigitalClock";
 
 const Home = () => {
   const month = new Date().getMonth();
   const year = new Date().getFullYear();
   const navigate = useNavigate();
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, user } = useUser();
 
   useEffect(() => {
     if (!isAuthenticated) navigate("/login");
+    console.log(isAuthenticated);
   });
 
   return (
     <>
-      <NavigationBar />
       <div className="home">
+        <div className="page-top">
+          <div className="logo">
+            <h1>calendarRoutine</h1>
+          </div>
+          <DigitalClock />
+          <div className="logout">
+            <h2>{user}</h2>
+            <button>Contact</button>
+          </div>
+        </div>
         <div className="first">
           <Grid />
           <div className="first-texto">
@@ -41,6 +51,13 @@ const Home = () => {
               tu vida diaria. Puedes añadir eventos fácilmente y establecer
               rutinas para cada día.
             </p>
+          </div>
+          <div>
+            <img
+              src={
+                "https://assets-global.website-files.com/64c73d04a946980a4476537e/64d190c182efd7fa3c5ac033_pondering.png"
+              }
+            />
           </div>
         </div>
         <footer>

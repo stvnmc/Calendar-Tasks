@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { MdWbSunny } from "react-icons/md";
 import { IoMdMoon } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-import LoadingDays from "./Loading/LoadingDays";
+import { useEffect } from "react";
 
 const Routine = ({
   hour,
@@ -16,6 +16,10 @@ const Routine = ({
   loading,
 }) => {
   const [completTask, setCompletTask] = useState(routine?.completed);
+
+  useEffect(() => {
+    setCompletTask(routine?.completed);
+  }, [routine]);
 
   const chanceStateTask = () => {
     if (completTask) {

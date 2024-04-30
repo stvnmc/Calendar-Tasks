@@ -11,9 +11,15 @@ function DigitalClock() {
     return () => clearInterval(interval);
   }, []);
 
+  const options = {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  };
+
   return (
     <div className="digital-clock">
-      <h1>{time.toLocaleTimeString()}</h1>
+      <h1>{time.toLocaleTimeString([], options)}</h1>
     </div>
   );
 }

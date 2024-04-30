@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { FaCheck, FaTasks } from "react-icons/fa";
 import { MdBookmarkRemove } from "react-icons/md";
-import { Loading } from "./Loading/Loading";
-import LoadingDays from "./Loading/LoadingDays";
-import { useEffect } from "react";
+
 
 const DayContainer = ({
   dayNumber,
@@ -122,7 +120,7 @@ const DayContainer = ({
               </div>
             )
           ) : (
-            <Loading />
+            <div className="cont-loading-task"></div>
           )}
         </>
       ) : (

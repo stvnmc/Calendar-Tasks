@@ -9,7 +9,6 @@ import {
 
 import { useRoutine } from "../context/RoutineContext";
 import { useUser } from "../context/userContext";
-import { Loading } from "../components/Loading/Loading";
 import Routine from "../components/Routine";
 
 // icons
@@ -118,7 +117,7 @@ const Day = () => {
       newMonth = 1;
       newYear++;
     }
-
+    getPercentageDay();
     const nuevaFecha = `/m/${newMonth}/d/${newDay}/y/${newYear}`;
     navigate(nuevaFecha);
   };
@@ -190,6 +189,7 @@ const Day = () => {
     for (const hour in routineDay) {
       if (routineDay[hour].task !== "") {
         countTask++;
+
         if (routineDay[hour].completed === true) {
           countTaskComplet++;
         }
@@ -198,7 +198,6 @@ const Day = () => {
 
     if (countTask !== 0) {
       const targetPercentage = Math.round((countTaskComplet / countTask) * 100);
-
       animatePercentage(targetPercentage);
     } else {
       setPercentag(0);
@@ -239,103 +238,103 @@ const Day = () => {
   };
 
   return (
-    <>
-      <>
-        <div className="cont-main-day">
-          <div className="cont-day-left">
-            <div className="cont-day-top-left">
-              <div className="title-left">
-                <h1>{monthsNames[id1]}</h1>
-                <h1>/</h1>
-                <h1>{id3}</h1>
-                <button onClick={goBack}>
-                  <IoReturnUpBack />
-                </button>
-              </div>
-              <div className="small-calendar">
-                <div className="cont-days-mini">
-                  <div className="days-of-week-mini">
-                    {dayNames.map((dayName, index) => (
-                      <h1 key={index}>{dayName.substring(0, 1)}</h1>
-                    ))}
-                  </div>
-                  <div className="days-mini">
-                    {infoCalendar.map((day, index) => (
-                      <DaysMiniCalendar
-                        key={index}
-                        item={day}
-                        month={id1}
-                        day={id2}
-                        year={id3}
-                        goDay={goDay}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div className="top-day-icons">
-                  <button onClick={() => chanceDay(-1)}>
-                    <SlArrowUp />
-                  </button>
-                  <button onClick={() => chanceDay(1)}>
-                    <SlArrowDown />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="task-day">
-              <div className="content-task">
-                <DayContainer
-                  dayNumber={id2}
-                  month={id1}
-                  year={id3}
-                  type={"current"}
-                  dayOfWeek={null}
-                  infoOfMonth={dayTask}
-                  addTaskDay={addTaskDay}
-                  deleteTaskDay={deleteTaskDay}
-                  loadingMonth={true}
-                />
-              </div>
-            </div>
+    <div className="cont-main-day">
+      <div className="cont-day-left">
+        <div className="cont-day-top-left">
+          <div className="title-left">
+            <h1>{monthsNames[id1]}</h1>
+            <h1>/</h1>
+            <h1>{id3}</h1>
           </div>
-          <div className="content-routine">
-            <div className="title-routine">
-              <div>
-                <button onClick={openCreateRutine}>
-                  <h2>Create Routine</h2>
-                </button>
-                {dayExists && (
-                  <button onClick={finallyDay}>
-                    <h2>finallyDay</h2>
-                  </button>
-                )}
+          <div className="small-calendar">
+            <div className="cont-days-mini">
+              <div className="days-of-week-mini">
+                {dayNames.map((dayName, index) => (
+                  <h1 key={index}>{dayName.substring(0, 1)}</h1>
+                ))}
               </div>
-              <div className="title-top">
-                <h1>{percentag}%</h1>
-                <h1>{stages}</h1>
+              <div className="days-mini">
+                {infoCalendar.map((day, index) => {
+                  console.log(day);
+                  return (
+                    <DaysMiniCalendar
+                      key={index}
+                      item={day}
+                      month={id1}
+                      type={day.type}
+                      day={id2}
+                      year={id3}
+                      goDay={goDay}
+                    />
+                  );
+                })}
               </div>
             </div>
-            <div className="hours">
-              {dayHours().map((hourObj, index) => (
-                <Routine
-                  key={index}
-                  hour={hourObj.hour}
-                  period={hourObj.period}
-                  style={hourObj.style}
-                  routine={
-                    routineDay === 0 ? routineDay[24] : routineDay[hourObj.hour]
-                  }
-                  setNewRoutineDay={setNewRoutineDay}
-                  dayExists={dayExists}
-                  loading={loading}
-                />
-              ))}
+            <div className="top-day-icons">
+              <button onClick={() => chanceDay(-1)}>
+                <SlArrowUp />
+              </button>
+              <button onClick={() => chanceDay(1)}>
+                <SlArrowDown />
+              </button>
             </div>
           </div>
         </div>
-      </>
-    </>
+
+        <div className="task-day">
+          <div className="content-task">
+            <DayContainer
+              dayNumber={id2}
+              month={id1}
+              year={id3}
+              type={"current"}
+              dayOfWeek={null}
+              infoOfMonth={dayTask}
+              addTaskDay={addTaskDay}
+              deleteTaskDay={deleteTaskDay}
+              loadingMonth={true}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="content-routine">
+        <div className="title-routine">
+          <div className="buttons-routine">
+            <button onClick={openCreateRutine}>
+              <h2>Create Routine</h2>
+            </button>
+            {dayExists && (
+              <button onClick={finallyDay}>
+                <h2>finallyDay</h2>
+              </button>
+            )}
+            <button onClick={goBack}>
+              <IoReturnUpBack />
+            </button>
+          </div>
+          <div className="title-top">
+            <h1>{percentag}%</h1>
+            <h1>{stages}</h1>
+          </div>
+        </div>
+        <div className="hours">
+          {dayHours().map((hourObj, index) => (
+            <Routine
+              key={index}
+              hour={hourObj.hour}
+              period={hourObj.period}
+              style={hourObj.style}
+              routine={
+                routineDay === 0 ? routineDay[24] : routineDay[hourObj.hour]
+              }
+              setNewRoutineDay={setNewRoutineDay}
+              dayExists={dayExists}
+              loading={loading}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

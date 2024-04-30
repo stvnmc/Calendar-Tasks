@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./page/Home";
-import NavigationBar from "./components/NavigationBar";
 import Month from "./page/Month";
 import Day from "./page/Day";
 import LoginPage from "./page/LoginPage";

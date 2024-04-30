@@ -37,6 +37,13 @@ const LoginPage = () => {
 
   return (
     <div className="login-register">
+      <div className="img-login">
+        <img
+          src={
+            "https://assets-global.website-files.com/64c73d04a946980a4476537e/64cd4b8241e30d1ff98179ad_gamestation.png"
+          }
+        />
+      </div>
       <div className="main-container">
         <div className="title">
           <h1>Bienvenidos a calendar nombre del calendario</h1>
@@ -77,6 +84,13 @@ const LoginPage = () => {
             <Link to="/register">Sign Up</Link>
           </span>
         </p>
+      </div>
+      <div className="img-login">
+        <img
+          src={
+            "https://assets-global.website-files.com/64c73d04a946980a4476537e/64cd4ad349ec3a4d94ff7554_chillin.png"
+          }
+        />
       </div>
     </div>
   );

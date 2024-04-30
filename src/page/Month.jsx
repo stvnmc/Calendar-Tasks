@@ -5,9 +5,8 @@ import { IoReturnUpBack } from "react-icons/io5";
 import { dayNames, monthsNames } from "../components/infor/MonthsDays";
 
 import DayContainer from "../components/DayContainer";
-
+import { FaUser } from "react-icons/fa";
 import { useMonthData } from "../context/MonthDataContext";
-import { Loading } from "../components/Loading/Loading";
 import { useUser } from "../context/userContext";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
 import DigitalClock from "../components/DigitalClock";
@@ -92,12 +91,15 @@ const Month = () => {
                 <h2>
                   {monthsNames[id1 - 1]} {id2}
                 </h2>
-                <div className="icons-calendar">
+                <div
+                  className="icons-calendar"
+                  onClick={() => handleMonthChange(1)}
+                >
                   <button>
-                    <SlArrowDown onClick={() => handleMonthChange(1)} />
+                    <SlArrowDown />
                   </button>
-                  <button>
-                    <SlArrowUp onClick={() => handleMonthChange(-1)} />
+                  <button onClick={() => handleMonthChange(-1)}>
+                    <SlArrowUp />
                   </button>
                 </div>
               </div>
@@ -105,7 +107,9 @@ const Month = () => {
             <DigitalClock />
             <div className="user-control">
               <h2>{user}</h2>
-              <button onClick={logout}>Logout</button>
+              <button onClick={logout}>
+                <FaUser />
+              </button>
               <button className="IoReturnUpBack" onClick={goPageGome}>
                 <IoReturnUpBack />
               </button>
