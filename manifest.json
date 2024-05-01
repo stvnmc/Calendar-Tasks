@@ -1,0 +1,18 @@
+{
+  "index.css": {
+    "file": "index-32741c22.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "css": [
+      "index-32741c22.css"
+    ],
+    "file": "index-ec069c59.js",
+    "isEntry": true,
+    "src": "index.html"
+  },
+  "src/icons/calendar-days-svgrepo-com.svg": {
+    "file": "calendar-days-svgrepo-com-10d6a5ce.svg",
+    "src": "src/icons/calendar-days-svgrepo-com.svg"
+  }
+}
