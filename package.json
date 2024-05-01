@@ -1,16 +1,16 @@
 {
-  "name": "my-react-app",
+  "homepage": "https://stvnmc.github.io/Calendar-Tasks",
+  "name": "calendar-routine",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://stvnmc.github.io/Calendar-Tasks",
   "scripts": {
     "dev": "vite",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "firebase": "^10.8.1",
