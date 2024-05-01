@@ -18,7 +18,12 @@ function DigitalClock() {
   };
 
   return (
-    <div className="digital-clock">
+    <div class="digital-clock">
+      <div class="linea-digital"></div>
+      <div class="linea-digital-top"></div>
+      <div class="linea-digital-left"></div>
+      <div class="linea-digital-right"></div>
+      
       <h1>{time.toLocaleTimeString([], options)}</h1>
     </div>
   );

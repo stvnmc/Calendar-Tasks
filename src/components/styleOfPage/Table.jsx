@@ -2,13 +2,8 @@ import React from "react";
 
 function Table() {
   const textos = {
-    workDay: ["Comer", "Estudiar", "Ejercicio"],
-    weekend: ["Descansar", "Limpiar", "Jugar"],
-  };
-  
-  const textosDos = {
-    workDay: ["Estudiar", "Comer", "Ejercicio"],
-    weekend: ["Limpiar", "Jugar", "Descansar"],
+    workDay: ["Eat", "Study", "Exercise"],
+    weekend: ["Rest", "Clean", "Play"],
   };
 
   return (

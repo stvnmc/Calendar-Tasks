@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/userContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Grid from "../components/styleOfPage/Grid";
 import Table from "../components/styleOfPage/Table";
 
@@ -18,12 +18,30 @@ const Home = () => {
     console.log(isAuthenticated);
   });
 
+  const [style, setStyle] = useState(0);
+
+  useEffect(() => {
+    const timeout1 = setTimeout(() => {
+      if (style === 0) {
+        setStyle(32);
+      } else if (style === 32) {
+        setStyle(66);
+      } else {
+        setStyle(0);
+      }
+    }, 6000);
+
+    return () => {
+      clearTimeout(timeout1);
+    };
+  }, [style]);
+
   return (
     <>
       <div className="home">
         <div className="page-top">
           <div className="logo">
-            <h1>calendarRoutine</h1>
+            <h1>CalenRoutine</h1>
           </div>
           <DigitalClock />
           <div className="logout">
@@ -34,24 +52,25 @@ const Home = () => {
         <div className="first">
           <Grid />
           <div className="first-texto">
-            <h1>Ordena tu vida y tu rutina con CalendarRoutine.</h1>
+            <h1>Organize your life and your routine with CalenRoutine</h1>
 
             <button onClick={() => navigate(`/month/${month + 1}/${year}`)}>
-              Comenzar
+              Begin
             </button>
+
+            <div className="cont-img">
+              <img
+                src={
+                  "https://assets-global.website-files.com/64c73d04a946980a4476537e/64cd4c2274b417b090395329_plants.png"
+                }
+              />
+            </div>
           </div>
         </div>
         <div className="second">
           <Table />
         </div>
         <div className="third">
-          <div className="cont-text">
-            <p>
-              Bievenido a CalendarRoutine, la herramienta ideal para organizar
-              tu vida diaria. Puedes añadir eventos fácilmente y establecer
-              rutinas para cada día.
-            </p>
-          </div>
           <div>
             <img
               src={
@@ -59,25 +78,60 @@ const Home = () => {
               }
             />
           </div>
-        </div>
-        <footer>
-          <div className="contact">
-            <h4>Contacto</h4>
-            <div>
-              <h2>Nombre:</h2>
-              <h2>Steven Marchena Caballero</h2>
-            </div>
-            <div>
-              <h2>Correo electrónico:</h2>
-              <h2>stvnmc123@gmail.com</h2>
+          <div className="cont-text">
+            <div style={{ transform: `translate(-${style}%)` }}>
+              <p>
+                Welcome to Calendar Routine, the ideal tool to organize your
+                daily life. You can easily add events and set routines for each
+                day.
+              </p>
+              <p>
+                Organize your time efficiently with Calendar Routine. Record
+                your daily activities and establish routines to optimize your
+                day.
+              </p>
+              <p>
+                Welcome to CalendarRoutine! The perfect tool for plan your daily
+                activities.
+              </p>
             </div>
           </div>
-          <div className="footer-rigth">
-            <div className="cont-links">
-              <FaGithub />
-              <FaInstagram />
+        </div>
+        <footer>
+          <div className="cont-img">
+            <img
+              src={
+                "https://assets-global.website-files.com/64c73d04a946980a4476537e/64d18f22bd4dfae30b7ea399_astro.png"
+              }
+            />
+          </div>
+          <div className="content">
+            <div className="contact">
+              <h4>Contact</h4>
+              <div>
+                <h2>Name:</h2>
+                <h2>Steven Marchena Caballero</h2>
+              </div>
+              <div>
+                <h2>Email:</h2>
+                <h2>stvnmc123@gmail.com</h2>
+              </div>
             </div>
-            <p>&copy; 2024</p>
+            <div className="inspired">
+              <h1>
+                Images:
+                <a href={"https://www.transhumans.xyz/images/plants"}>
+                  transhumans.com
+                </a>
+              </h1>
+            </div>
+            <div className="footer-rigth">
+              <div className="cont-links">
+                <FaGithub />
+                <FaInstagram />
+              </div>
+              <p>&copy; 2024</p>
+            </div>
           </div>
         </footer>
       </div>

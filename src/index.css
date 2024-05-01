@@ -47,10 +47,10 @@ button {
   position: absolute;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   color: rgba(249, 243, 243, 0.93);
-  height: 179vh;
-  width: 99vw;
-
+  height: 208vh;
+  width: 100vw;
   background-color: #b29d8a;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='16' viewBox='0 0 20 16'%3E%3Cg fill='%23382e24' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 .04C2.6.22 4.99 1.1 7 2.5A13.94 13.94 0 0 1 15 0h4c.34 0 .67.01 1 .04v2A12 12 0 0 0 7.17 12h5.12A7 7 0 0 1 20 7.07V14a5 5 0 0 0-3-4.58A5 5 0 0 0 14 14H0V7.07c.86.12 1.67.4 2.4.81.75-1.52 1.76-2.9 2.98-4.05C3.79 2.83 1.96 2.2 0 2.04v-2z'/%3E%3C/g%3E%3C/svg%3E");
 }
@@ -90,6 +90,9 @@ button {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
+  border: none;
+  border-bottom: 0.4vh solid #c0bcbca1;
+  border-right: 0.4vh solid #c0bcbca1;
 }
 
 .square {
@@ -122,6 +125,20 @@ button {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  position: relative;
+}
+
+.first-texto .cont-img {
+  position: absolute;
+  width: 26vw;
+  min-width: 323px;
+  top: 2vh;
+  right: -189px;
+}
+
+.first-texto .cont-img img {
+  width: 100%;
+  height: 100%;
 }
 
 .first-texto > h1 {
@@ -136,25 +153,29 @@ button {
   min-width: 200px;
   width: 16vw;
   background: #222d28;
-  border: none;
+
   color: #e2d1bd;
   margin: 7vh 0px 0px;
   font-size: 30px;
   padding: 0 5%;
   font-weight: bolder;
-  box-shadow: 7px 9px 15px -4px rgba(0, 0, 0, 0.75);
   transition: 0.7s;
   border-radius: 4px;
+  border: none;
+  border-bottom: 0.3vh solid #c0bcbc;
+  border-right: 0.3vh solid #c0bcbc;
 }
 
 .first-texto button:hover {
   background-color: #e9d9d9e7;
   color: #2e2b28;
+  border-bottom: 0.3vh solid #3f3e3e;
+  border-right: 0.3vh solid #3f3e3e;
 }
 
 .second {
   display: flex;
-  height: 58vh;
+  height: 46vh;
   justify-content: space-evenly;
   align-items: center;
 }
@@ -182,8 +203,11 @@ button {
   border-radius: 4px;
   transition: 1s;
   cursor: pointer;
-  box-shadow: 32px 24px 24px -14px rgba(0, 0, 0, 0.75);
+  border: none;
+  border-bottom: 0.3vh solid #c0bcbc;
+  border-right: 0.3vh solid #c0bcbc;
 }
+
 .listTask h2 {
   color: #e2d1bd;
   display: flex;
@@ -195,25 +219,60 @@ button {
 
 .listTask:hover {
   background-color: #e9d9d9e7;
+  border-bottom: 0.3vh solid #3f3e3e;
+  border-right: 0.3vh solid #3f3e3e;
 }
+
+.listTask:hover h2 {
+  color: #85786a;
+}
+
 .listTask h2:hover {
   color: #2e2b28;
 }
 
 .third .cont-text {
-  margin: 0 19vw;
+  overflow: hidden;
   background-color: #222d28;
-  color: #f9ead8;
-  font-size: 2vw;
-  padding: 8px 5%;
-  border-radius: 4px;
+  padding: 2vh 3vw;
+  width: 42vw;
+  min-width: 382px;
+  min-height: 260px;
   box-shadow: 0px 14px 26px -14px rgba(0, 0, 0, 0.75);
+  border: none;
+  border-radius: 5px;
+  border-bottom: 0.3vh solid #d5caca;
+  border-right: 0.2vw solid #d5caca;
+  margin-bottom: 9vh;
 }
+
+.third .cont-text div {
+  margin-top: 3vh;
+  display: flex;
+  align-items: center;
+  width: 325%;
+  height: 100%;
+  transition: 1s ease;
+}
+
+.third .cont-text p {
+  color: #f9ead8;
+  font-size: 35px;
+  width: 30%;
+  margin-right: 3%;
+}
+
 .third {
-  display: f;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 .third img {
-  width: 20vw;
+  width: 30vw;
+  min-width: 292px;
+  margin-right: 4vw;
 }
 
 /* //////////////// login and register//////////////////////////////////// */
@@ -337,9 +396,90 @@ button {
 }
 
 .digital-clock {
+  position: relative;
   font-size: 1.6vw;
-  padding: 0 5%;
+  padding: 0.5vh 1vw;
   color: rgb(41 39 39);
+  overflow: hidden;
+}
+
+.linea-digital,
+.linea-digital-top,
+.linea-digital-left,
+.linea-digital-right {
+  position: absolute;
+  content: "";
+  background-color: #ffffffce;
+}
+
+.linea-digital {
+  width: 100%;
+  height: 0.2vh;
+  bottom: 0;
+  left: 0;
+  animation: moveLine 5s linear infinite;
+}
+
+.linea-digital-top {
+  width: 100%;
+  height: 0.2vh;
+  top: 0;
+  left: 0;
+  animation: moveLineTop 5s linear infinite;
+}
+
+.linea-digital-right,
+.linea-digital-left {
+  width: 0.1vw;
+  height: 100%;
+}
+
+.linea-digital-left {
+  top: 0;
+  left: 0;
+  animation: moveLineLeft 5s linear infinite;
+}
+
+.linea-digital-right {
+  top: 0;
+  right: 0;
+  animation: moveLineRight 5s linear infinite;
+}
+
+@keyframes moveLine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes moveLineTop {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes moveLineLeft {
+  0% {
+    transform: translateY(-290%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes moveLineRight {
+  0% {
+    transform: translateY(290%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }
 
 .logout {
@@ -373,12 +513,25 @@ button {
 /* ///////////////////// footer ///////////////////////// */
 
 footer {
-  width: 93vw;
-  height: 46vh;
-  margin: 0px 3vw;
+  width: 100vw;
+  height: 50vh;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #222d28;
+  width: 75vw;
+  min-width: 400px;
+  height: auto;
+  border-radius: 3vw 0 0 0;
+  padding-left: 3vw;
+  padding-right: 2vw;
+  border: none;
+  border-top: 0.5vh solid #fff;
 }
 
 footer h4 {
@@ -387,10 +540,17 @@ footer h4 {
   color: #e2d1bd;
 }
 
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 footer .contact div {
   display: flex;
-  margin-bottom: 2vh;
+  align-items: flex-end;
 }
+
 footer .contact div h2 {
   margin-left: 1vw;
 }
@@ -400,10 +560,17 @@ footer .contact div h2 {
   justify-content: flex-end;
   margin-bottom: 2vh;
 }
+
 .cont-links svg {
   margin-right: 1vw;
   font-size: 2vw;
   padding: 0 2%;
+}
+
+.footer-rigth {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.4vh;
 }
 
 .footer-rigth p {
@@ -411,6 +578,38 @@ footer .contact div h2 {
   font-size: 2vw;
   padding: 0 2%;
   width: 7vw;
+}
+
+footer .cont-img {
+  background-color: #222d28;
+  border-radius: 0 10vw 0 0;
+  width: 20vw;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-top: 1vh solid #fff;
+}
+
+footer img {
+  width: 100%;
+  height: 100%;
+}
+
+.inspired {
+  display: flex;
+  margin-bottom: 5vh;
+  align-items: flex-end;
+}
+
+.inspired h1 {
+  font-size: 24px;
+}
+
+.inspired a {
+  margin-left: 0.5vw;
+  font-size: 1vw;
 }
 
 /*/////////////////// month ///////////////////////*/
@@ -457,6 +656,23 @@ footer .contact div h2 {
 .user-control {
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+.float-window {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  width: 201px;
+  height: 189px;
+  left: 60px;
+  bottom: -172px;
+  background-color: #d4d4d4;
+  z-index: 1;
+  border-radius: 5px;
+  border: none;
+  border-bottom: 2px solid #fff;
+  border-right: 2px solid #fff;
 }
 
 .user-control button {
@@ -466,9 +682,6 @@ footer .contact div h2 {
   border-radius: 2px;
   font-size: 1.4vw;
   color: #e2d1bd;
-}
-
-.user-control > button:first-child {
 }
 
 .IoReturnUpBack svg {

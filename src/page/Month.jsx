@@ -110,9 +110,15 @@ const Month = () => {
               <button onClick={logout}>
                 <FaUser />
               </button>
-              <button className="IoReturnUpBack" onClick={goPageGome}>
-                <IoReturnUpBack />
-              </button>
+
+              <div className="float-window">
+                <button onClick={logout}>
+                  <FaUser />
+                </button>
+                <button className="IoReturnUpBack" onClick={goPageGome}>
+                  <IoReturnUpBack />
+                </button>
+              </div>
             </div>
           </div>
         </div>
