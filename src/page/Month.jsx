@@ -5,7 +5,7 @@ import { IoReturnUpBack } from "react-icons/io5";
 import { dayNames, monthsNames } from "../components/infor/MonthsDays";
 
 import DayContainer from "../components/DayContainer";
-import { FaUser } from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
 import { useMonthData } from "../context/MonthDataContext";
 import { useUser } from "../context/userContext";
 import { getInfoCalendar } from "../components/FunctionGetCalendar";
@@ -69,11 +69,6 @@ const Month = () => {
     const nuevaFecha = `/m/${id1}/d/${day}/y/${id2}`;
     navigate(nuevaFecha);
   };
-  const goPageGome = () => {
-    setLoadingMonth(false);
-    const nuevaFecha = `/`;
-    navigate(nuevaFecha);
-  };
 
   const getInfoTasksClandarar = async () => {
     setLoadingMonth(false);
@@ -107,18 +102,9 @@ const Month = () => {
             <DigitalClock />
             <div className="user-control">
               <h2>{user}</h2>
-              <button onClick={logout}>
-                <FaUser />
+              <button onClick={logout} className="user-button">
+                <CiLogout />
               </button>
-
-              <div className="float-window">
-                <button onClick={logout}>
-                  <FaUser />
-                </button>
-                <button className="IoReturnUpBack" onClick={goPageGome}>
-                  <IoReturnUpBack />
-                </button>
-              </div>
             </div>
           </div>
         </div>

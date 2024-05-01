@@ -243,8 +243,6 @@ const Day = () => {
         <div className="cont-day-top-left">
           <div className="title-left">
             <h1>{monthsNames[id1]}</h1>
-            <h1>/</h1>
-            <h1>{id3}</h1>
           </div>
           <div className="small-calendar">
             <div className="cont-days-mini">

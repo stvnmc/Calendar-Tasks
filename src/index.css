@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:wght@100;300;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap");
 
 :root {
-  font-family: "Raleway", sans-serif;
+  font-family: "Dosis", sans-serif;
   color-scheme: light dark;
 
   color: rgba(20, 19, 19, 0.87);
@@ -237,7 +237,7 @@ button {
   padding: 2vh 3vw;
   width: 42vw;
   min-width: 382px;
-  min-height: 260px;
+
   box-shadow: 0px 14px 26px -14px rgba(0, 0, 0, 0.75);
   border: none;
   border-radius: 5px;
@@ -248,6 +248,7 @@ button {
 
 .third .cont-text div {
   margin-top: 3vh;
+  margin-bottom: 3vh;
   display: flex;
   align-items: center;
   width: 325%;
@@ -618,7 +619,7 @@ footer img {
   height: 100vh;
   background-color: #b29d8a;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='16' viewBox='0 0 20 16'%3E%3Cg fill='%23382e24' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M0 .04C2.6.22 4.99 1.1 7 2.5A13.94 13.94 0 0 1 15 0h4c.34 0 .67.01 1 .04v2A12 12 0 0 0 7.17 12h5.12A7 7 0 0 1 20 7.07V14a5 5 0 0 0-3-4.58A5 5 0 0 0 14 14H0V7.07c.86.12 1.67.4 2.4.81.75-1.52 1.76-2.9 2.98-4.05C3.79 2.83 1.96 2.2 0 2.04v-2z'/%3E%3C/g%3E%3C/svg%3E");
-
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -656,37 +657,19 @@ footer img {
 .user-control {
   display: flex;
   align-items: center;
-  position: relative;
-}
-
-.float-window {
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  width: 201px;
-  height: 189px;
-  left: 60px;
-  bottom: -172px;
-  background-color: #d4d4d4;
-  z-index: 1;
-  border-radius: 5px;
-  border: none;
-  border-bottom: 2px solid #fff;
-  border-right: 2px solid #fff;
 }
 
 .user-control button {
-  width: 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4vw;
+  min-width: 50px;
   height: 4vh;
   margin-right: 1vw;
   border-radius: 2px;
-  font-size: 1.4vw;
+  font-size: 25px;
   color: #e2d1bd;
-}
-
-.IoReturnUpBack svg {
-  font-size: 2vw;
-  padding: 0 2%;
 }
 
 .month-chanceMonth {
@@ -701,8 +684,7 @@ footer img {
 }
 
 .month-chanceMonth h2 {
-  width: 17vw;
-  font-size: 2vw;
+  font-size: 41px;
   color: rgb(41 39 39);
 }
 
@@ -722,22 +704,30 @@ footer img {
 .days-of-week {
   display: grid;
   grid-template-columns: repeat(7, 14vw);
-  margin-bottom: 0.6vh;
+  margin-bottom: 0.5vh;
+  background-color: #7b8d72ad;
+  width: 96vw;
+  height: 5.7vh;
+  border-radius: 5px;
+  border-bottom: 0.3vh solid #20241c;
+  border-right: 0.2vw solid #20241c;
+  align-items: center;
+  justify-items: start;
 }
 
 .days-of-week h2 {
   margin-left: 1vw;
   margin-bottom: 0.4vh;
   padding: 0 2%;
-  font-size: 1.4vw;
-  color: rgb(41 39 39);
+  font-size: 1.9vw;
+  color: rgb(245, 242, 242);
 }
 
 .days {
   display: grid;
-  gap: 0.2vh 0.2vw;
+  gap: 0.3vh 0.3vw;
   grid-template-columns: repeat(7, 13.4vw);
-  grid-template-rows: repeat(6, 14vh);
+  grid-template-rows: repeat(6, 13.6vh);
   overflow-y: hidden;
   height: 85vh;
   width: 96vw;
@@ -748,15 +738,15 @@ footer img {
   overflow: hidden;
   height: 100%;
   width: 100%;
-  background-color: #f3e1e1;
+  background-color: #f5f5ef;
   border-radius: 0.5em;
   border: none;
-  border-bottom: 0.1vh solid #575654;
-  border-right: 0.1vw solid #575654;
+  border-bottom: 0.3vh solid #575654;
+  border-right: 0.2vw solid #575654;
 }
 
 .containers:hover {
-  background: #c59e98;
+  background: #b5c093;
   border-bottom: 0.1vh solid #f1f1ef;
   border-right: 0.1vw solid #f1f1ef;
 }
@@ -792,20 +782,20 @@ footer img {
 }
 .cont-tasks h2 {
   width: 11vw;
-  font-size: 1.3vw;
-
+  font-size: 22px;
   overflow-wrap: break-word;
 }
 
 .icons-add-rutine button {
   width: 1.4vw;
+  min-width: 23px;
   height: 2.5vh;
   margin-right: 0.3vw;
   border: none;
-  border-bottom: 0.2vh solid #aca7a7;
-  border-right: 0.1vw solid #aca7a7;
+  border-bottom: 0.2vh solid #7a7676;
+  border-right: 0.1vw solid #7a7676;
   border-radius: 2px;
-  background: #c99893;
+  background: #6e7a60cc;
   color: #fff;
   transition: 1s;
 }
@@ -838,7 +828,7 @@ footer img {
 }
 
 .icons-add-rutine button svg {
-  font-size: 1vw;
+  font-size: 15px;
   padding: 0 2%;
   transition: transform 1s ease;
 }
@@ -856,7 +846,7 @@ footer img {
 
 .containers.next,
 .containers.former {
-  background: #925750;
+  background: #e1dbc1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -864,7 +854,7 @@ footer img {
 
 .containers.next:hover,
 .containers.former:hover {
-  background-color: #f3d3c1c9;
+  background-color: #59654a;
   cursor: pointer;
 }
 
@@ -879,6 +869,7 @@ footer img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 4vh;
 }
 
 .icons h1 {
@@ -898,9 +889,9 @@ footer img {
 .create-task input {
   width: 10vw;
   height: 2.5vh;
-  font-size: 1vw;
+  font-size: 17px;
   padding: 0 2%;
-  background-color: #a58d84;
+  background-color: #a8a19e;
   border: none;
   border-bottom: 2px solid rgba(158, 123, 123, 0.377);
   border-radius: 4px;
@@ -935,7 +926,7 @@ footer img {
 .user-control button,
 .logout button {
   color: #fff;
-  background-color: #817a6dd6;
+  background-color: #817a6d;
   border: none;
   border-radius: 4px;
   border-bottom: 0.2vh solid #c7c3c3;
@@ -957,7 +948,9 @@ footer img {
 .title-left {
   display: flex;
   height: 8vh;
+  width: 19vw;
   align-items: center;
+  justify-content: center;
 }
 
 .icons-calendar button:hover {
@@ -1087,12 +1080,10 @@ footer img {
 
 .cont-days-mini {
   width: 15vw;
-  background-color: rgb(41 39 39);
+
   border-radius: 6px;
   padding: 2%;
-  color: #f5e9e9;
-  border-bottom: 0.4vh solid rgb(151, 148, 148);
-  border-right: 0.2vw solid rgb(151, 148, 148);
+  color: #2c2b2b;
 }
 
 .content-routine {
@@ -1109,6 +1100,12 @@ footer img {
 }
 
 .days-of-week-mini {
+  background-color: #e1dfd1;
+  border: none;
+  padding: 1%;
+  border-radius: 4px;
+  border-bottom: 0.2vh solid #20241c;
+  border-right: 0.2vh solid #20241c;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
@@ -1123,6 +1120,7 @@ footer img {
 }
 
 .day-mini-calendar {
+  color: #2c2b2b;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1132,18 +1130,29 @@ footer img {
 }
 
 .today {
-  background-color: #a87570;
+  background-color: #e1dfd1;
 }
 
 .days-mini .day-mini-calendar:hover {
-  background-color: #b1b3b273;
+  background-color: #e1dfd1;
 }
 
 .days-mini .day-mini-calendar h2 {
-  color: #e6e4e2;
   font-size: 1.1vw;
   padding: 0 2%;
   font-weight: 400;
+}
+.days-mini .day-mini-calendar.next h2 {
+  color: #dacccc;
+}
+
+.days-mini .day-mini-calendar.former h2 {
+  color: #dacccc;
+}
+
+.days-mini .day-mini-calendar.former:hover h2,
+.days-mini .day-mini-calendar.next:hover h2 {
+  color: #20241c;
 }
 
 .task-day {
@@ -1153,7 +1162,7 @@ footer img {
 /*  */
 
 .day-task-rotuine {
-  background-color: #f0d0d0e0;
+  background-color: #f5f5ef;
   border-radius: 5px;
   width: 26vw;
   border-bottom: 0.3vh solid #d5caca;
@@ -1178,17 +1187,21 @@ footer img {
 
 .day-task-rotuine .create-task {
   height: 25vh;
+  margin-top: 4vh;
   justify-content: center;
 }
 .day-task-rotuine .create-task input {
-  height: 5vh;
+  height: 6vh;
   background-color: #484747;
-  width: 12vw;
+  width: 16vw;
+  font-size: 33px;
 }
+
 .day-task-rotuine .create-task button {
-  height: 4vh;
-  width: 10vw;
+  height: 5vh;
+  width: 12vw;
   margin-top: 1vh;
+  font-size: 24px;
 }
 
 .day-task-rotuine .tasks .cont-tasks h2,
@@ -1235,7 +1248,7 @@ footer img {
 }
 
 .title-routine button {
-  width: 11vw;
+  width: 10vw;
   margin-right: 1vw;
   height: 4vh;
 }
@@ -1645,7 +1658,7 @@ footer img {
 .cont-loading {
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, #435c5c00, #f7f4f423, #435c5c00);
+  background: linear-gradient(to right, #435c5c00, #a1a1a12f, #435c5c00);
   position: absolute;
   top: 0;
   left: -100%;
@@ -1655,7 +1668,7 @@ footer img {
 .cont-loading-task {
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, #435c5c00, #5f5e5e23, #435c5c00);
+  background: linear-gradient(to right, #435c5c00, #2e2d2d27, #435c5c00);
   position: absolute;
   top: 0;
   left: -100%;

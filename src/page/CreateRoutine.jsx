@@ -91,7 +91,7 @@ const CreateRoutine = () => {
                 <div>
                   <img
                     src={
-                      "https://blush.design/api/download?shareUri=XSoEhB1O7uRDhNR6&c=New%2520Palette%25201_0%7Effffff&f=f8c416-6636dd%7E0%7E%7E1&w=800&h=800&fm=png"
+                      "https://assets-global.website-files.com/64c73d04a946980a4476537e/64d9c64fb20aa28a2850f036_chaotic-good.png"
                     }
                   />
                 </div>
@@ -102,7 +102,7 @@ const CreateRoutine = () => {
                 <div>
                   <img
                     src={
-                      "https://blush.design/api/download?shareUri=naag2DS9rAFGJ3Fs&c=New%2520Palette%25201_0%7Effffff&f=f8c416-6636dd%7E0%7E%7E1&w=800&h=800&fm=png"
+                      "https://assets-global.website-files.com/64c73d04a946980a4476537e/64cd4b0849333dd65b9525a6_coffee.png"
                     }
                   />
                 </div>
@@ -114,7 +114,7 @@ const CreateRoutine = () => {
               <div>
                 <img
                   src={
-                    "https://blush.design/api/download?shareUri=MjEGq_quG8p-6B_z&c=New%2520Palette%25201_0%7Effffff&f=f8c416-6636dd%7E0%7E%7E1&w=800&h=800&fm=png"
+                    "https://assets-global.website-files.com/64c73d04a946980a4476537e/64cd4b9bf0da0e3228caa6d0_growth.png"
                   }
                 />
               </div>

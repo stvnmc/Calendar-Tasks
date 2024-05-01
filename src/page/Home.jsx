@@ -15,7 +15,6 @@ const Home = () => {
 
   useEffect(() => {
     if (!isAuthenticated) navigate("/login");
-    console.log(isAuthenticated);
   });
 
   const [style, setStyle] = useState(0);
@@ -127,8 +126,12 @@ const Home = () => {
             </div>
             <div className="footer-rigth">
               <div className="cont-links">
-                <FaGithub />
-                <FaInstagram />
+                <a href="https://www.instagram.com/cuatrommc/?hl=es">
+                  <FaGithub />
+                </a>
+                <a href="https://github.com/stvnmc">
+                  <FaInstagram />
+                </a>
               </div>
               <p>&copy; 2024</p>
             </div>
