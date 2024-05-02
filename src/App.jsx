@@ -12,14 +12,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/Calendar-Tasks/register" element={<RegisterPage />} />
+        <Route path="/Calendar-Tasks/login" element={<LoginPage />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/month/:id1/:id2" element={<Month />} />
-          <Route path="/m/:id1/d/:id2/y/:id3" element={<Day />} />
-          <Route path="/create-routine" element={<CreateRoutine />} />
+          <Route path="/Calendar-Tasks" element={<Home />} />
+          <Route path="/Calendar-Tasks/month/:id1/:id2" element={<Month />} />
+          <Route path="/Calendar-Tasks/m/:id1/d/:id2/y/:id3" element={<Day />} />
+          <Route path="/Calendar-Tasks/create-routine" element={<CreateRoutine />} />
         </Route>
       </Routes>
     </BrowserRouter>

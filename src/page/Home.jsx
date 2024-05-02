@@ -14,7 +14,7 @@ const Home = () => {
   const { isAuthenticated, user } = useUser();
 
   useEffect(() => {
-    if (!isAuthenticated) navigate("/login");
+    if (!isAuthenticated) navigate("/Calendar-Tasks/login");
   });
 
   const [style, setStyle] = useState(0);
@@ -53,7 +53,11 @@ const Home = () => {
           <div className="first-texto">
             <h1>Organize your life and your routine with CalenRoutine</h1>
 
-            <button onClick={() => navigate(`/month/${month + 1}/${year}`)}>
+            <button
+              onClick={() =>
+                navigate(`/Calendar-Tasks/month/${month + 1}/${year}`)
+              }
+            >
               Begin
             </button>
 

@@ -869,7 +869,6 @@ footer img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4vh;
 }
 
 .icons h1 {
@@ -1215,6 +1214,10 @@ footer img {
 
 .day-task-rotuine .tasks {
   height: 47vh;
+}
+
+.day-task-rotuine .icons {
+  margin-bottom: 4vh;
 }
 
 .title-routine {

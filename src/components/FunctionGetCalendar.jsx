@@ -2,19 +2,16 @@ export const getInfoCalendar = async (month, day) => {
   const formerPromise = getDaysMonth("former", month, day);
   const currentPromise = getDaysMonth("current", month, day);
 
-  // Obtener la información de los meses de forma asincrónica
   const [former, current] = await Promise.all([formerPromise, currentPromise]);
 
   let next;
 
-  // Determinar si se necesita obtener el próximo mes
   if (current.length + former.length > 34) {
     next = getDaysMonth("next", month, day).reverse().slice(7).reverse();
   } else {
     next = getDaysMonth("next", month, day);
   }
 
-  // Combinar la información de los tres meses
   const calendarInfo = [...former, ...current, ...next];
   return calendarInfo;
 };
@@ -39,7 +36,7 @@ const getDaysMonth = (type, month, day) => {
 
   const daysInMonth = new Date(day, idAdjustment("date"), 0).getDate();
   const firstDayOfMonth = new Date(day, idAdjustment("day"), 1).getDay();
-  
+
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => ({
     type: type,
     dayNumber: i + 1,

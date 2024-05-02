@@ -70,7 +70,7 @@ const Day = () => {
 
   const goBack = () => {
     setLoading(false);
-    const nuevaFecha = `/month/${id1}/${id3}`;
+    const nuevaFecha = `/Calendar-Tasks/month/${id1}/${id3}`;
     navigate(nuevaFecha);
   };
 
@@ -82,7 +82,7 @@ const Day = () => {
     } else if (type === "former") {
       nextMonth--;
     }
-    const nuevaFecha = `/m/${nextMonth}/d/${day}/y/${year}`;
+    const nuevaFecha = `/Calendar-Tasks/m/${nextMonth}/d/${day}/y/${year}`;
     navigate(nuevaFecha);
   };
 
@@ -118,7 +118,7 @@ const Day = () => {
       newYear++;
     }
     getPercentageDay();
-    const nuevaFecha = `/m/${newMonth}/d/${newDay}/y/${newYear}`;
+    const nuevaFecha = `/Calendar-Tasks/m/${newMonth}/d/${newDay}/y/${newYear}`;
     navigate(nuevaFecha);
   };
 
@@ -126,7 +126,7 @@ const Day = () => {
     setStages("workday");
     setOpenSFD(false);
     setCurrentDay({ id1, id2, id3 });
-    const nuevaFecha = `/create-routine`;
+    const nuevaFecha = `/Calendar-Tasks/create-routine`;
     navigate(nuevaFecha);
   };
 
@@ -144,17 +144,15 @@ const Day = () => {
     try {
       setLoading(false);
 
-      //  si no existe rutine crea una para el cliente
       const res = await rutine();
 
       if (!res) {
         setCurrentDay({ id1, id2, id3 });
-        const nuevaFecha = `/create-routine`;
+        const nuevaFecha = `/Calendar-Tasks/create-routine`;
         navigate(nuevaFecha);
         return;
       }
 
-      //  verifica si el dia esta registrado
       const routineDayTasks = await getRoutineDayTasks(id1, id2, id3);
 
       if (routineDayTasks) {
@@ -162,7 +160,6 @@ const Day = () => {
         return;
       }
 
-      //  agrega la rutina guardada
       const resTask = await getRoutine(id1, id2, id3);
       setRoutineDay(resTask);
       setDayExists(true);

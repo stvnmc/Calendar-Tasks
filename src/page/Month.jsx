@@ -50,7 +50,7 @@ const Month = () => {
       newYear++;
     }
 
-    const nuevaFecha = `/month/${newId}/${newYear}`;
+    const nuevaFecha = `/Calendar-Tasks/month/${newId}/${newYear}`;
     navigate(nuevaFecha);
   };
 
@@ -66,7 +66,7 @@ const Month = () => {
 
   const goToPageDay = (day) => {
     setLoadingMonth(false);
-    const nuevaFecha = `/m/${id1}/d/${day}/y/${id2}`;
+    const nuevaFecha = `/Calendar-Tasks/m/${id1}/d/${day}/y/${id2}`;
     navigate(nuevaFecha);
   };
 

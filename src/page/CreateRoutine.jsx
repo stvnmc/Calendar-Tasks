@@ -32,7 +32,7 @@ const CreateRoutine = () => {
 
   useEffect(() => {
     if (!currentDay.id1) {
-      navigate(`/`);
+      navigate(`/Calendar-Tasks`);
     }
 
     setRoutineWorkday(Hours());
@@ -54,7 +54,7 @@ const CreateRoutine = () => {
       const res = addRoutine();
 
       if (res) {
-        const nuevaFecha = `/m/${currentDay.id1}/d/${currentDay.id2}/y/${currentDay.id3}`;
+        const nuevaFecha = `/Calendar-Tasks/m/${currentDay.id1}/d/${currentDay.id2}/y/${currentDay.id3}`;
         navigate(nuevaFecha);
       }
     } else {

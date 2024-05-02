@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [showTextPassword, setShowTextPassword] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/");
+    if (isAuthenticated) navigate("/Calendar-Tasks");
   }, [isAuthenticated]);
 
   const login = async (e) => {
@@ -81,7 +81,7 @@ const LoginPage = () => {
         <p>
           Don't have an account?
           <span>
-            <Link to="/register">Sign Up</Link>
+            <Link to="/Calendar-Tasks/register">Sign Up</Link>
           </span>
         </p>
       </div>

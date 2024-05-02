@@ -16,7 +16,7 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/");
+    if (isAuthenticated) navigate("/Calendar-Tasks");
   }, [isAuthenticated]);
 
   const handleClick = (type) => {
