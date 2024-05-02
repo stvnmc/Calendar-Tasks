@@ -3,10 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/Calendar-Tasks/",
-  build: {
-    outDir: "dist",
-    assetsDir: "",
-    manifest: true,
-  },
+  base: "https://stvnmc.github.io/Calendar-Tasks",
 });
